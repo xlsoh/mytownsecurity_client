@@ -10,17 +10,19 @@ function App() {
 
   return (
     <div>
-      hello
       <Switch>
-        <Route path={`/`} render={() => <Main isLogin={isLogin} />} />
+        <Route path={`/main`} render={() => <Main isLogin={isLogin} />} />
         <Route
-          exactpath={`/address/:addressId`}
+          exact
+          path={`/address/addressId`}
           render={() => <Service isLogin={isLogin} />}
         />
         <Route
-          exactpath={`/mypage/:userId`}
+          exact
+          path={`/mypage/:userId`}
           render={() => <MyPage isLogin={isLogin} />}
         />
+        <Route path={`/`} render={() => <Redirect to={`/main`} />} />
       </Switch>
     </div>
   );

@@ -6,10 +6,10 @@ import client from './apollo/client';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <ApolloProvider client={client}>
       <App />
-    </BrowserRouter>
-  </ApolloProvider>,
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
