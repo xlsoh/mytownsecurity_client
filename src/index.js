@@ -4,12 +4,14 @@ import App from './components/App';
 import { ApolloProvider } from '@apollo/client';
 import client from './apollo/client';
 import { BrowserRouter } from 'react-router-dom';
+import { GlobalStyle } from './styles/GlobalStyle';
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <GlobalStyle />
+    <ApolloProvider client={client}>
       <App />
-    </BrowserRouter>
-  </ApolloProvider>,
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
