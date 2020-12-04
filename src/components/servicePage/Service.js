@@ -1,6 +1,12 @@
+import { useEffect } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
+import Map from './Map';
 
 function Service() {
-  return <div>안녕하세요</div>;
+  return (
+    <div>
+      <Map />
+    </div>
+  );
 }
 export default withRouter(Service);
