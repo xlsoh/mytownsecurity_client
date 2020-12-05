@@ -1,10 +1,10 @@
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
+import SignUp from './signupPage/SignUp';
 
 function App() {
   const [isLogin, setLogin] = useState(false);
@@ -23,11 +23,15 @@ function App() {
           path={`/mypage/:userId`}
           render={() => <MyPage isLogin={isLogin} />}
         />
+        <Route
+          exact
+          path={`/user/signup`}
+          render={() => <SignUp isLogin={isLogin} />}
+        />
         <Route path={`/`} render={() => <Redirect to={`/main`} />} />
       </Switch>
     </div>
   );
 }
 
-App.propTypes = {};
 export default withRouter(App);

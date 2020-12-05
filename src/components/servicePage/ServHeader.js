@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { gql } from 'apollo-boost';
+import { useMutation } from 'react-apollo-hooks';
+
 import { Modal } from '../../styles/Modal';
 import Login from '../modal/user/Login';
 
@@ -17,11 +20,19 @@ const Button = styled.button`
   font-size: 24px;
   cursor: pointer;
 `;
+const TOKENLOGOUT = gql`
+  mutation logUserOut($token: String!) {
+    logUserOut(token: $token) @client
+  }
+`;
+
 function ServHeader() {
   const [showModal, setShowModal] = useState(false);
-  const token = localStorage.getItem('token');
   const history = useHistory();
-
+  const token = localStorage.getItem('token');
+  const [tokenLogoutMutation] = useMutation(TOKENLOGOUT, {
+    variables: { token },
+  });
   const openModal = () => {
     setShowModal((prev) => !prev);
   };
@@ -34,7 +45,12 @@ function ServHeader() {
             마이페이지
           </Button>
           <Button onClick={() => history.push(`/`)}>로고</Button>
-          <Button onClick={openModal}>로그아웃</Button>
+          <Button
+            text='Log out'
+            onClick={() => tokenLogoutMutation({ variables: { token } })}
+          >
+            로그아웃
+          </Button>
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}

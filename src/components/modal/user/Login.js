@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
@@ -38,55 +38,10 @@ const TOKENLOGIN = gql`
   }
 `;
 
-// export default () => {
-//   const idInput = useInput('');
-//   const passInput = useInput('');
-//   const [loginMutation] = useMutation(SIGNIN, {
-//     variables: { email: idInput.value, password: passInput.value },
-//   });
-//   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
-//   const onSubmit = async (e) => {
-//     e.preventDefault();
-//     if (idInput.value !== '' && passInput.value !== '') {
-//       try {
-//         const {
-//           data: { signin: token },
-//         } = await loginMutation();
-//         if (token !== '' || token !== undefined) {
-//           tokenLoginMutation({ variables: { token } });
-//           setTimeout(() => {
-//             window.location.reload();
-//           }, 2000);
-//         }
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }
-//   };
-//   return (
-//     <Wrapper>
-//       <Container>
-//         <form onSubmit={onSubmit}>
-//           <LoginInput
-//             placeholder={'  Enter your Email'}
-//             {...idInput}
-//           ></LoginInput>
-//           <LoginInput
-//             placeholder={'  Enter your Password'}
-//             {...passInput}
-//             type={'password'}
-//           ></LoginInput>
-//           <LoginButton text='Log in'></LoginButton>
-//         </form>
-//       </Container>
-//     </Wrapper>
-//   );
-// };
-
 function Login() {
   const idInput = useInput('');
   const passInput = useInput('');
-  const [loginMutation] = useMutation(SIGNIN, {
+  const [loginMutation, { loading }] = useMutation(SIGNIN, {
     variables: { email: idInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
@@ -108,6 +63,10 @@ function Login() {
       }
     }
   };
+
+  if (loading) {
+    return '로그인 중입니다. 잠시만 기다려주세요.';
+  }
   return (
     <Wrapper>
       <Container>
@@ -123,6 +82,10 @@ function Login() {
           ></LoginInput>
           <LoginButton text='Log in'></LoginButton>
         </form>
+        <div>
+          안전궁금해의 회원이 아니신가요?
+          <Link to={`/user/signup`}>지금 가입하세요</Link>!
+        </div>
       </Container>
     </Wrapper>
   );
