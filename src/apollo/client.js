@@ -1,7 +1,33 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import ApolloClient from 'apollo-boost';
 
-const client = new ApolloClient({
-  uri: 'https://localhost:4000',
-  cache: new InMemoryCache(),
+const defaults = {
+  check: Boolean(localStorage.getItem('token')) || false,
+};
+
+const resolvers = {
+  Mutation: {
+    logUserIn: (_, { token }, { cache }) => {
+      localStorage.setItem('token', token);
+      cache.writeData({
+        data: {
+          isLoggedIn: true,
+        },
+      });
+      return null;
+    },
+    logUserOut: (_, __, { cache }) => {
+      localStorage.removeItem('token');
+      window.location = '/';
+
+      return null;
+    },
+  },
+};
+
+export default new ApolloClient({
+  uri: 'http://localhost:4000',
+  clientState: {
+    defaults,
+    resolvers,
+  },
 });
-export default client;

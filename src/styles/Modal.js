@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-
 import Login from '../components/modal/user/Login';
 
 const Background = styled.div`
