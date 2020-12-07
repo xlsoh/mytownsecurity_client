@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
 
-const Button = styled.button`
+const FavoriteButton = styled.button`
   display: relative;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@ const Button = styled.button`
   margin-bottom: 15px;
   cursor: pointer;
 `;
-const Input = styled.input`
+const FavoriteInput = styled.input`
   margin: 10px;
   border: solid 1px #dadada;
   margin-bottom: 15px;
@@ -57,12 +57,12 @@ function AddUserFavorite() {
         <br />
 
         <a>장소 별칭</a>
-        <Input
+        <FavoriteInput
           placeholder='별칭을 입력 해주세요.'
           onChange={(e) => setAliaseInput(e.target.value)}
         />
         <br />
-        <Button
+        <FavoriteButton
           onClick={() => {
             {
               addFavorite({
@@ -76,7 +76,7 @@ function AddUserFavorite() {
           }}
         >
           찜하기
-        </Button>
+        </FavoriteButton>
       </div>
     </>
   );

@@ -15,31 +15,23 @@ const Background = styled.div`
   flex-direction: column;
 `;
 const Wrapper = styled.section`
-  padding: 6em;
+  padding: 5em;
   border: 3px solid #4cd59e;
   border-radius: 40px;
   display: grid;
 `;
 const SignupButton = styled.button`
-  min-width: 30px;
-  padding: 6px;
-  border-radius: 10px;
-  border: none;
-  background: #4cd59e;
-  color: #fff;
-  font-size: 24px;
+  display: relative;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
   cursor: pointer;
 `;
 const SignupInput = styled.input`
-  padding: 0.5em;
-  margin: 0.5em;
-  background: none;
-  border: none;
-  border-radius: 6px;
-  width: 280px;
-  height: 50px;
-  opacity: 1;
-  font-size: 18px;
+  border: solid 1px #dadada;
+  margin-bottom: 15px;
+  padding: 10px;
 `;
 
 /*쿼리 수정필요 */
@@ -68,7 +60,7 @@ function SignUp() {
     <>
       <Background>
         <Wrapper>
-          <h1>회원가입</h1>
+          <a>회원가입</a>
           <br />
           <a>Email</a>
           <SignupInput
