@@ -1,30 +1,37 @@
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import React, { useState } from 'react';
+
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
-import PropTypes from 'prop-types';
+import SignUp from './signupPage/SignUp';
 
 function App() {
   const [isLogin, setLogin] = useState(false);
 
   return (
     <div>
-      hello
       <Switch>
-        <Route path={`/`} render={() => <Main isLogin={isLogin} />} />
+        <Route path={`/main`} render={() => <Main isLogin={isLogin} />} />
         <Route
-          exactpath={`/address/:addressId`}
+          exact
+          path={`/address/:addressId`}
           render={() => <Service isLogin={isLogin} />}
         />
         <Route
-          exactpath={`/mypage/:userId`}
+          exact
+          path={`/mypage/:userId`}
           render={() => <MyPage isLogin={isLogin} />}
         />
+        <Route
+          exact
+          path={`/user/signup`}
+          render={() => <SignUp isLogin={isLogin} />}
+        />
+        <Route path={`/`} render={() => <Redirect to={`/main`} />} />
       </Switch>
     </div>
   );
 }
 
-App.propTypes = {};
 export default withRouter(App);
