@@ -34,43 +34,44 @@ function MainHeader() {
     variables: { token },
   });
 
-  if (token) {
-    return (
-      <>
-        <Container>
-          <Button onClick={() => history.push(`/mypage/:userId`)}>
-            마이페이지
-          </Button>
-          <Button onClick={() => history.push(`/`)}>로고</Button>
-          <Button
-            text='Log out'
-            onClick={() => tokenLogoutMutation({ variables: { token } })}
-          >
-            로그아웃
-          </Button>
-        </Container>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Container>
-          <Button onClick={() => history.push(`/`)}>로고</Button>
-          <Button
-            text='Log in'
-            onClick={() => {
-              setIsOpen(true);
-            }}
-          >
-            로그인
-          </Button>
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-            <Login />
-          </Modal>
-        </Container>
-      </>
-    );
-  }
+  return (
+    <>
+      {token && (
+        <>
+          <Container>
+            <Button onClick={() => history.push(`/mypage/:userId`)}>
+              마이페이지
+            </Button>
+            <Button onClick={() => history.push(`/`)}>로고</Button>
+            <Button
+              text='Log out'
+              onClick={() => tokenLogoutMutation({ variables: { token } })}
+            >
+              로그아웃
+            </Button>
+          </Container>
+        </>
+      )}
+      {!token && (
+        <>
+          <Container>
+            <Button onClick={() => history.push(`/`)}>로고</Button>
+            <Button
+              text='Log in'
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              로그인
+            </Button>
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+              <Login />
+            </Modal>
+          </Container>
+        </>
+      )}
+    </>
+  );
 }
 
 export default withRouter(MainHeader);
