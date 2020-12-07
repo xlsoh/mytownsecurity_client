@@ -86,6 +86,7 @@ function Modal({ isOpen, setIsOpen, children }) {
           </ModalWrapper>
         </Background>
       )}
+      {!isOpen && null}
     </>
   );
 }
