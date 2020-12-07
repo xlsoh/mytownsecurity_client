@@ -1,6 +1,7 @@
 /*global kakao*/
 import { useEffect } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 const { kakao } = window;
 
 function Map() {
@@ -1681,13 +1682,25 @@ function Map() {
   });
 
   const mapstyle = {
-    width: '1920px',
-    height: '1080px',
+    // width: '1920px',
+    // height: '1080px',
+    width: '800px',
+    height: '500px',
   };
+
+  const MapWrapper = styled.div`
+    position: initial;
+    width: 800px;
+    height: 500px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  `;
 
   return (
     <div>
-      <div id='map' style={mapstyle}></div>
+      <MapWrapper>
+        <div id='map' style={mapstyle}></div>
+      </MapWrapper>
     </div>
   );
 }
