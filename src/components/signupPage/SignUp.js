@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import useInput from '../../hooks/useInput';
+import { useHistory } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 //import { gql, useMutation } from '@apollo/client';
-import styled from 'styled-components';
 
 const Background = styled.div`
   width: 100%;
@@ -45,57 +47,81 @@ const SignupInput = styled.input`
 /*쿼리 수정필요 */
 //useMutation
 const SIGNUP = gql`
-  mutation signUp($email: String!, $password: String!) {
-    signUp(email: $email, password: $password) {
-      email
-      password
-    }
+  mutation signup($email: String!, $password: String!) {
+    signup(email: $email, password: $password)
   }
 `;
 
 function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [signUp, { error }] = useMutation(SIGNUP, {
+  const history = useHistory();
+  const idInput = useInput('');
+  const passInput = useInput('');
+  const passConfirmInput = useInput('');
+  const [signUpMutation] = useMutation(SIGNUP, {
     variables: {
-      email,
-      password,
+      email: idInput.value,
+      password: passInput.value,
     },
   });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (
+        idInput.value !== '' &&
+        passInput.value !== '' &&
+        passConfirmInput.value !== ''
+      ) {
+        if (passInput.value !== passConfirmInput.value) {
+          alert('Please Check Password');
+        } else {
+          const { data: signup } = await signUpMutation();
+          if (signup) {
+            alert('Welocom to myTownSecurity');
+            history.push('/main');
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //refetchQuery
 
   return (
+    //
     <>
       <Background>
         <Wrapper>
           <h1>회원가입</h1>
           <br />
           <a>Email</a>
-          <SignupInput
-            type='email'
-            placeholder='이메일을 입력 해주세요.'
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <br />
-          <a>비밀번호</a>
-          <SignupInput
-            type='password'
-            placeholder='비밀번호를 입력 해주세요.'
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <SignupButton
-            onClick={() => {
-              signUp({
-                variables: {
-                  email: email,
-                  password: password,
-                },
-              });
-            }}
-          >
-            회원가입
-          </SignupButton>
+          <form onSubmit={onSubmit}>
+            <SignupInput
+              type='email'
+              placeholder='이메일을 입력 해주세요.'
+              {...idInput}
+            ></SignupInput>
+            <br />
+            <a>Password</a>
+            <br />
+            <SignupInput
+              type='password'
+              placeholder='비밀번호를 입력 해주세요.'
+              {...passInput}
+            ></SignupInput>
+            <br />
+            <a>Confirm Password</a>
+            <br />
+            <SignupInput
+              type='password'
+              placeholder='비밀번호를 확인 해주세요.'
+              {...passConfirmInput}
+            ></SignupInput>
+            <br />
+            <br />
+            <SignupButton>회원가입</SignupButton>
+          </form>
         </Wrapper>
       </Background>
     </>
