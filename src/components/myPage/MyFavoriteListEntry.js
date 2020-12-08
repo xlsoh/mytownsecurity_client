@@ -83,7 +83,7 @@ function MyFavoriteListEntry({
           >
             수정
           </Button>
-          <Button onClick={() => {}}>삭제</Button>
+          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
         </>
       )}
       {!token && null}

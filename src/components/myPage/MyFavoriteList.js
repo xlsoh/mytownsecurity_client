@@ -8,7 +8,7 @@ import MyFavoriteListEntry from './MyFavoriteListEntry';
 
 // 쿼리 수정 필요
 const GET_MYFAVORITE = gql`
-  query GET_MyFavorite($userId: Int!) {
+  query Get_MyFavorite($userId: Int!) {
     getMyFavorite(userId: $userId) {
       userId
     }
