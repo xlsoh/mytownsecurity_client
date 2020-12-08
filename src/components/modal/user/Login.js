@@ -64,32 +64,37 @@ function Login() {
     }
   };
 
-  if (loading) {
-    return '로그인 중입니다. 잠시만 기다려주세요.';
-  }
   return (
-    <Wrapper>
-      <Container>
-        <div>
-          <form onSubmit={onSubmit}>
-            <LoginInput
-              placeholder={'  Enter your Email'}
-              {...idInput}
-            ></LoginInput>
-            <LoginInput
-              placeholder={'  Enter your Password'}
-              {...passInput}
-              type={'password'}
-            ></LoginInput>
-            <LoginButton text='Log in'></LoginButton>
-          </form>
-        </div>
-        <div>
-          안전궁금해의 회원이 아니신가요?
-          <Link to={`/user/signup`}>지금 가입하세요</Link>!
-        </div>
-      </Container>
-    </Wrapper>
+    <>
+      {loading && '로그인 중입니다. 잠시만 기다려주세요.'}
+      {!loading && (
+        <>
+          {' '}
+          <Wrapper>
+            <Container>
+              <div>
+                <form onSubmit={onSubmit}>
+                  <LoginInput
+                    placeholder={'  Enter your Email'}
+                    {...idInput}
+                  ></LoginInput>
+                  <LoginInput
+                    placeholder={'  Enter your Password'}
+                    {...passInput}
+                    type={'password'}
+                  ></LoginInput>
+                  <LoginButton text='Log in'></LoginButton>
+                </form>
+              </div>
+              <div>
+                안전궁금해의 회원이 아니신가요?
+                <Link to={`/user/signup`}>지금 가입하세요</Link>!
+              </div>
+            </Container>
+          </Wrapper>
+        </>
+      )}
+    </>
   );
 }
 

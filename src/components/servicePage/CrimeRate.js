@@ -26,7 +26,7 @@ const CrimeWrapper = styled.div`
 
 function CrimeRate() {
   const { addressId } = useState(0);
-  const { loading, error, data } = useQuery(GET_CRIMERATE, {
+  const { data, loading, error } = useQuery(GET_CRIMERATE, {
     variables: { addressId },
   });
   console.log(loading);
