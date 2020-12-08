@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
-
+import { useEffect } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import Map from './Map';
-
-import ServHeader from './ServHeader';
-import AddFavorite from './AddFavorite';
-import CrimeRate from './CrimeRate';
+import Review from './Review';
 
 function Service() {
   return (
-    <>
-      <ServHeader />
-      <AddFavorite />
-      <CrimeRate />
-    </>
+    <div>
+      <Review />
+    </div>
   );
 }
-
 export default withRouter(Service);
