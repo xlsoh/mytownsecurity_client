@@ -39,7 +39,7 @@ function MyReviewList() {
         <>
           {data &&
             data.review &&
-            data.review.map((favorite, index) => (
+            data.review.map((review, index) => (
               <Fragment key={index}>
                 <MyReviewListEntry
                   reviewId={review.id}
