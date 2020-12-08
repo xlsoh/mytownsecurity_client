@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import Login from '../components/modal/user/Login';
+//import Login from '../components/modal/user/Login';
 
 const Background = styled.div`
   width: 100%;
@@ -20,7 +20,7 @@ const ModalWrapper = styled.div`
   background: #fff;
   color: #000;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   position: relative;
   zindex: 10;
   border-radius: 10px;
@@ -44,7 +44,7 @@ const CloseModalButton = styled(MdClose)`
   z-index: 10;
 `;
 
-export const Modal = ({ showModal, setShowModal }) => {
+export const Modal = ({ showModal, setShowModal, component }) => {
   const modalRef = useRef();
 
   const closeModal = (e) => {
@@ -72,9 +72,7 @@ export const Modal = ({ showModal, setShowModal }) => {
       {showModal ? (
         <Background ref={modalRef} onClick={closeModal}>
           <ModalWrapper showModal={showModal}>
-            <ModalContent>
-              <Login />
-            </ModalContent>
+            <ModalContent>{component}</ModalContent>
             <CloseModalButton
               aria-label='Close modal'
               onClick={() => {

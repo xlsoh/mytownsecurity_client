@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -19,4 +20,4 @@ loginButton.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-export default loginButton;
+export default withRouter(loginButton);
