@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
+import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 //import { gql, useMutation } from '@apollo/client';
+import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 
 const Background = styled.div`
@@ -15,87 +16,101 @@ const Background = styled.div`
   flex-direction: column;
 `;
 const Wrapper = styled.section`
-  padding: 6em;
+  padding: 5em;
   border: 3px solid #4cd59e;
   border-radius: 40px;
   display: grid;
 `;
 const SignupButton = styled.button`
-  min-width: 30px;
-  padding: 6px;
-  border-radius: 10px;
-  border: none;
-  background: #4cd59e;
-  color: #fff;
-  font-size: 24px;
+  display: relative;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
   cursor: pointer;
 `;
 const SignupInput = styled.input`
-  padding: 0.5em;
-  margin: 0.5em;
-  background: none;
-  border: none;
-  border-radius: 6px;
-  width: 280px;
-  height: 50px;
-  opacity: 1;
-  font-size: 18px;
+  border: solid 1px #dadada;
+  margin-bottom: 15px;
+  padding: 10px;
 `;
 
 /*쿼리 수정필요 */
 //useMutation
 const SIGNUP = gql`
-  mutation signUp($email: String!, $password: String!) {
-    signUp(email: $email, password: $password) {
-      email
-      password
-    }
+  mutation signup($email: String!, $password: String!) {
+    signup(email: $email, password: $password)
   }
 `;
 
 function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [signUp, { error }] = useMutation(SIGNUP, {
+  const history = useHistory();
+  const idInput = useInput('');
+  const passInput = useInput('');
+  const passConfirmInput = useInput('');
+  const [signUpMutation] = useMutation(SIGNUP, {
     variables: {
-      email,
-      password,
+      email: idInput.value,
+      password: passInput.value,
     },
   });
-  //refetchQuery
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (
+        idInput.value !== '' &&
+        passInput.value !== '' &&
+        passConfirmInput.value !== ''
+      ) {
+        if (passInput.value !== passConfirmInput.value) {
+          alert('Please Check Password');
+        } else {
+          const { data: signup } = await signUpMutation();
+          if (signup) {
+            alert('Welocom to myTownSecurity');
+            history.push('/');
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <Background>
         <Wrapper>
-          <h1>회원가입</h1>
+          <a>회원가입</a>
           <br />
           <a>Email</a>
-          <SignupInput
-            type='email'
-            placeholder='이메일을 입력 해주세요.'
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <br />
-          <a>비밀번호</a>
-          <SignupInput
-            type='password'
-            placeholder='비밀번호를 입력 해주세요.'
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <br />
-          <SignupButton
-            onClick={() => {
-              signUp({
-                variables: {
-                  email: email,
-                  password: password,
-                },
-              });
-            }}
-          >
-            회원가입
-          </SignupButton>
+          <form onSubmit={onSubmit}>
+            <SignupInput
+              type='email'
+              placeholder='이메일을 입력 해주세요.'
+              {...idInput}
+            />
+            <br />
+            <a>Password</a>
+            <br />
+            <SignupInput
+              type='password'
+              placeholder='비밀번호를 입력 해주세요.'
+              {...passInput}
+            />
+            <br />
+            <a>Confirm Password</a>
+            <br />
+            <SignupInput
+              type='password'
+              placeholder='비밀번호를 확인 해주세요.'
+              {...passConfirmInput}
+            />
+            <br />
+            <br />
+            <SignupButton>회원가입</SignupButton>
+          </form>
         </Wrapper>
       </Background>
     </>

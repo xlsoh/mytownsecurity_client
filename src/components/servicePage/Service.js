@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import Map from './Map';
 
 import ServHeader from './ServHeader';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
+import Map from './Map';
 
 function Service() {
   return (
     <>
       <ServHeader />
       <AddFavorite />
+      <Map />
       <CrimeRate />
     </>
   );

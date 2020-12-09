@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import AddUserFavorite from '../modal/user/AddUserFavorite';
-import { Modal } from '../../styles/Modal';
+import AddFavoritePage from '../modal/favorite/AddFavoritePage';
+import Modal from '../../styles/Modal';
 
 const Container = styled.div`
   display: flex;
@@ -20,20 +20,18 @@ const Button = styled.button`
 `;
 
 function AddFavorite() {
-  const [showModal, setShowModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
-    setShowModal((prev) => !prev);
+    setIsOpen(true);
   };
 
   return (
     <>
       <Container>
         <Button onClick={openModal}>❤</Button>
-        <Modal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          component={<AddUserFavorite />}
-        />
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <AddFavoritePage />
+        </Modal>
       </Container>
     </>
   );

@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 
-import LoginInput from '../user/loginInput';
-import LoginButton from '../user/loginButton';
+import LoginInput from './loginInput';
+import LoginButton from './loginButton';
 import useInput from '../../../hooks/useInput';
 
 const Wrapper = styled.div`
@@ -38,16 +38,19 @@ const TOKENLOGIN = gql`
   }
 `;
 
-function Login() {
+function LoginPage() {
   const idInput = useInput('');
   const passInput = useInput('');
   const [loginMutation, { loading }] = useMutation(SIGNIN, {
     variables: { email: idInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (idInput.value !== '' && passInput.value !== '') {
+    if (idInput.value == '' || passInput.value == '') {
+      alert('Please enter your Email or password!🙌🏻');
+    } else {
       try {
         const {
           data: { signin: token },
@@ -59,36 +62,43 @@ function Login() {
           }, 2000);
         }
       } catch (error) {
-        console.log(error);
+        alert('This information does not exist. Please try again!😇');
       }
     }
   };
 
-  if (loading) {
-    return '로그인 중입니다. 잠시만 기다려주세요.';
-  }
   return (
-    <Wrapper>
-      <Container>
-        <form onSubmit={onSubmit}>
-          <LoginInput
-            placeholder={'  Enter your Email'}
-            {...idInput}
-          ></LoginInput>
-          <LoginInput
-            placeholder={'  Enter your Password'}
-            {...passInput}
-            type={'password'}
-          ></LoginInput>
-          <LoginButton text='Log in'></LoginButton>
-        </form>
-        <div>
-          안전궁금해의 회원이 아니신가요?
-          <Link to={`/user/signup`}>지금 가입하세요</Link>!
-        </div>
-      </Container>
-    </Wrapper>
+    <>
+      {loading && '로그인 중입니다. 잠시만 기다려주세요.'}
+      {!loading && (
+        <>
+          {' '}
+          <Wrapper>
+            <Container>
+              <div>
+                <form onSubmit={onSubmit}>
+                  <LoginInput
+                    placeholder={'  Enter your Email'}
+                    {...idInput}
+                  ></LoginInput>
+                  <LoginInput
+                    placeholder={'  Enter your Password'}
+                    {...passInput}
+                    type={'password'}
+                  ></LoginInput>
+                  <LoginButton text='Log in'></LoginButton>
+                </form>
+              </div>
+              <div>
+                안전궁금해의 회원이 아니신가요?
+                <Link to={`/user/signup`}>지금 가입하세요</Link>!
+              </div>
+            </Container>
+          </Wrapper>
+        </>
+      )}
+    </>
   );
 }
 
-export default withRouter(Login);
+export default withRouter(LoginPage);

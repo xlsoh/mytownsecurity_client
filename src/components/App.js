@@ -15,9 +15,7 @@ function App() {
         <Route path={`/main`} render={() => <Main isLogin={isLogin} />} />
         <Route
           exact
-
           path={`/address/:addressId`}
-
           render={() => <Service isLogin={isLogin} />}
         />
         <Route
