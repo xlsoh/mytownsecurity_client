@@ -36,6 +36,7 @@ const EDIT_MYREVIEW = gql`
 `;
 
 function MyReviewListEntry({
+  userId,
   reviewId,
   text,
   grade,
@@ -43,7 +44,6 @@ function MyReviewListEntry({
   createdAt,
   updatedAt,
 }) {
-  const { userId } = useState(0);
   const newGradeInput = useInput('');
   const newTextInput = useInput('');
   const [editMyReviewMutation] = useMutation(EDIT_MYREVIEW, {

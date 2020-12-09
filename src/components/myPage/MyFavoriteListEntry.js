@@ -35,13 +35,13 @@ const EDIT_MYFAVORITE = gql`
 `;
 
 function MyFavoriteListEntry({
+  userId,
   favoriteId,
   addressDetail,
   placeAlias,
   createdAt,
   updatedAt,
 }) {
-  const { userId } = useState(0);
   const newPlaceAliasInput = useInput('');
   const [editMyFavoriteMutation] = useMutation(EDIT_MYFAVORITE, {
     variables: {

@@ -45,9 +45,12 @@ function LoginPage() {
     variables: { email: idInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (idInput.value !== '' && passInput.value !== '') {
+    if (idInput.value == '' || passInput.value == '') {
+      alert('Please enter your Email or password!🙌🏻');
+    } else {
       try {
         const {
           data: { signin: token },
@@ -59,7 +62,7 @@ function LoginPage() {
           }, 2000);
         }
       } catch (error) {
-        console.log(error);
+        alert('This information does not exist. Please try again!😇');
       }
     }
   };
