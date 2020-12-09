@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 
-import LoginInput from '../user/loginInput';
-import LoginButton from '../user/loginButton';
+import LoginInput from './loginInput';
+import LoginButton from './loginButton';
 import useInput from '../../../hooks/useInput';
 
 const Wrapper = styled.div`
@@ -38,7 +38,7 @@ const TOKENLOGIN = gql`
   }
 `;
 
-function Login() {
+function LoginPage() {
   const idInput = useInput('');
   const passInput = useInput('');
   const [loginMutation, { loading }] = useMutation(SIGNIN, {
@@ -98,4 +98,4 @@ function Login() {
   );
 }
 
-export default withRouter(Login);
+export default withRouter(LoginPage);

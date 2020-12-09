@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 import MyHeader from './MyHeader';
 import MyInfo from './MyInfo';

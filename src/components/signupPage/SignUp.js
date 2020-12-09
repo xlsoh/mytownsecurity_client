@@ -1,11 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-import useInput from '../../hooks/useInput';
-import { useHistory } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 //import { gql, useMutation } from '@apollo/client';
+import useInput from '../../hooks/useInput';
+import styled from 'styled-components';
 
 const Background = styled.div`
   width: 100%;
@@ -70,7 +69,7 @@ function SignUp() {
           const { data: signup } = await signUpMutation();
           if (signup) {
             alert('Welocom to myTownSecurity');
-            history.push('/main');
+            history.push('/');
           }
         }
       }
@@ -78,10 +77,8 @@ function SignUp() {
       console.log(error);
     }
   };
-  //refetchQuery
 
   return (
-    //
     <>
       <Background>
         <Wrapper>
@@ -93,7 +90,7 @@ function SignUp() {
               type='email'
               placeholder='이메일을 입력 해주세요.'
               {...idInput}
-            ></SignupInput>
+            />
             <br />
             <a>Password</a>
             <br />
@@ -101,7 +98,7 @@ function SignUp() {
               type='password'
               placeholder='비밀번호를 입력 해주세요.'
               {...passInput}
-            ></SignupInput>
+            />
             <br />
             <a>Confirm Password</a>
             <br />
@@ -109,7 +106,7 @@ function SignUp() {
               type='password'
               placeholder='비밀번호를 확인 해주세요.'
               {...passConfirmInput}
-            ></SignupInput>
+            />
             <br />
             <br />
             <SignupButton>회원가입</SignupButton>

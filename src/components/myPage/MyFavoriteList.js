@@ -8,15 +8,12 @@ import MyFavoriteListEntry from './MyFavoriteListEntry';
 
 // 쿼리 수정 필요
 const GET_MYFAVORITE = gql`
-  query Get_MyFavorite($userId: Int!) {
-    getMyFavorite(userId: $userId) {
-      userId
-    }
+  query getMyFavorite($userId: Int!) {
+    getMyFavorite(userId: $userId)
   }
 `;
 
 function MyFavoriteList() {
-  const token = localStorage.getItem('token');
   const { userId } = useState(0); //수정 필요
   const { data, loading, error } = useQuery(GET_MYFAVORITE, {
     variables: {
@@ -35,25 +32,20 @@ function MyFavoriteList() {
 
   return (
     <>
-      {token && (
-        <>
-          {data &&
-            data.favorite &&
-            data.favorite.map((favorite, index) => (
-              <Fragment key={index}>
-                <MyFavoriteListEntry
-                  favoriteId={favorite.id}
-                  addressDetail={favorite.addressDetail}
-                  placeAlias={favorite.placeAlias}
-                  createdAt={favorite.createdAt}
-                  updatedAt={favorite.updatedAt}
-                />
-                <hr />
-              </Fragment>
-            ))}
-        </>
-      )}
-      {!token && null}
+      {data &&
+        data.favorite &&
+        data.favorite.map((favorite, index) => (
+          <Fragment key={index}>
+            <MyFavoriteListEntry
+              favoriteId={favorite.id}
+              addressDetail={favorite.addressDetail}
+              placeAlias={favorite.placeAlias}
+              createdAt={favorite.createdAt}
+              updatedAt={favorite.updatedAt}
+            />
+            <hr />
+          </Fragment>
+        ))}
     </>
   );
 }

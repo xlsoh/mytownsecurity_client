@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 
-import Modal from '../../styles/Modal';
-import Login from '../modal/user/Login';
-
 const Container = styled.div`
   display: flex;
 `;

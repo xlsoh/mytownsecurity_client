@@ -8,15 +8,12 @@ import MyReviewListEntry from './MyFavoriteListEntry';
 
 // 쿼리 수정 필요
 const GET_MYREVIEW = gql`
-  query Get_MyReview($userId: Int!) {
-    getMyReview(userId: $userId) {
-      userId
-    }
+  query getMyReview($userId: Int!) {
+    getMyReview(userId: $userId)
   }
 `;
 
 function MyReviewList() {
-  const token = localStorage.getItem('token');
   const { userId } = useState(0); //수정 필요
   const { data, loading, error } = useQuery(GET_MYREVIEW, {
     variables: {
@@ -35,26 +32,21 @@ function MyReviewList() {
 
   return (
     <>
-      {token && (
-        <>
-          {data &&
-            data.review &&
-            data.review.map((review, index) => (
-              <Fragment key={index}>
-                <MyReviewListEntry
-                  reviewId={review.id}
-                  text={review.text}
-                  grade={review.grade}
-                  addressDetail={review.addressDetail}
-                  createdAt={review.createdAt}
-                  updatedAt={review.updatedAt}
-                />
-                <hr />
-              </Fragment>
-            ))}
-        </>
-      )}
-      {!token && null}
+      {data &&
+        data.review &&
+        data.review.map((review, index) => (
+          <Fragment key={index}>
+            <MyReviewListEntry
+              reviewId={review.id}
+              text={review.text}
+              grade={review.grade}
+              addressDetail={review.addressDetail}
+              createdAt={review.createdAt}
+              updatedAt={review.updatedAt}
+            />
+            <hr />
+          </Fragment>
+        ))}
     </>
   );
 }
