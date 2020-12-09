@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import AddUserFavorite from '../modal/user/AddUserFavorite';
+import AddFavoritePage from '../modal/favorite/AddFavoritePage';
 import Modal from '../../styles/Modal';
 
 const Container = styled.div`
@@ -30,7 +30,7 @@ function AddFavorite() {
       <Container>
         <Button onClick={openModal}>❤</Button>
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <AddUserFavorite />
+          <AddFavoritePage />
         </Modal>
       </Container>
     </>

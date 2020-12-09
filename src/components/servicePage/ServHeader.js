@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 
 import Modal from '../../styles/Modal';
-import Login from '../modal/user/Login';
+import LoginPage from '../modal/user/LoginPage';
 
 const Container = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ function ServHeader() {
               로그인
             </Button>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-              <Login />
+              <LoginPage />
             </Modal>
           </Container>
         </>
