@@ -7,10 +7,8 @@ import styled from 'styled-components';
 /*쿼리 수정필요 */
 //useQuery
 const GET_CRIMERATE = gql`
-  query GetCrimeRate($addressId: Int!) {
-    crime(addressId: $addressId) {
-      addressId
-    }
+  query getCrimeRate($addressId: Int!) {
+    crime(addressId: $addressId)
   }
 `;
 const CrimeWrapper = styled.div`

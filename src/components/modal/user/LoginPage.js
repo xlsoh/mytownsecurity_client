@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 
-import LoginInput from '../user/loginInput';
-import LoginButton from '../user/loginButton';
+import LoginInput from './loginInput';
+import LoginButton from './loginButton';
 import useInput from '../../../hooks/useInput';
 
 const Wrapper = styled.div`
@@ -38,16 +38,19 @@ const TOKENLOGIN = gql`
   }
 `;
 
-function Login() {
+function LoginPage() {
   const idInput = useInput('');
   const passInput = useInput('');
   const [loginMutation, { loading }] = useMutation(SIGNIN, {
     variables: { email: idInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (idInput.value !== '' && passInput.value !== '') {
+    if (idInput.value == '' || passInput.value == '') {
+      alert('Please enter your Email or password!🙌🏻');
+    } else {
       try {
         const {
           data: { signin: token },
@@ -59,7 +62,7 @@ function Login() {
           }, 2000);
         }
       } catch (error) {
-        console.log(error);
+        alert('This information does not exist. Please try again!😇');
       }
     }
   };
@@ -98,4 +101,4 @@ function Login() {
   );
 }
 
-export default withRouter(Login);
+export default withRouter(LoginPage);
