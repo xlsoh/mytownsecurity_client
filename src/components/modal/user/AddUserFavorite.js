@@ -23,7 +23,7 @@ const FavoriteInput = styled.input`
 //useMutation
 const ADDFAVORITE = gql`
   mutation AddFavorite($userId: Int!, $addressId: Int!, $aliaseInput: String!) {
-    Addfavorite(
+    addFavorite(
       userId: $userId
       addressId: $addressId
       aliaseInput: $aliaseInput
