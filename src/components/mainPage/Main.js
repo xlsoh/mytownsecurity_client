@@ -1,6 +1,13 @@
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+
+import MainHeader from './MainHeader';
 
 function Main() {
-  return <div></div>;
+  return (
+    <>
+      <MainHeader />
+    </>
+  );
 }
 export default withRouter(Main);

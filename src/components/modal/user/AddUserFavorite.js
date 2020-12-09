@@ -4,26 +4,19 @@ import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
 
-const Button = styled.button`
-  min-width: 30px;
-  padding: 5px 10px;
-  border-radius: 4px;
-  border: none;
-  background: #4cd59e;
-  color: #fff;
-  font-size: 24px;
+const FavoriteButton = styled.button`
+  display: relative;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
   cursor: pointer;
 `;
-const Input = styled.input`
-  padding: 0.5em;
-  margin: 0.5em;
-  background: white;
-  border: none;
-  border-radius: 3px;
-  width: 350px;
-  height: 40px;
-  opacity: 1;
-  font-size: 16px;
+const FavoriteInput = styled.input`
+  margin: 10px;
+  border: solid 1px #dadada;
+  margin-bottom: 15px;
+  padding: 10px;
 `;
 
 /*쿼리 수정필요 */
@@ -56,33 +49,35 @@ function AddUserFavorite() {
   //refetchQuery
   return (
     <>
-      <h2>검색하신 주소를 등록하시겠습니까?</h2>
-      <br />
-      <br />
-      <h3>{address}/검색한 주소가 나타나게될 곳/</h3>
-      <br />
+      <div>
+        <a>검색하신 주소를 등록하시겠습니까?</a>
+        <br />
+        <br />
+        <a>{address}/검색한 주소가 나타나게될 곳/</a>
+        <br />
 
-      <a>장소 별칭</a>
-      <Input
-        placeholder='별칭을 입력 해주세요.'
-        onChange={(e) => setAliaseInput(e.target.value)}
-      />
-      <br />
-      <Button
-        onClick={() => {
-          {
-            addFavorite({
-              variables: {
-                userId: userId,
-                addressId: addressId,
-                aliaseInput: aliaseInput,
-              },
-            });
-          }
-        }}
-      >
-        찜하기
-      </Button>
+        <a>장소 별칭</a>
+        <FavoriteInput
+          placeholder='별칭을 입력 해주세요.'
+          onChange={(e) => setAliaseInput(e.target.value)}
+        />
+        <br />
+        <FavoriteButton
+          onClick={() => {
+            {
+              addFavorite({
+                variables: {
+                  userId: userId,
+                  addressId: addressId,
+                  aliaseInput: aliaseInput,
+                },
+              });
+            }
+          }}
+        >
+          찜하기
+        </FavoriteButton>
+      </div>
     </>
   );
 }
