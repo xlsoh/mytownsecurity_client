@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-//import { gql, useMutation } from '@apollo/client';
+
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 
