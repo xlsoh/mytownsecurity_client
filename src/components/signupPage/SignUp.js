@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-//import { gql, useMutation } from '@apollo/client';
+
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 
@@ -30,8 +30,7 @@ const SignupButton = styled.button`
   cursor: pointer;
 `;
 const SignupInput = styled.input`
-  //border: solid 1px #dadada;
-  border: solid 1px #fff;
+  border: solid 1px #dadada;
   margin-bottom: 15px;
   padding: 10px;
   font-size: 16px;
