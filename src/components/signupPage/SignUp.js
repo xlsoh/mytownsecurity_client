@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
@@ -46,10 +46,7 @@ const SIGNUP = gql`
 `;
 
 function SignUp() {
-  const ab = '아에이오우';
   const history = useHistory();
-  const [viewForm, setViewForm] = useState(false);
-  const [dodo, SetDodo] = useState(ab);
   const idInput = useInput('');
   const passInput = useInput(ab);
   const passConfirmInput = useInput('');
