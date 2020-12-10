@@ -26,7 +26,7 @@ const TOKENLOGOUT = gql`
   }
 `;
 
-function MainHeader() {
+function ServHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
   const token = localStorage.getItem('token');
@@ -74,4 +74,4 @@ function MainHeader() {
   );
 }
 
-export default withRouter(MainHeader);
+export default withRouter(ServHeader);

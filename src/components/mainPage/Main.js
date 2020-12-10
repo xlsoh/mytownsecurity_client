@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
-// import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from 'react-apollo-hooks';
 import MainHeader from './MainHeader';
 import MainSearchResult from './MainSearchResult';
-import { gql, useMutation } from '@apollo/client';
+import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
 
 //guid 는 어떻게 할지 얘기 필요!!!
@@ -159,7 +159,7 @@ function Main(props) {
       {console.log(locationXY)}
       <MainHeader isLogin={isLogin} />
       <input
-        className="main_search_input"
+        className='main_search_input'
         placeholder={'주소'}
         value={searchValue}
         onChange={(e) => setValue(e.target.value)}

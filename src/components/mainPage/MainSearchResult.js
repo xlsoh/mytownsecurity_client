@@ -22,13 +22,13 @@ function MainSearchResult({ searchResults, handleChecked }) {
       {console.log(searchResults)}
       <h2>선택주소: {checkedAddress}</h2>
 
-      <Box p="5">
-        <List p="10" pt="3" spacing={5}>
+      <Box p='5'>
+        <List p='10' pt='3' spacing={5}>
           {_DATA.currentData().map((elem, idx) => (
             <ListItem key={idx}>
               {console.log(elem.roadAddr)}
               <input
-                type="radio"
+                type='radio'
                 checked={checkedAddress === elem.roadAddr}
                 value={elem.roadAddr}
                 onChange={(e) => {
@@ -50,10 +50,10 @@ function MainSearchResult({ searchResults, handleChecked }) {
         </button>
         <Pagination
           count={count}
-          size="small"
+          size='small'
           page={page}
-          variant="outlined"
-          shape="rounded"
+          variant='outlined'
+          shape='rounded'
           onChange={handlePage}
         />
       </Box>
