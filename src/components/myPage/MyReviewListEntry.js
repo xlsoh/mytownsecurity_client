@@ -14,7 +14,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 const Input = styled.input`
-  border: solid 1px #dadada;
+  border: solid 1px #fff;
   margin-bottom: 15px;
   padding: 10px;
 `;
