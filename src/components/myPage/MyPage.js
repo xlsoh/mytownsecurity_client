@@ -40,19 +40,19 @@ function MyPage() {
       {token && (
         <>
           <MyHeader />
-          <br />
+          <br /> <br />
           <div>
             내 정보
             <hr />
             <MyInfo email={email} />
           </div>
           <div>
-            <br />
+            <br /> <br /> <br />
             내가 찜한 동네
             <hr />
             <MyFavoriteList data={data} userId={userId} />
           </div>
-          <br />
+          <br /> <br /> <br />
           <div>
             내가 등록한 리뷰
             <hr />

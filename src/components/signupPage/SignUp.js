@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
@@ -30,9 +30,11 @@ const SignupButton = styled.button`
   cursor: pointer;
 `;
 const SignupInput = styled.input`
-  border: solid 1px #dadada;
+  //border: solid 1px #dadada;
+  border: solid 1px #fff;
   margin-bottom: 15px;
   padding: 10px;
+  font-size: 16px;
 `;
 
 /*쿼리 수정필요 */
@@ -44,9 +46,12 @@ const SIGNUP = gql`
 `;
 
 function SignUp() {
+  const ab = '아에이오우';
   const history = useHistory();
+  const [viewForm, setViewForm] = useState(false);
+  const [dodo, SetDodo] = useState(ab);
   const idInput = useInput('');
-  const passInput = useInput('');
+  const passInput = useInput(ab);
   const passConfirmInput = useInput('');
   const [signUpMutation] = useMutation(SIGNUP, {
     variables: {
