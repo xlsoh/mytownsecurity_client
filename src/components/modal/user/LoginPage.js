@@ -86,6 +86,7 @@ function LoginPage() {
                     {...passInput}
                     type={'password'}
                   ></LoginInput>
+                  <form onSubmit={onSubmit}></form>
                   <LoginButton text='Log in'></LoginButton>
                 </form>
               </div>

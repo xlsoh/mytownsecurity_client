@@ -30,9 +30,11 @@ const SignupButton = styled.button`
   cursor: pointer;
 `;
 const SignupInput = styled.input`
-  border: solid 1px #dadada;
+  //border: solid 1px #dadada;
+  border: solid 1px #fff;
   margin-bottom: 15px;
   padding: 10px;
+  font-size: 16px;
 `;
 
 /*쿼리 수정필요 */

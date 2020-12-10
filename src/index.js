@@ -9,6 +9,7 @@ import { GlobalStyle } from './styles/GlobalStyle';
 ReactDOM.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
+      <GlobalStyle />
       <App />
     </ApolloProvider>
   </BrowserRouter>,

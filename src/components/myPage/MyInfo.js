@@ -34,10 +34,13 @@ function MyInfo({ email }) {
       <InfoWrapper>
         <div>
           <p>E-mail</p>
+          <br />
           <div>{email} email@email.com 처럼 뜨는 곳</div>
+          <br />
         </div>
         <div>
           <p>Password</p>
+          <br />
           <div>
             <Button onClick={openModal}>비밀번호 수정</Button>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
