@@ -30,8 +30,7 @@ const SignupButton = styled.button`
   cursor: pointer;
 `;
 const SignupInput = styled.input`
-  //border: solid 1px #dadada;
-  border: solid 1px #fff;
+  border: solid 1px #dadada;
   margin-bottom: 15px;
   padding: 10px;
   font-size: 16px;
