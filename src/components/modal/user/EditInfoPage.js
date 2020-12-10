@@ -25,7 +25,7 @@ const Input = styled.input`
   border: solid 1px #dadada;
   margin-bottom: 15px;
   padding: 10px;
-  margin-left: ;
+  margin-left: 10px;
 `;
 const Button = styled.button`
   display: flex;
