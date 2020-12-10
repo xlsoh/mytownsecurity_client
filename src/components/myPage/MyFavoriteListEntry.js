@@ -11,10 +11,11 @@ const Button = styled.button`
   justify-content: center;
   margin-top: 15px;
   margin-bottom: 15px;
+  margin-left: 10px;
   cursor: pointer;
 `;
 const Input = styled.input`
-  border: solid 1px #dadada;
+  border: solid 1px #fff;
   margin-bottom: 15px;
   padding: 10px;
 `;
@@ -42,7 +43,8 @@ function MyFavoriteListEntry({
   createdAt,
   updatedAt,
 }) {
-  const newPlaceAliasInput = useInput('');
+  const [viewForm, setViewForm] = useState(false);
+  const newPlaceAliasInput = useInput(placeAlias);
   const [editMyFavoriteMutation] = useMutation(EDIT_MYFAVORITE, {
     variables: {
       userId: userId,
@@ -78,22 +80,31 @@ function MyFavoriteListEntry({
         <p>주소</p>
         {addressDetail`주소가 생길 곳`}
         <p>별칭</p>
-        {placeAlias`별칭이 생길 곳`}
+        {!viewForm && (
+          <>
+            {placeAlias`별칭이 생길 곳`}
+            <Button
+              onClick={() => {
+                setViewForm(true);
+              }}
+            >
+              수정
+            </Button>
+          </>
+        )}
+        <form onSubmit={onSubmit}>
+          {viewForm && (
+            <>
+              <Input type='placeAlias' {...newPlaceAliasInput} />
+              <Button>수정</Button>
+            </>
+          )}
+          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
+        </form>
         <p>생성일</p>
         {createdAt`생성일이 생길 곳`}
         <p>수정일</p>
         {updatedAt`수정일이 생길 곳`}
-      </div>
-      <div>
-        <form onSubmit={onSubmit}>
-          <Input
-            type='placeAlias'
-            value={`${placeAlias}`}
-            {...newPlaceAliasInput}
-          />
-          <Button>수정</Button>
-          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
-        </form>
       </div>
     </>
   );
