@@ -44,7 +44,7 @@ const SIGNUP = gql`
   }
 `;
 
-function SignUp() {
+function SignUp({ isToken, setIsToken }) {
   const history = useHistory();
   const idInput = useInput('');
   const passInput = useInput('');
@@ -81,39 +81,42 @@ function SignUp() {
 
   return (
     <>
-      <Background>
-        <Wrapper>
-          <a>회원가입</a>
-          <br />
-          <a>Email</a>
-          <form onSubmit={onSubmit}>
-            <SignupInput
-              type='email'
-              placeholder='이메일을 입력 해주세요.'
-              {...idInput}
-            />
+      {!isToken && (
+        <Background>
+          <Wrapper>
+            <a>회원가입</a>
             <br />
-            <a>Password</a>
-            <br />
-            <SignupInput
-              type='password'
-              placeholder='비밀번호를 입력 해주세요.'
-              {...passInput}
-            />
-            <br />
-            <a>Confirm Password</a>
-            <br />
-            <SignupInput
-              type='password'
-              placeholder='비밀번호를 확인 해주세요.'
-              {...passConfirmInput}
-            />
-            <br />
-            <br />
-            <SignupButton>회원가입</SignupButton>
-          </form>
-        </Wrapper>
-      </Background>
+            <a>Email</a>
+            <form onSubmit={onSubmit}>
+              <SignupInput
+                type='email'
+                placeholder='이메일을 입력 해주세요.'
+                {...idInput}
+              />
+              <br />
+              <a>Password</a>
+              <br />
+              <SignupInput
+                type='password'
+                placeholder='비밀번호를 입력 해주세요.'
+                {...passInput}
+              />
+              <br />
+              <a>Confirm Password</a>
+              <br />
+              <SignupInput
+                type='password'
+                placeholder='비밀번호를 확인 해주세요.'
+                {...passConfirmInput}
+              />
+              <br />
+              <br />
+              <SignupButton>회원가입</SignupButton>
+            </form>
+          </Wrapper>
+        </Background>
+      )}
+      {isToken && null}
     </>
   );
 }
