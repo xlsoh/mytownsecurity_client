@@ -41,10 +41,6 @@ function Map({ address }) {
           marker.setMap(map);
 
           //오버레이
-          var closeOverlay = function () {
-            overlay.setMap(null);
-          };
-
           var content = document.createElement('div');
           content.className = 'content';
           content.innerHTML =
@@ -61,6 +57,7 @@ function Map({ address }) {
           closeBtn.onclick = function () {
             overlay.setMap(null);
           };
+
           content.appendChild(closeBtn);
 
           var overlay = new kakao.maps.CustomOverlay({
