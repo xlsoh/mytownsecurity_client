@@ -36,8 +36,8 @@ function MainSearchResult({ searchResults, handleChecked }) {
                   setAddrObj(elem);
                 }}
               />
-              {elem.roadAddr}
-              <div>&emsp; 지번주소 | {elem.jibunAddr}</div>
+              &nbsp; {elem.roadAddr}
+              <div>&emsp; [지번] {elem.jibunAddr}</div>
             </ListItem>
           ))}
         </List>

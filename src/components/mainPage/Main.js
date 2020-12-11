@@ -33,7 +33,10 @@ function Main(props) {
   const [searchResults, setResults] = useState('');
   const [addrLocatoin, setAddrLocation] = useState({});
   const [locationXY, setLocationXY] = useState({});
+  const [gu, setGu] = useState('');
   const history = useHistory();
+
+  //수정
   const [createAddress] = useMutation(CREATE_ADDRESS, {
     variables: {
       detail: addressInput,
@@ -52,10 +55,19 @@ function Main(props) {
 
   const handleChecked = (addrObj) => {
     console.log(addrObj);
-    const { admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno, roadAddr } = addrObj;
+    const {
+      admCd,
+      rnMgtSn,
+      udrtYn,
+      buldMnnm,
+      buldSlno,
+      roadAddr,
+      ssgNm,
+    } = addrObj;
     setValue(roadAddr);
     setAddressInput(roadAddr);
     setAddrLocation({ admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno });
+    setGu(ssgNm);
     history.push(`/address/:addressId`);
   };
 
@@ -160,9 +172,12 @@ function Main(props) {
       <MainHeader isLogin={isLogin} />
       <input
         className='main_search_input'
-        placeholder={'주소'}
+        placeholder={
+          ' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
+        }
         value={searchValue}
         onChange={(e) => setValue(e.target.value)}
+        style={{ width: '370px', height: '25px' }}
       />
       <button onClick={() => handleSearch(searchValue)}>검색</button>
       {searchResults ? (
