@@ -47,7 +47,7 @@ const SIGNUP = gql`
 function SignUp() {
   const history = useHistory();
   const idInput = useInput('');
-  const passInput = useInput(ab);
+  const passInput = useInput('');
   const passConfirmInput = useInput('');
   const [signUpMutation] = useMutation(SIGNUP, {
     variables: {
