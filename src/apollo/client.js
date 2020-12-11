@@ -26,6 +26,7 @@ const resolvers = {
 
 export default new ApolloClient({
   //uri: 'https://52.78.116.104:443',
+  //uri: 'https://www.mytownsecurity.com',
   uri: 'http://localhost:4000',
   clientState: {
     defaults,

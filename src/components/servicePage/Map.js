@@ -6,7 +6,7 @@ import '../../styles/Map.css';
 import { policeStation } from '../../data/policeStation';
 const { kakao } = window;
 
-function Map() {
+function Map({ address }) {
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -17,12 +17,12 @@ function Map() {
       kakao.maps.load(() => {
         let el = document.getElementById('map');
         let map = new kakao.maps.Map(el, {
-          center: new kakao.maps.LatLng(37.5137912, 127.0293161), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
+          center: new kakao.maps.LatLng(address.longitudeY, address.latitudeX), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
         });
 
         //마커
         var imageSrc =
-            'https://www.shareicon.net/data/512x512/2015/09/21/644202_pin_512x512.png',
+            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
           imageSize = new kakao.maps.Size(55, 60),
           imageOption = { offset: new kakao.maps.Point(30, 65) };
 
