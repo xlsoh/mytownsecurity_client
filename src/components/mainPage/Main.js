@@ -26,21 +26,28 @@ const CREATE_ADDRESS = gql`
   }
 `;
 
-function Main(props) {
-  const { isLogin } = props;
+function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
+  //const { setAddressId, isToken, setIsToken, userInfo, setUserInfo } = props;
   const [searchValue, setValue] = useState('');
   const [addressInput, setAddressInput] = useState('');
   const [searchResults, setResults] = useState('');
   const [addrLocatoin, setAddrLocation] = useState({});
   const [locationXY, setLocationXY] = useState({});
   const history = useHistory();
-  const [createAddress] = useMutation(CREATE_ADDRESS, {
-    variables: {
-      detail: addressInput,
-      longitudeY: locationXY.longitudeY,
-      latitudeX: locationXY.latitudeX,
-    },
-  });
+  const [createAddress, { data, loading, error }] = useMutation(
+    CREATE_ADDRESS,
+    {
+      variables: {
+        detail: addressInput,
+        longitudeY: locationXY.longitudeY,
+        latitudeX: locationXY.latitudeX,
+      },
+    }
+  );
+  //수정 필요
+  if (data) {
+    setAddressId(data);
+  }
 
   useEffect(() => {
     fetchData().then((res) => setResults(res.data.results.juso));
@@ -107,7 +114,7 @@ function Main(props) {
       },
     });
 
-    console.log(res);
+    //console.log(res);
 
     return res;
   };
@@ -157,7 +164,12 @@ function Main(props) {
     <div>
       {console.log(addressInput)}
       {console.log(locationXY)}
-      <MainHeader isLogin={isLogin} />
+      <MainHeader
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
+        isToken={isToken}
+        setIsToken={setIsToken}
+      />
       <input
         className='main_search_input'
         placeholder={'주소'}

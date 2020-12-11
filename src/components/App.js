@@ -7,26 +7,50 @@ import MyPage from './myPage/MyPage';
 import SignUp from './signupPage/SignUp';
 
 function App() {
-  const [isLogin, setLogin] = useState(false);
+  const [isToken, setIsToken] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+  const [addressId, setAddressId] = useState(0);
 
   return (
     <div>
+      {console.log(isToken)}
+      {console.log(setIsToken)}
+      {console.log(userInfo)}
       <Switch>
-        <Route path={`/main`} render={() => <Main isLogin={isLogin} />} />
+        <Route
+          path={`/main`}
+          render={() => (
+            <Main
+              isToken={isToken}
+              setIsToken={setIsToken}
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+              setAddressId={setAddressId}
+            />
+          )}
+        />
         <Route
           exact
           path={`/address/:addressId`}
-          render={() => <Service isLogin={isLogin} />}
+          render={() => (
+            <Service
+              isToken={isToken}
+              setIsToken={setIsToken}
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+              addressId={addressId}
+            />
+          )}
         />
         <Route
           exact
           path={`/mypage/:userId`}
-          render={() => <MyPage isLogin={isLogin} />}
+          render={() => <MyPage isToken={isToken} userInfo={userInfo} />}
         />
         <Route
           exact
           path={`/user/signup`}
-          render={() => <SignUp isLogin={isLogin} />}
+          render={() => <SignUp isToken={isToken} setIsToken={setIsToken} />}
         />
         <Route path={`/`} render={() => <Redirect to={`/main`} />} />
       </Switch>

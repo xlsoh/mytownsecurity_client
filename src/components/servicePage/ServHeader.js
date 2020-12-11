@@ -26,7 +26,7 @@ const TOKENLOGOUT = gql`
   }
 `;
 
-function ServHeader() {
+function ServHeader({ isToken, setIsToken, userInfo }) {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
   const token = localStorage.getItem('token');
@@ -65,7 +65,7 @@ function ServHeader() {
               로그인
             </Button>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-              <LoginPage />
+              <LoginPage isToken={isToken} setIsToken={setIsToken} />
             </Modal>
           </Container>
         </>

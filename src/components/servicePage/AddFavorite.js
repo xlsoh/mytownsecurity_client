@@ -19,7 +19,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function AddFavorite() {
+function AddFavorite({ address, userInfo }) {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
@@ -30,7 +30,7 @@ function AddFavorite() {
       <Container>
         <Button onClick={openModal}>❤</Button>
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <AddFavoritePage />
+          <AddFavoritePage userInfo={userInfo} address={address} />
         </Modal>
       </Container>
     </>
