@@ -1,4 +1,4 @@
-export const policeStation = [
+export const policeStations = [
   // 서버 완성되면 데이터 불러오는 코드로 대체 예정!
   {
     stationName: '논현1파출소',

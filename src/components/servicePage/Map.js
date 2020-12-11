@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../styles/Map.css';
-import { policeStation } from '../../data/policeStation';
+import { policeStations } from '../../data/policeStation';
 const { kakao } = window;
 
 function Map({ address }) {
@@ -32,43 +32,45 @@ function Map({ address }) {
           imageOption
         );
 
-        for (var i = 0; i < policeStation.length; i++) {
+        policeStations.forEach(function (policeStation) {
           var marker = new kakao.maps.Marker({
-            position: new kakao.maps.LatLng(
-              policeStation[i].Y,
-              policeStation[i].X
-            ),
-            title: policeStation[i].stationName,
+            position: new kakao.maps.LatLng(policeStation.Y, policeStation.X),
+            title: policeStation.stationName,
             image: markerImage,
           });
           marker.setMap(map);
 
           //오버레이
-          var content =
-            '<div class="overlaybox">' +
-            '<div class="boxtitle">' +
-            `${policeStation[i].stationName}` +
-            '<div class="close" onclick="closeOverlay()" title="close">X</div>' +
+          var content = document.createElement('div');
+          content.className = 'content';
+          content.innerHTML =
+            `<div class="overlaybox">` +
+            `<div class="boxtitle">` +
+            `${policeStation.stationName}` +
+            `<div class ="cctv"></div>` +
             `</div>` +
             `</div>`;
 
+          var closeBtn = document.createElement('button');
+          closeBtn.className = 'close';
+          closeBtn.innerHTML = `X`;
+          closeBtn.onclick = function () {
+            overlay.setMap(null);
+          };
+
+          content.appendChild(closeBtn);
+
           var overlay = new kakao.maps.CustomOverlay({
-            map: map,
-            position: new kakao.maps.LatLng(
-              policeStation[i].Y,
-              policeStation[i].X
-            ),
+            position: marker.getPosition(),
             content: content,
             xAnchor: 0.33,
             yAnchor: 1.19,
+            clickable: true,
           });
-          kakao.maps.event.addListener(overlay, 'click', function () {
+          kakao.maps.event.addListener(marker, 'click', function () {
             overlay.setMap(map);
           });
-        }
-        function closeOverlay() {
-          overlay.setMap(null);
-        }
+        });
       });
     };
   });
