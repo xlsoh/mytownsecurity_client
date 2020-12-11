@@ -1,6 +1,6 @@
 .overlaybox {
   position: relative;
-  width: 360px;
+  width: 370px;
   height: 350px;
   background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png')
     no-repeat;
@@ -13,16 +13,20 @@
   font-weight: bold;
   margin-left: 8px;
   margin-bottom: 8px;
+  cursor: default;
+}
+.overlaybox .cctv {
+  cursor: default;
 }
 
-.overlaybox .close {
+.close {
   top: 14px;
   position: absolute;
-  right: 100px;
+  right: 110px;
   width: 17px;
   height: 17px;
 }
 
-.overlaybox .close:hover {
+.close:hover {
   cursor: pointer;
 }
