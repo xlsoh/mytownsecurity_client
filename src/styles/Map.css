@@ -1,0 +1,28 @@
+.overlaybox {
+  position: relative;
+  width: 360px;
+  height: 350px;
+  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png')
+    no-repeat;
+  padding: 15px 10px;
+}
+
+.overlaybox .boxtitle {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
+
+.overlaybox .close {
+  top: 14px;
+  position: absolute;
+  right: 100px;
+  width: 17px;
+  height: 17px;
+}
+
+.overlaybox .close:hover {
+  cursor: pointer;
+}
