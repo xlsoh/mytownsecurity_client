@@ -1,7 +1,8 @@
 import React from 'react';
-import ReviewItem from './ReviewItem';
+import ReviewListEntry from './ReviewListEntry';
 import styled from 'styled-components';
 import { useReviewState } from './ReviewContext';
+import ReviewScore from './ReviewScore';
 
 const ReviewListBlock = styled.div`
   flex: 1;
@@ -14,8 +15,9 @@ const ReviewList = () => {
   const reviews = useReviewState();
   return (
     <ReviewListBlock>
+      <ReviewScore />
       {reviews.map((reviews) => (
-        <ReviewItem
+        <ReviewListEntry
           id={reviews.id}
           text={reviews.text}
           done={reviews.done}

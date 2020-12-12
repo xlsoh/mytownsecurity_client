@@ -39,7 +39,7 @@ const Text = styled.div`
     `}
 `;
 
-function ReviewItem({ id, done, text }) {
+function ReviewListEntry({ id, done, text }) {
   const dispatch = useReviewDispatch();
 
   const onRemove = () => {
@@ -59,4 +59,4 @@ function ReviewItem({ id, done, text }) {
   );
 }
 
-export default React.memo(ReviewItem);
+export default React.memo(ReviewListEntry);
