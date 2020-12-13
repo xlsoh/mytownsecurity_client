@@ -114,7 +114,7 @@ function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
       },
     });
 
-    //console.log(res);
+    console.log(res);
 
     return res;
   };
