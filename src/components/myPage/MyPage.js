@@ -17,18 +17,12 @@ const GET_MYINFO = gql`
   }
 `;
 
-function MyPage() {
-  const token = localStorage.getItem('token');
-  const { userId } = useState(0);
-  const { email } = useState('');
+function MyPage({ isToken, userInfo }) {
   const { data, loading, error } = useQuery(GET_MYINFO, {
     variables: {
-      userId,
+      userId: userInfo.id,
     },
   });
-  console.log(data);
-  console.log(loading);
-  console.log(error);
 
   useEffect(() => {
     if (!loading && data && data.reviews && data.favorites) {
@@ -38,30 +32,30 @@ function MyPage() {
 
   return (
     <>
-      {token && (
+      {isToken && (
         <>
           <MyHeader />
-          <br />
+          <br /> <br />
           <div>
             내 정보
             <hr />
-            <MyInfo email={email} />
+            <MyInfo userInfo={userInfo} />
           </div>
           <div>
-            <br />
+            <br /> <br /> <br />
             내가 찜한 동네
             <hr />
-            <MyFavoriteList data={data} userId={userId} />
+            <MyFavoriteList data={data} userId={userInfo.id} />
           </div>
-          <br />
+          <br /> <br /> <br />
           <div>
             내가 등록한 리뷰
             <hr />
-            <MyReviewList data={data} userId={userId} />
+            <MyReviewList data={data} userId={userInfo.id} />
           </div>
         </>
       )}
-      {!token && null}
+      {!isToken && null}
     </>
   );
 }

@@ -38,10 +38,10 @@ const TOKENLOGIN = gql`
   }
 `;
 
-function LoginPage() {
+function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
   const idInput = useInput('');
   const passInput = useInput('');
-  const [loginMutation, { loading }] = useMutation(SIGNIN, {
+  const [loginMutation, { loading, data }] = useMutation(SIGNIN, {
     variables: { email: idInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
@@ -57,6 +57,8 @@ function LoginPage() {
         } = await loginMutation();
         if (token !== '' || token !== undefined) {
           tokenLoginMutation({ variables: { token } });
+          setIsToken(true);
+          setUserInfo(data);
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -86,6 +88,7 @@ function LoginPage() {
                     {...passInput}
                     type={'password'}
                   ></LoginInput>
+                  <form onSubmit={onSubmit}></form>
                   <LoginButton text='Log in'></LoginButton>
                 </form>
               </div>

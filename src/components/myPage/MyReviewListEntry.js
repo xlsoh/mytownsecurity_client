@@ -14,7 +14,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 const Input = styled.input`
-  border: solid 1px #dadada;
+  border: solid 1px #fff;
   margin-bottom: 15px;
   padding: 10px;
 `;
@@ -44,8 +44,10 @@ function MyReviewListEntry({
   createdAt,
   updatedAt,
 }) {
-  const newGradeInput = useInput('');
-  const newTextInput = useInput('');
+  const [viewForm1, setViewForm1] = useState(false);
+  const [viewForm2, setViewForm2] = useState(false);
+  const newGradeInput = useInput(grade);
+  const newTextInput = useInput(text);
   const [editMyReviewMutation] = useMutation(EDIT_MYREVIEW, {
     variables: {
       userId: userId,
@@ -82,21 +84,41 @@ function MyReviewListEntry({
         <p>주소</p>
         {addressDetail`주소가 생길 곳`}
         <p>별점</p>
-        {grade`별점이 생길 곳`}
+        {!viewForm1 && (
+          <>
+            {grade`별점이 생길 곳`}
+            <Button onClick={() => setViewForm1(true)}>수정</Button>
+          </>
+        )}
+        <form onSubmit={onSubmit}>
+          {viewForm1 && (
+            <>
+              <Input type='grade' {...newGradeInput} />
+              <Button>수정</Button>
+            </>
+          )}
+          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
+        </form>
         <p>리뷰</p>
-        {text`리뷰가 생길 곳`}
+        {!viewForm2 && (
+          <>
+            {text`리뷰가 생길 곳`}
+            <Button onClick={() => setViewForm2(true)}>수정</Button>
+          </>
+        )}
+        <form onSubmit={onSubmit}>
+          {viewForm2 && (
+            <>
+              <Input type='text' {...newTextInput} />
+              <Button>수정</Button>
+            </>
+          )}
+          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
+        </form>
         <p>생성일</p>
         {createdAt`생성일이 생길 곳`}
         <p>수정일</p>
         {updatedAt`수정일이 생길 곳`}
-      </div>
-      <div>
-        <form onSubmit={onSubmit}>
-          <Input type='text' value={`${text}`} {...newTextInput} />
-          <Input type='grade' value={`${grade}`} {...newGradeInput} />
-          <Button>수정</Button>
-          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
-        </form>
       </div>
     </>
   );

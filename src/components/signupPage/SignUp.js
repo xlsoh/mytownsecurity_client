@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-//import { gql, useMutation } from '@apollo/client';
+
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 
@@ -33,6 +33,7 @@ const SignupInput = styled.input`
   border: solid 1px #dadada;
   margin-bottom: 15px;
   padding: 10px;
+  font-size: 16px;
 `;
 
 /*쿼리 수정필요 */
@@ -43,7 +44,7 @@ const SIGNUP = gql`
   }
 `;
 
-function SignUp() {
+function SignUp({ isToken, setIsToken }) {
   const history = useHistory();
   const idInput = useInput('');
   const passInput = useInput('');
@@ -80,39 +81,42 @@ function SignUp() {
 
   return (
     <>
-      <Background>
-        <Wrapper>
-          <a>회원가입</a>
-          <br />
-          <a>Email</a>
-          <form onSubmit={onSubmit}>
-            <SignupInput
-              type='email'
-              placeholder='이메일을 입력 해주세요.'
-              {...idInput}
-            />
+      {!isToken && (
+        <Background>
+          <Wrapper>
+            <a>회원가입</a>
             <br />
-            <a>Password</a>
-            <br />
-            <SignupInput
-              type='password'
-              placeholder='비밀번호를 입력 해주세요.'
-              {...passInput}
-            />
-            <br />
-            <a>Confirm Password</a>
-            <br />
-            <SignupInput
-              type='password'
-              placeholder='비밀번호를 확인 해주세요.'
-              {...passConfirmInput}
-            />
-            <br />
-            <br />
-            <SignupButton>회원가입</SignupButton>
-          </form>
-        </Wrapper>
-      </Background>
+            <a>Email</a>
+            <form onSubmit={onSubmit}>
+              <SignupInput
+                type='email'
+                placeholder='이메일을 입력 해주세요.'
+                {...idInput}
+              />
+              <br />
+              <a>Password</a>
+              <br />
+              <SignupInput
+                type='password'
+                placeholder='비밀번호를 입력 해주세요.'
+                {...passInput}
+              />
+              <br />
+              <a>Confirm Password</a>
+              <br />
+              <SignupInput
+                type='password'
+                placeholder='비밀번호를 확인 해주세요.'
+                {...passConfirmInput}
+              />
+              <br />
+              <br />
+              <SignupButton>회원가입</SignupButton>
+            </form>
+          </Wrapper>
+        </Background>
+      )}
+      {isToken && null}
     </>
   );
 }

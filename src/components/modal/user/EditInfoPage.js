@@ -25,7 +25,7 @@ const Input = styled.input`
   border: solid 1px #dadada;
   margin-bottom: 15px;
   padding: 10px;
-  margin-left: ;
+  margin-left: 10px;
 `;
 const Button = styled.button`
   display: flex;
@@ -44,15 +44,13 @@ const EDITPASSWORD = gql`
   }
 `;
 
-function EditInfoPage() {
-  const { userId } = useState(0);
-  const { password } = useState('');
+function EditInfoPage({ userInfo }) {
   const prevpassInput = useInput('');
   const passInput = useInput('');
   const passConfirmInput = useInput('');
   const [editPasswordMutation] = useMutation(EDITPASSWORD, {
     variables: {
-      userId: userId,
+      userId: userInfo.id,
       password: passInput.value,
     },
   });
@@ -66,7 +64,7 @@ function EditInfoPage() {
         passConfirmInput.value == ''
       ) {
         alert('Please enter your password!🙌🏻');
-      } else if (password == prevpassInput.value) {
+      } else if (userInfo.password == prevpassInput.value) {
         alert('Please enter your correct password!🤡');
       } else if (passInput.value !== passConfirmInput.value) {
         alert('Please check Password!🤔');

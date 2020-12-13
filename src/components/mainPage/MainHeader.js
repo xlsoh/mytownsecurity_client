@@ -25,7 +25,7 @@ const TOKENLOGOUT = gql`
   }
 `;
 
-function MainHeader() {
+function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
   const token = localStorage.getItem('token');
@@ -35,7 +35,7 @@ function MainHeader() {
 
   return (
     <>
-      {token && (
+      {isToken && (
         <>
           <Container>
             <Button onClick={() => history.push(`/mypage/:userId`)}>
@@ -51,7 +51,7 @@ function MainHeader() {
           </Container>
         </>
       )}
-      {!token && (
+      {!isToken && (
         <>
           <Container>
             <Button onClick={() => history.push(`/`)}>로고</Button>
@@ -64,7 +64,12 @@ function MainHeader() {
               로그인
             </Button>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-              <LoginPage />
+              <LoginPage
+                isToken={isToken}
+                setIsToken={setIsToken}
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+              />
             </Modal>
           </Container>
         </>

@@ -23,7 +23,7 @@ const Button = styled.button`
   padding: 10px;
 `;
 
-function MyInfo({ email }) {
+function MyInfo({ userInfo }) {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
@@ -34,14 +34,17 @@ function MyInfo({ email }) {
       <InfoWrapper>
         <div>
           <p>E-mail</p>
-          <div>{email} email@email.com 처럼 뜨는 곳</div>
+          <br />
+          <div>{userInfo.email} email@email.com 처럼 뜨는 곳</div>
+          <br />
         </div>
         <div>
           <p>Password</p>
+          <br />
           <div>
             <Button onClick={openModal}>비밀번호 수정</Button>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-              <EditInfoPage />
+              <EditInfoPage userInfo={userInfo} />
             </Modal>
           </div>
         </div>
