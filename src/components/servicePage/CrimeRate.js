@@ -13,6 +13,8 @@ const CrimeWrapper = styled.div`
   position: relative;
   z-index: 2;
   border-radius: 10px;
+  background: #fff;
+  margin: 5px;
 `;
 
 function CrimeRate({ crime }) {
