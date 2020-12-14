@@ -3,7 +3,6 @@ import { withRouter, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-
 import Modal from '../../styles/Modal';
 import LoginPage from '../modal/user/LoginPage';
 

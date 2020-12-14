@@ -8,22 +8,22 @@ const initialReviews = [
   {
     id: 1,
     text: '프로젝트 생성하기',
-    done: true,
+    rating: 3,
   },
   {
     id: 2,
     text: '컴포넌트 스타일링하기',
-    done: true,
+    rating: 2,
   },
   {
     id: 3,
     text: 'Context 만들기',
-    done: false,
+    rating: 1,
   },
   {
     id: 4,
     text: '기능 구현하기',
-    done: false,
+    rating: 3,
   },
 ];
 
@@ -31,10 +31,6 @@ function ReviewReducer(state, action) {
   switch (action.type) {
     case 'CREATE':
       return state.concat(action.Review);
-    case 'TOGGLE':
-      return state.map((Review) =>
-        Review.id === action.id ? { ...Review, done: !Review.done } : Review
-      );
     case 'REMOVE':
       return state.filter((Review) => Review.id !== action.id);
     default:
