@@ -11,15 +11,15 @@ import MyReviewList from './MyReviewList';
 
 /*쿼리 수정 */
 const GET_MYINFO = gql`
-  query getMyInfo($userId: Int!) {
-    getMyInfo(userId: $userId)
+  query getMyInfo($email: String!) {
+    getMyInfo(email: $email)
   }
 `;
 
 function MyPage({ isToken, userInfo }) {
   const { data, loading, error } = useQuery(GET_MYINFO, {
     variables: {
-      userId: userInfo.id,
+      userId: userInfo.email,
     },
   });
 
@@ -44,13 +44,13 @@ function MyPage({ isToken, userInfo }) {
             <br /> <br /> <br />
             내가 찜한 동네
             <hr />
-            <MyFavoriteList data={data} userId={userInfo.id} />
+            <MyFavoriteList data={data} id={userInfo.id} />
           </div>
           <br /> <br /> <br />
           <div>
             내가 등록한 리뷰
             <hr />
-            <MyReviewList data={data} userId={userInfo.id} />
+            <MyReviewList data={data} id={userInfo.id} />
           </div>
         </>
       )}
