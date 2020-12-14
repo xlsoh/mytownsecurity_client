@@ -7,6 +7,7 @@ import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
 import Map from './Map';
 import Review from './Review';
+import SearchInput from '../search/SearchInput';
 
 /*쿼리 수정필요 */
 //useQuery
@@ -30,15 +31,16 @@ function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
   // });
 
   //서버 따라 수정 필요
-  useEffect(() => {
-    if (!loading && data && data.address && data.crime) {
-      console.log(data.address, data.crime);
-    }
-  }, [loading, data]);
+  // useEffect(() => {
+  //   if (!loading && data && data.address && data.crime) {
+  //     console.log(data.address, data.crime);
+  //   }
+  // }, [loading, data]);
 
   return (
     <>
       <ServHeader isToken={isToken} setIsToken={setIsToken} />
+      <SearchInput addressId={addressId} />
       <AddFavorite userInfo={userInfo} address={data.address} />
       <Map address={data.address} />
       <CrimeRate crime={data.crime} />

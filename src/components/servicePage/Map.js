@@ -4,6 +4,7 @@ import { Route, Redirect, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../styles/Map.css';
 import { policeStations } from '../../data/policeStation';
+import { cctvs } from '../../data/cctv';
 const { kakao } = window;
 
 function Map({ address }) {
@@ -17,28 +18,28 @@ function Map({ address }) {
       kakao.maps.load(() => {
         let el = document.getElementById('map');
         let map = new kakao.maps.Map(el, {
-          center: new kakao.maps.LatLng(address.longitudeY, address.latitudeX), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
+          //center: new kakao.maps.LatLng(address.longitudeY, address.latitudeX), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
+          center: new kakao.maps.LatLng(37.56107588, 126.995346),
         });
 
         //마커
-        var imageSrc =
-            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
-          imageSize = new kakao.maps.Size(55, 60),
-          imageOption = { offset: new kakao.maps.Point(30, 65) };
+        var police_imageSrc = 'https://ifh.cc/g/FWXYgJ.png',
+          police_imageSize = new kakao.maps.Size(55, 60),
+          police_imageOption = { offset: new kakao.maps.Point(30, 65) };
 
-        var markerImage = new kakao.maps.MarkerImage(
-          imageSrc,
-          imageSize,
-          imageOption
+        var policeStation_markerImage = new kakao.maps.MarkerImage(
+          police_imageSrc,
+          police_imageSize,
+          police_imageOption
         );
 
         policeStations.forEach(function (policeStation) {
-          var marker = new kakao.maps.Marker({
+          var police_marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(policeStation.Y, policeStation.X),
             title: policeStation.stationName,
-            image: markerImage,
+            image: policeStation_markerImage,
           });
-          marker.setMap(map);
+          police_marker.setMap(map);
 
           //오버레이
           var content = document.createElement('div');
@@ -61,15 +62,169 @@ function Map({ address }) {
           content.appendChild(closeBtn);
 
           var overlay = new kakao.maps.CustomOverlay({
-            position: marker.getPosition(),
+            position: police_marker.getPosition(),
             content: content,
             xAnchor: 0.33,
             yAnchor: 1.19,
             clickable: true,
           });
-          kakao.maps.event.addListener(marker, 'click', function () {
+          kakao.maps.event.addListener(police_marker, 'click', function () {
             overlay.setMap(map);
           });
+        });
+        var clusterer = new kakao.maps.MarkerClusterer({
+          map: map,
+          averageCenter: true,
+          minLevel: 8,
+        });
+        cctvs.forEach(function (cctv) {
+          if (cctv.카메라대수 >= 1 && cctv.카메라대수 < 3) {
+            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
+            let cctv_imageSize = new kakao.maps.Size(20, 20);
+            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
+            let cctv_markerImage = new kakao.maps.MarkerImage(
+              cctv_imageSrc,
+              cctv_imageSize,
+              cctv_imageOption
+            );
+
+            let cctv_marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+              title: cctv.소재지도로명주소,
+              image: cctv_markerImage,
+            });
+            cctv_marker.setMap(map);
+            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
+            let infowindow = new kakao.maps.InfoWindow({
+              content: iwContent,
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
+              infowindow.open(map, cctv_marker);
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
+              infowindow.close();
+            });
+            clusterer.addMarkers(cctv_marker);
+          } else if (cctv.카메라대수 >= 3 && cctv.카메라대수 < 6) {
+            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
+            let cctv_imageSize = new kakao.maps.Size(35, 35);
+            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
+            let cctv_markerImage = new kakao.maps.MarkerImage(
+              cctv_imageSrc,
+              cctv_imageSize,
+              cctv_imageOption
+            );
+
+            let cctv_marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+              title: cctv.소재지도로명주소,
+              image: cctv_markerImage,
+            });
+            cctv_marker.setMap(map);
+            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
+            let infowindow = new kakao.maps.InfoWindow({
+              content: iwContent,
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
+              infowindow.open(map, cctv_marker);
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
+              infowindow.close();
+            });
+            clusterer.addMarkers(cctv_marker);
+          } else if (cctv.카메라대수 >= 6 && cctv.카메라대수 < 10) {
+            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
+            let cctv_imageSize = new kakao.maps.Size(50, 50);
+            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
+            let cctv_markerImage = new kakao.maps.MarkerImage(
+              cctv_imageSrc,
+              cctv_imageSize,
+              cctv_imageOption
+            );
+
+            let cctv_marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+              title: cctv.소재지도로명주소,
+              image: cctv_markerImage,
+            });
+            cctv_marker.setMap(map);
+            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
+            let infowindow = new kakao.maps.InfoWindow({
+              content: iwContent,
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
+              infowindow.open(map, cctv_marker);
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
+              infowindow.close();
+            });
+            clusterer.addMarkers(cctv_marker);
+          } else if (cctv.카메라대수 >= 10 && cctv.카메라대수 < 20) {
+            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
+            let cctv_imageSize = new kakao.maps.Size(60, 60);
+            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
+            let cctv_markerImage = new kakao.maps.MarkerImage(
+              cctv_imageSrc,
+              cctv_imageSize,
+              cctv_imageOption
+            );
+
+            let cctv_marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+              title: cctv.소재지도로명주소,
+              image: cctv_markerImage,
+            });
+            cctv_marker.setMap(map);
+            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
+            let infowindow = new kakao.maps.InfoWindow({
+              content: iwContent,
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
+              infowindow.open(map, cctv_marker);
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
+              infowindow.close();
+            });
+            clusterer.addMarkers(cctv_marker);
+          } else {
+            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
+            let cctv_imageSize = new kakao.maps.Size(70, 70);
+            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
+            let cctv_markerImage = new kakao.maps.MarkerImage(
+              cctv_imageSrc,
+              cctv_imageSize,
+              cctv_imageOption
+            );
+
+            let cctv_marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+              title: cctv.소재지도로명주소,
+              image: cctv_markerImage,
+            });
+            cctv_marker.setMap(map);
+            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
+            let infowindow = new kakao.maps.InfoWindow({
+              content: iwContent,
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
+              infowindow.open(map, cctv_marker);
+            });
+            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
+              infowindow.close();
+            });
+            clusterer.addMarkers(cctv_marker);
+            //   var clusterer = new kakao.maps.MarkerClusterer({
+            //     map: map,
+            //     averageCenter: true,
+            //     minLevel: 10
+            // });
+            // clusterer.addMarkers(markers);
+          }
         });
       });
     };
@@ -78,8 +233,8 @@ function Map({ address }) {
   const mapstyle = {
     // width: '1920px',
     // height: '1080px',
-    width: '800px',
-    height: '500px',
+    width: '1000px',
+    height: '800px',
   };
 
   const MapWrapper = styled.div`

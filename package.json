@@ -24,6 +24,7 @@
     "framer-motion": "^2.9.5",
     "gatsby-plugin-emotion": "^5.0.0",
     "graphql": "^15.4.0",
+    "http-proxy-middleware": "^1.0.6",
     "jsonp": "^0.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",

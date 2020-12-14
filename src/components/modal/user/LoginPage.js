@@ -28,7 +28,12 @@ const Container = styled.div`
 
 const SIGNIN = gql`
   mutation signin($email: String!, $password: String!) {
-    signin(email: $email, password: $password)
+    signin(email: $email, password: $password) {
+      token
+      user {
+        email
+      }
+    }
   }
 `;
 
@@ -59,9 +64,9 @@ function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
           tokenLoginMutation({ variables: { token } });
           setIsToken(true);
           setUserInfo(data);
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 2000);
         }
       } catch (error) {
         alert('This information does not exist. Please try again!😇');
