@@ -1,6 +1,10 @@
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+
 import { useQuery } from 'react-apollo-hooks';
+
+import axios from 'axios';
+
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
