@@ -33,7 +33,6 @@ const SIGNIN = gql`
       user {
         id
         email
-        password
       }
     }
   }
