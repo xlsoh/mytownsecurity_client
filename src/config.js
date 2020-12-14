@@ -1,0 +1,2 @@
+export const API_KEY_SEARCH = 'devU01TX0FVVEgyMDIwMTIwMzAxMTgxMTExMDQ5NDk=';
+export const API_KEY_LOCATION = 'devU01TX0FVVEgyMDIwMTIwNzE2MzkzNjExMDUxNDQ=';

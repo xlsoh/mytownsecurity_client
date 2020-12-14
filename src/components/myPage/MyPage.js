@@ -11,8 +11,9 @@ import MyReviewList from './MyReviewList';
 
 /*쿼리 수정 */
 const GET_MYINFO = gql`
-  query getMyInfo($email: String!) {
-    getMyInfo(email: $email)
+  query getMyInfo($userId: Int!) {
+    cd
+    getMyInfo(userId: $userId)
   }
 `;
 

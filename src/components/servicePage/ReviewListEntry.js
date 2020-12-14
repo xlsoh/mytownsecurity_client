@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { MdDelete } from 'react-icons/md';
 import { useReviewDispatch } from './ReviewContext';
+import StarRatings from 'react-star-ratings';
 
 const Remove = styled.div`
   display: flex;
@@ -32,14 +33,9 @@ const Text = styled.div`
   flex: 1;
   font-size: 21px;
   color: #495057;
-  ${(props) =>
-    props.done &&
-    css`
-      color: #ced4da;
-    `}
 `;
 
-function ReviewItem({ id, done, text }) {
+function ReviewListEntry({ id, done, text, rating }) {
   const dispatch = useReviewDispatch();
 
   const onRemove = () => {
@@ -52,6 +48,14 @@ function ReviewItem({ id, done, text }) {
   return (
     <ReviewItemBlock>
       <Text done={done}>{text}</Text>
+      <StarRatings
+        rating={rating}
+        starRatedColor='red'
+        numberOfStars={5}
+        name='rating'
+        starDimension='25px'
+        starSpacing='2.5px'
+      />
       <Remove onClick={onRemove}>
         <MdDelete />
       </Remove>
@@ -59,4 +63,4 @@ function ReviewItem({ id, done, text }) {
   );
 }
 
-export default React.memo(ReviewItem);
+export default React.memo(ReviewListEntry);
