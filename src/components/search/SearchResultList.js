@@ -1,11 +1,10 @@
 import { useState } from 'react';
-
 import { withRouter } from 'react-router-dom';
 import { Pagination } from '@material-ui/lab';
 import { Box, List, ListItem } from '@chakra-ui/react';
-import UsePagination from './Pagenation';
+import UsePagination from '../../hooks/Pagenation';
 
-function MainSearchResult({ searchResults, handleChecked }) {
+function SearchResultList({ searchResults, handleChecked }) {
   const [checkedAddress, setCheckdAddress] = useState('');
   const [addrObj, setAddrObj] = useState();
   const [page, setPage] = useState(1);
@@ -36,8 +35,8 @@ function MainSearchResult({ searchResults, handleChecked }) {
                   setAddrObj(elem);
                 }}
               />
-              {elem.roadAddr}
-              <div>&emsp; 지번주소 | {elem.jibunAddr}</div>
+              &nbsp; {elem.roadAddr}
+              <div>&emsp; [지번] {elem.jibunAddr}</div>
             </ListItem>
           ))}
         </List>
@@ -61,4 +60,4 @@ function MainSearchResult({ searchResults, handleChecked }) {
   );
 }
 
-export default withRouter(MainSearchResult);
+export default withRouter(SearchResultList);
