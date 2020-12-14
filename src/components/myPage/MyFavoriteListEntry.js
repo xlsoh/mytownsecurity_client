@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../hooks/useInput';
@@ -22,21 +22,18 @@ const Input = styled.input`
 
 /*쿼리수정 필요 */
 const EDIT_MYFAVORITE = gql`
-  mutation editMyFavorite(
-    $userId: Int!
-    $favoriteId: Int!
-    $placeAlias: String!
-  ) {
-    editMyFavorite(
-      userId: $userId
-      favoriteId: $favoriteId
-      placeAlias: $placeAlias
-    )
+  mutation editMyFavorite($id: Int!, $favoriteId: Int!, $placeAlias: String!) {
+    editMyFavorite(id: $id, favoriteId: $favoriteId, placeAlias: $placeAlias)
+  }
+`;
+const DELETE_MYFAVORITE = gql`
+  mutation deleteMyFavorite($id: Int!, $favoriteId: Int!) {
+    deleteMyFavorite(id: $id, favoriteId: $favoriteId)
   }
 `;
 
 function MyFavoriteListEntry({
-  userId,
+  id,
   favoriteId,
   addressDetail,
   placeAlias,
@@ -47,9 +44,15 @@ function MyFavoriteListEntry({
   const newPlaceAliasInput = useInput(placeAlias);
   const [editMyFavoriteMutation] = useMutation(EDIT_MYFAVORITE, {
     variables: {
-      userId: userId,
+      id: id,
       favoriteId: favoriteId,
       placeAlias: newPlaceAliasInput.value,
+    },
+  });
+  const [deleteMyFavoriteMutation] = useMutation(DELETE_MYFAVORITE, {
+    variables: {
+      id: id,
+      favoriteId: favoriteId,
     },
   });
 
@@ -64,9 +67,11 @@ function MyFavoriteListEntry({
         const { data: editMyFavorite } = await editMyFavoriteMutation();
         if (editMyFavorite) {
           alert('The modification was successful!😄');
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   const history = useHistory();
+          //   history.go(0);
+          //   window.location.reload();
+          // }, 2000);
         }
       }
     } catch (error) {
@@ -99,7 +104,7 @@ function MyFavoriteListEntry({
               <Button>수정</Button>
             </>
           )}
-          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
+          <Button onClick={() => deleteMyFavoriteMutation()}>삭제</Button>
         </form>
         <p>생성일</p>
         {createdAt`생성일이 생길 곳`}

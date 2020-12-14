@@ -67,6 +67,7 @@ function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
           tokenLoginMutation({ variables: { token } });
           setIsToken(true);
           setUserInfo(data);
+          console.log(data);
           // setTimeout(() => {
           //   window.location.reload();
           // }, 2000);

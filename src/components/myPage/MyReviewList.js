@@ -16,7 +16,7 @@ const ReviewWrapper = styled.div`
   border-radius: 10px;
 `;
 
-function MyReviewList({ data, userId }) {
+function MyReviewList({ data, id }) {
   return (
     <>
       <ReviewWrapper>
@@ -25,7 +25,7 @@ function MyReviewList({ data, userId }) {
           data.reviews.map((review, index) => (
             <Fragment key={index}>
               <MyReviewListEntry
-                userId={userId}
+                id={id}
                 reviewId={review.id}
                 text={review.text}
                 grade={review.grade}
