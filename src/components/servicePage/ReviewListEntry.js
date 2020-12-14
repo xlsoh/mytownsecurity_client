@@ -35,7 +35,17 @@ const Text = styled.div`
   color: #495057;
 `;
 
-function ReviewListEntry({ id, done, text, rating }) {
+// const REMOVE_MYREVIEW = gql`
+//   mutation editReview(
+//     $reviewId: Int!
+//   ) {
+//     editMyReview(
+//       reviewId: $reviewId
+//     )
+//   }
+// `;
+
+function ReviewListEntry({ id, done, text, rating, userInfo, addressId }) {
   const dispatch = useReviewDispatch();
 
   const onRemove = () => {

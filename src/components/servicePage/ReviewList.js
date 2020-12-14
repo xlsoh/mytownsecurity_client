@@ -10,7 +10,7 @@ const ReviewListBlock = styled.div`
   overflow-y: auto;
 `;
 
-const ReviewList = () => {
+const ReviewList = ({ userInfo, addressId }) => {
   const reviews = useReviewState();
   return (
     <ReviewListBlock>
@@ -20,6 +20,8 @@ const ReviewList = () => {
           text={reviews.text}
           key={reviews.id}
           rating={reviews.rating}
+          userInfo={userInfo}
+          addressId={addressId}
         />
       ))}
     </ReviewListBlock>
