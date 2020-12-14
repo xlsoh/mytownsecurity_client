@@ -28,14 +28,12 @@ const ADDFAVORITE = gql`
   }
 `;
 
-function AddFavoritePage() {
-  const [userId, addressId] = useState(0); //수정필요
-  const [address] = useState(''); //수정필요
+function AddFavoritePage({ userInfo, address }) {
   const aliaseInput = useInput('');
   const [addFavoriteMutation] = useMutation(ADDFAVORITE, {
     variables: {
-      userId,
-      addressId,
+      userId: userInfo.id,
+      addressId: address.id,
       aliase: aliaseInput.value,
     },
   });
@@ -65,7 +63,7 @@ function AddFavoritePage() {
         <a>검색하신 주소를 등록하시겠습니까?</a>
         <br />
         <br />
-        <a>{address}/검색한 주소가 나타나게될 곳/</a>
+        <a>{address.detail}/검색한 주소가 나타나게될 곳/</a>
         <br />
         <a>장소 별칭</a>
         <form onSubmit={onSubmit}>
