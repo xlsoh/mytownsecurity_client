@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../hooks/useInput';
@@ -21,22 +21,22 @@ const Input = styled.input`
 
 const EDIT_MYREVIEW = gql`
   mutation editMyReview(
-    $userId: Int!
+    $id: Int!
     $reviewId: Int!
     $grade: Int
     $text: String
   ) {
-    editMyReview(
-      userId: $userId
-      reviewId: $reviewId
-      grade: $grade
-      text: $text
-    )
+    editMyReview(id: $id, reviewId: $reviewId, grade: $grade, text: $text)
+  }
+`;
+const DELETE_MYREVIEW = gql`
+  mutation deleteMyReview($id: Int!, $ReviewId: Int!) {
+    deleteMyReview(id: $id, ReviewId: $ReviewId)
   }
 `;
 
 function MyReviewListEntry({
-  userId,
+  id,
   reviewId,
   text,
   grade,
@@ -50,10 +50,16 @@ function MyReviewListEntry({
   const newTextInput = useInput(text);
   const [editMyReviewMutation] = useMutation(EDIT_MYREVIEW, {
     variables: {
-      userId: userId,
+      id: id,
       reviewId: reviewId,
       grade: newGradeInput.value,
       text: newTextInput.value,
+    },
+  });
+  const [deleteMyReviewMutation] = useMutation(DELETE_MYREVIEW, {
+    variables: {
+      id: id,
+      ReviewId: ReviewId,
     },
   });
 
@@ -68,9 +74,11 @@ function MyReviewListEntry({
         const { data: editMyReview } = await editMyReviewMutation();
         if (editMyReview) {
           alert('The modification was successful!😄');
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   const history = useHistory();
+          //   history.go(0);
+          //   window.location.reload();
+          // }, 2000);
         }
       }
     } catch (error) {
@@ -97,7 +105,6 @@ function MyReviewListEntry({
               <Button>수정</Button>
             </>
           )}
-          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
         </form>
         <p>리뷰</p>
         {!viewForm2 && (
@@ -113,12 +120,12 @@ function MyReviewListEntry({
               <Button>수정</Button>
             </>
           )}
-          <Button onClick={() => {} /*서버에 맞춰 수정 필요 */}>삭제</Button>
         </form>
         <p>생성일</p>
         {createdAt`생성일이 생길 곳`}
         <p>수정일</p>
         {updatedAt`수정일이 생길 곳`}
+        <Button onClick={() => deleteMyReviewMutation()}>삭제</Button>
       </div>
     </>
   );

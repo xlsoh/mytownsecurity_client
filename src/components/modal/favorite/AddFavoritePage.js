@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../../hooks/useInput';
@@ -47,9 +47,11 @@ function AddFavoritePage({ userInfo, address }) {
         const { data: addFavortie } = await addFavoriteMutation();
         if (addFavortie) {
           alert('The enrollment was successful!😄');
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   const history = useHistory();
+          //   history.go(0);
+          //   window.location.reload();
+          // }, 2000);
         }
       }
     } catch (error) {

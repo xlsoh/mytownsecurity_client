@@ -16,7 +16,7 @@ const FavoriteWrapper = styled.div`
   border-radius: 10px;
 `;
 
-function MyFavoriteList({ data, userId }) {
+function MyFavoriteList({ data, id }) {
   return (
     <>
       <FavoriteWrapper>
@@ -25,7 +25,7 @@ function MyFavoriteList({ data, userId }) {
           data.favorites.map((favorite, index) => (
             <Fragment key={index}>
               <MyFavoriteListEntry
-                userId={userId}
+                id={id}
                 favoriteId={favorite.id}
                 addressDetail={favorite.addressDetail}
                 placeAlias={favorite.placeAlias}

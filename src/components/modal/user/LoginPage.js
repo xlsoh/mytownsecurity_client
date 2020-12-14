@@ -58,12 +58,15 @@ function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
     } else {
       try {
         const {
-          data: { signin: token },
+          data: {
+            signin: { token },
+          },
         } = await loginMutation();
         if (token !== '' || token !== undefined) {
           tokenLoginMutation({ variables: { token } });
           setIsToken(true);
           setUserInfo(data);
+
           // setTimeout(() => {
           //   window.location.reload();
           // }, 2000);
