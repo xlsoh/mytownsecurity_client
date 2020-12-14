@@ -44,7 +44,7 @@ function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
       <AddFavorite userInfo={userInfo} address={data.address} />
       <Map address={data.address} />
       <CrimeRate crime={data.crime} />
-      <Review />
+      <Review userInfo={userInfo} addressId={addressId} />
     </>
   );
 }

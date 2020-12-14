@@ -20,12 +20,12 @@ const ReviewTemplate = styled.div`
   position: relative;
 `;
 
-function Review() {
+function Review({ userInfo, addressId }) {
   return (
-    <ReviewProvider>
+    <ReviewProvider addressId={addressId}>
       <ReviewTemplate>
         <ReviewCreate />
-        <ReviewList />
+        <ReviewList userInfo={userInfo} addressId={addressId} />
       </ReviewTemplate>
     </ReviewProvider>
   );
