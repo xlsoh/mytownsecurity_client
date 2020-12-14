@@ -39,8 +39,8 @@ const Button = styled.button`
 /*쿼리 수정필요 */
 //useMutation
 const EDITPASSWORD = gql`
-  mutation editPassword($userId: Int!, $password: String!) {
-    editPassword(userId: $userId, password: $password)
+  mutation editPassword($id: Int!, $password: String!) {
+    editPassword(id: $id, password: $password)
   }
 `;
 
@@ -50,7 +50,7 @@ function EditInfoPage({ userInfo }) {
   const passConfirmInput = useInput('');
   const [editPasswordMutation] = useMutation(EDITPASSWORD, {
     variables: {
-      userId: userInfo.id,
+      id: userInfo.id,
       password: passInput.value,
     },
   });
@@ -64,7 +64,7 @@ function EditInfoPage({ userInfo }) {
         passConfirmInput.value == ''
       ) {
         alert('Please enter your password!🙌🏻');
-      } else if (userInfo.password == prevpassInput.value) {
+      } else if (userInfo.password !== prevpassInput.value) {
         alert('Please enter your correct password!🤡');
       } else if (passInput.value !== passConfirmInput.value) {
         alert('Please check Password!🤔');

@@ -9,7 +9,11 @@ import SignUp from './signupPage/SignUp';
 
 function App() {
   const [isToken, setIsToken] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({
+    id: 0,
+    email: '123@email.com',
+    password: '123',
+  });
   const [addressId, setAddressId] = useState(0);
 
   return (

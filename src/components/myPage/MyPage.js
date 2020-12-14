@@ -11,15 +11,15 @@ import MyReviewList from './MyReviewList';
 
 /*쿼리 수정 */
 const GET_MYINFO = gql`
-  query getMyInfo($email: String!) {
-    getMyInfo(email: $email)
+  query getMyInfo($id: Int!) {
+    getMyInfo(id: $id)
   }
 `;
 
 function MyPage({ isToken, userInfo }) {
   const { data, loading, error } = useQuery(GET_MYINFO, {
     variables: {
-      userId: userInfo.email,
+      userId: userInfo.id,
     },
   });
 
