@@ -30,9 +30,9 @@ function Map({ address }) {
 
         kakao.maps.event.addListener(map, 'zoom_changed', function () {
           var level = map.getLevel();
-          var message = '현재 지도 레벨은 ' + level + ' 입니다';
-          var resultDiv = document.getElementById('result');
-          resultDiv.innerHTML = message;
+          var message = '현재 지도 레벨: ' + level;
+          var levelDiv = document.getElementById('level');
+          levelDiv.innerHTML = message;
         });
 
         //클러스터러
@@ -42,7 +42,7 @@ function Map({ address }) {
           minLevel: 6,
         });
 
-        //마커
+        //경찰서 마커
         var police_imageSrc = 'https://ifh.cc/g/FWXYgJ.png',
           police_imageSize = new kakao.maps.Size(55, 60),
           police_imageOption = { offset: new kakao.maps.Point(30, 65) };
@@ -93,12 +93,13 @@ function Map({ address }) {
           });
         });
 
+        //cctv 마커
+        var cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png',
+          cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
         var cctv_markers = cctvs.map(function (cctv) {
           if (cctv.카메라대수 >= 1 && cctv.카메라대수 < 3) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(20, 20);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -121,10 +122,7 @@ function Map({ address }) {
               });
             }
           } else if (cctv.카메라대수 >= 3 && cctv.카메라대수 < 6) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(35, 35);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -147,10 +145,7 @@ function Map({ address }) {
               });
             }
           } else if (cctv.카메라대수 >= 6 && cctv.카메라대수 < 10) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(50, 50);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -173,10 +168,7 @@ function Map({ address }) {
               });
             }
           } else if (cctv.카메라대수 >= 10 && cctv.카메라대수 < 20) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(60, 60);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -199,10 +191,7 @@ function Map({ address }) {
               });
             }
           } else {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(70, 70);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -248,9 +237,9 @@ function Map({ address }) {
 
   return (
     <div>
+      <p id='level'></p>
       <MapWrapper>
         <div id='map' style={mapstyle}></div>
-        <p id='result'></p>
       </MapWrapper>
     </div>
   );
