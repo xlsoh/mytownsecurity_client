@@ -10,24 +10,24 @@ import MyFavoriteList from './MyFavoriteList';
 import MyReviewList from './MyReviewList';
 
 /*쿼리 수정 */
-const GET_MYINFO = gql`
-  query getMyInfo($id: Int!) {
-    getMyInfo(id: $id)
-  }
-`;
+// const GET_MYINFO = gql`
+//   query getMyInfo($id: Int!) {
+//     getMyInfo(id: $id)
+//   }
+// `;
 
-function MyPage({ isToken, userInfo }) {
-  const { data, loading, error } = useQuery(GET_MYINFO, {
-    variables: {
-      userId: userInfo.id,
-    },
-  });
+function MyPage({ isToken, userInfo, userContent }) {
+  // const { data, loading, error } = useQuery(GET_MYINFO, {
+  //   variables: {
+  //     userId: userInfo.id,
+  //   },
+  // });
 
-  useEffect(() => {
-    if (!loading && data && data.reviews && data.favorites) {
-      console.log(data.reviews, data.favorites);
-    }
-  }, [loading, data]);
+  // useEffect(() => {
+  //   if (!loading && data && data.reviews && data.favorites) {
+  //     console.log(data.reviews, data.favorites);
+  //   }
+  // }, [loading, data]);
 
   return (
     <>
@@ -44,13 +44,13 @@ function MyPage({ isToken, userInfo }) {
             <br /> <br /> <br />
             내가 찜한 동네
             <hr />
-            <MyFavoriteList data={data} id={userInfo.id} />
+            <MyFavoriteList data={userContent.favorites} id={userInfo.id} />
           </div>
           <br /> <br /> <br />
           <div>
             내가 등록한 리뷰
             <hr />
-            <MyReviewList data={data} id={userInfo.id} />
+            <MyReviewList data={userContent.reviews} id={userInfo.id} />
           </div>
         </>
       )}

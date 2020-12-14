@@ -26,7 +26,14 @@ const CREATE_ADDRESS = gql`
   }
 `;
 
-function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
+function Main({
+  setAddressId,
+  isToken,
+  setIsToken,
+  userInfo,
+  setUserInfo,
+  setUserContent,
+}) {
   //const { setAddressId, isToken, setIsToken, userInfo, setUserInfo } = props;
   const [searchValue, setValue] = useState('');
   const [addressInput, setAddressInput] = useState('');
@@ -169,6 +176,7 @@ function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
         setUserInfo={setUserInfo}
         isToken={isToken}
         setIsToken={setIsToken}
+        setUserContent={setUserContent}
       />
       <input
         className='main_search_input'

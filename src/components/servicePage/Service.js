@@ -16,7 +16,15 @@ const GET_SEARCHEDLOCATION = gql`
   }
 `;
 
-function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
+function Service({
+  isToken,
+  setIsToken,
+  addressId,
+  userInfo,
+  setUserInfo,
+  userContent,
+  setUserContent,
+}) {
   //서버 따라 수정 필요
   //지우기
   const loading = true,
@@ -38,9 +46,14 @@ function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
 
   return (
     <>
-      <ServHeader isToken={isToken} setIsToken={setIsToken} />
+      <ServHeader
+        isToken={isToken}
+        setIsToken={setIsToken}
+        setUserInfo={setUserInfo}
+        setUserContent={setUserContent}
+      />
       <AddFavorite userInfo={userInfo} address={data.address} />
-      <Map address={data.address} />
+      <Map address={data.address} userContent={userContent} />
       <CrimeRate crime={data.crime} />
     </>
   );

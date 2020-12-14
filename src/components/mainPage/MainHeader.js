@@ -26,7 +26,13 @@ const TOKENLOGOUT = gql`
   }
 `;
 
-function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
+function MainHeader({
+  isToken,
+  setIsToken,
+  userInfo,
+  setUserInfo,
+  setUserContent,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
   const token = localStorage.getItem('token');
@@ -66,10 +72,9 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
             </Button>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
               <LoginPage
-                isToken={isToken}
                 setIsToken={setIsToken}
-                userInfo={userInfo}
                 setUserInfo={setUserInfo}
+                setUserContent={setUserContent}
               />
             </Modal>
           </Container>
