@@ -24,6 +24,7 @@ function App() {
     password: '123',
   });
   const [addressId, setAddressId] = useState(0);
+  const [userContent, setUserContent] = useState({});
 
   const localToken = localStorage.getItem('token');
   console.log(localToken);
@@ -64,6 +65,7 @@ function App() {
               setIsToken={setIsToken}
               userInfo={userInfo}
               setUserInfo={setUserInfo}
+              setUserContent={setUserContent}
               setAddressId={setAddressId}
             />
           )}
@@ -78,13 +80,21 @@ function App() {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               addressId={addressId}
+              userContent={userContent}
+              setUserContent={setUserContent}
             />
           )}
         />
         <Route
           exact
           path={`/mypage/:userId`}
-          render={() => <MyPage isToken={isToken} userInfo={userInfo} />}
+          render={() => (
+            <MyPage
+              isToken={isToken}
+              userInfo={userInfo}
+              userContent={userContent}
+            />
+          )}
         />
         <Route
           exact

@@ -34,23 +34,13 @@ const SIGNIN = gql`
         id
         email
       }
+      content {
+        favorites
+        reviews
+      }
     }
   }
 `;
-// favorites {[
-//   {
-//     favoriteId
-//     Y
-//     x
-//   }
-// ]}
-// reviews {[
-//   {
-//    reviewId
-//    Y
-//    X
-//   }
-// ]}
 
 const TOKENLOGIN = gql`
   mutation logUserIn($token: String!) {
@@ -58,7 +48,7 @@ const TOKENLOGIN = gql`
   }
 `;
 
-function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
+function LoginPage({ setIsToken, setUserInfo, setUserContent }) {
   const idInput = useInput('');
   const passInput = useInput('');
   const [loginMutation, { loading, data }] = useMutation(SIGNIN, {
@@ -80,7 +70,8 @@ function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
         if (token !== '' || token !== undefined) {
           tokenLoginMutation({ variables: { token } });
           setIsToken(true);
-          //setUserInfo(data);
+          //setUserInfo(data.user);
+          //setUserContent(data.content);
           console.log(data);
           // setTimeout(() => {
           //   window.location.reload();
