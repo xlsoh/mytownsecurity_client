@@ -1,27 +1,28 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
+import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
+import axios from 'axios';
+import styled from 'styled-components';
+
 import MainHeader from './MainHeader';
 import MainSearchResult from './MainSearchResult';
-import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
 
-//guid 는 어떻게 할지 얘기 필요!!!
 const CREATE_ADDRESS = gql`
   mutation createAddress(
     $detail: String!
     $longitudeY: Float!
     $latitudeX: Float!
+    $gu: String!
   ) {
     createAddress(
       detail: $detail
       longitudeY: $longitudeY
       latitudeX: $latitudeX
+      gu: $gu
     ) {
-      detail
-      longitudeY
-      latitudeX
+      addressId
     }
   }
 `;
@@ -34,7 +35,6 @@ function Main({
   setUserInfo,
   setUserContent,
 }) {
-  //const { setAddressId, isToken, setIsToken, userInfo, setUserInfo } = props;
   const [searchValue, setValue] = useState('');
   const [addressInput, setAddressInput] = useState('');
   const [searchResults, setResults] = useState('');
@@ -51,9 +51,9 @@ function Main({
       },
     }
   );
-  //수정 필요
+
   if (data) {
-    setAddressId(data);
+    setAddressId(data.createAddress.addressId);
   }
 
   useEffect(() => {
@@ -121,7 +121,7 @@ function Main({
       },
     });
 
-    console.log(res);
+    //console.log(res);
 
     return res;
   };

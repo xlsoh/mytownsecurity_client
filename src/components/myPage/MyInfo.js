@@ -35,7 +35,7 @@ function MyInfo({ userInfo }) {
         <div>
           <p>E-mail</p>
           <br />
-          <div>{userInfo.email} email@email.com 처럼 뜨는 곳</div>
+          <div>{userInfo.email}</div>
           <br />
         </div>
         <div>

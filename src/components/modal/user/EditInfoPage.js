@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
@@ -36,49 +36,62 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-/*쿼리 수정필요 */
-//useMutation
 const EDITPASSWORD = gql`
-  mutation editPassword($id: Int!, $password: String!) {
-    editPassword(id: $id, password: $password)
+  mutation editPassword(
+    $id: Int!
+    $prevPassword: String!
+    $newPassword: String!
+  ) {
+    editPassword(
+      id: $id
+      prevPassword: $prevPassword
+      newPassword: $newPassword
+    )
+  }
+`;
+const TOKENLOGOUT = gql`
+  mutation logUserOut($token: String!, $state: Object!) {
+    logUserOut(token: $token, state: $state) @client
   }
 `;
 
 function EditInfoPage({ userInfo }) {
-  const prevpassInput = useInput('');
+  const prevPassInput = useInput('');
   const passInput = useInput('');
   const passConfirmInput = useInput('');
+  const token = localStorage.getItem('token');
+  const state = JSON.parse(localStorage.getItem('state'));
   const [editPasswordMutation] = useMutation(EDITPASSWORD, {
     variables: {
       id: userInfo.id,
-      password: passInput.value,
+      prevPassword: prevPassInput.value,
+      newPassword: passInput.value,
     },
+  });
+  const [tokenLogoutMutation] = useMutation(TOKENLOGOUT, {
+    variables: { token, state },
   });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (
-        prevpassInput.value == '' ||
-        passInput.value == '' ||
-        passConfirmInput.value == ''
-      ) {
-        alert('Please enter your password!🙌🏻');
-      } else if (userInfo.password !== prevpassInput.value) {
-        alert('Please enter your correct password!🤡');
-      } else if (passInput.value !== passConfirmInput.value) {
-        alert('Please check Password!🤔');
-      } else {
-        const { data: editPassword } = await editPasswordMutation();
-        if (editPassword) {
-          alert('Password change was successful!😊');
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+    if (
+      prevPassInput.value == '' ||
+      passInput.value == '' ||
+      passConfirmInput.value == ''
+    ) {
+      alert('Please enter your password!🙌🏻');
+    } else if (passInput.value !== passConfirmInput.value) {
+      alert('Please check Password!🤔');
+    } else {
+      try {
+        const { data } = await editPasswordMutation();
+        if (data) {
+          alert('로그아웃 됩니다. 다시 로그인해 주세요.');
+          tokenLogoutMutation({ variables: { token, state } });
         }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -90,9 +103,9 @@ function EditInfoPage({ userInfo }) {
             <div>
               <a>현재 비밀번호</a>
               <Input
-                type='prevpassword'
+                type='prevPassword'
                 placeholder='비밀번호를 입력해 주세요.'
-                {...prevpassInput}
+                {...prevPassInput}
               />
             </div>
             <div>

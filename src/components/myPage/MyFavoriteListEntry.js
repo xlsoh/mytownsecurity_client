@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
+
+import useInput from '../../hooks/useInput';
 
 const Button = styled.button`
   display: flex;
@@ -20,7 +21,6 @@ const Input = styled.input`
   padding: 10px;
 `;
 
-/*쿼리수정 필요 */
 const EDIT_MYFAVORITE = gql`
   mutation editMyFavorite($id: Int!, $favoriteId: Int!, $placeAlias: String!) {
     editMyFavorite(id: $id, favoriteId: $favoriteId, placeAlias: $placeAlias)

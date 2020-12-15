@@ -1,6 +1,5 @@
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
@@ -9,19 +8,38 @@ import SignUp from './signupPage/SignUp';
 
 function App() {
   const [isToken, setIsToken] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    id: 0,
-    email: '123@email.com',
-    password: '123',
-  });
+  const [userInfo, setUserInfo] = useState({});
   const [addressId, setAddressId] = useState(0);
-  const [userContent, setUserContent] = useState({});
+  const [userContent, setUserContent] = useState({
+    favorites: [],
+    reviews: [],
+  });
+
+  const loggedInToken = localStorage.getItem('token');
+  const loggedInUserInfo = JSON.parse(localStorage.getItem('state'));
+  const loggedInUser = {
+    id: { ...loggedInUserInfo }.id,
+    email: { ...loggedInUserInfo }.email,
+  };
+  const loggedInContent = {
+    favorites: { ...loggedInUserInfo }.favorite,
+    reviews: { ...loggedInUserInfo }.review,
+  };
+
+  useEffect(() => {
+    if (loggedInToken && isToken !== true) {
+      setIsToken(true);
+      setUserInfo(loggedInUser);
+      setUserContent(loggedInContent);
+    }
+  }, [isToken, userInfo]);
 
   return (
     <div>
-      {console.log(isToken)}
-      {console.log(setIsToken)}
-      {console.log(userInfo)}
+      {console.log('isToken', isToken)}
+      {console.log('userInfo', userInfo)}
+      {console.log('addressId', addressId)}
+      {console.log('userContent', userContent)}
       <Switch>
         <Route
           path={`/main`}
@@ -65,7 +83,14 @@ function App() {
         <Route
           exact
           path={`/user/signup`}
-          render={() => <SignUp isToken={isToken} setIsToken={setIsToken} />}
+          render={() => (
+            <SignUp
+              isToken={isToken}
+              setIsToken={setIsToken}
+              setUserInfo={setUserInfo}
+              setUserContent={setUserContent}
+            />
+          )}
         />
         <Route path={`/`} render={() => <Redirect to={`/main`} />} />
       </Switch>

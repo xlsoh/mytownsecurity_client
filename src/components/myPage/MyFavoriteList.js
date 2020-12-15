@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
