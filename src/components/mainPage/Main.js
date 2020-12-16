@@ -1,61 +1,16 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
-import { useMutation } from 'react-apollo-hooks';
-import Modal from '../../styles/Modal';
-//import SearchResultList from './SearchResultList';
+import MainHeader from './MainHeader';
+import SearchInput from '../search/SearchInput';
+import './main.css';
+import '../search/search.css';
+import MainSearchResult from './MainSearchResult';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
-// import './search.css';
-// import Button from '@material-ui/core/Button';
-// import {
-//   makeStyles,
-//   createMuiTheme,
-//   ThemeProvider,
-// } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
-// const useStyles = makeStyles({
-//   root: {
-//     background: '#32e0c4',
-//     border: 0,
-//     borderRadius: 3,
-//     boxShadow: '0 3px 5px 2px rgba(104, 212, 174, .3)',
-//     color: '#212121',
-//     height: 48,
-//     padding: '0 30px',
-//     margin: '10px',
-//     '&:hover': {
-//       backgroundColor: '#0d7377',
-//       color: '#eeeeee',
-//       boxShadow: 'none',
-//     },
-//   },
-// });
-// const useStylesInput = makeStyles((theme) => ({
-//   root: {
-//     display: 'flex',
-//     flexWrap: 'wrap',
-//   },
-//   margin: {
-//     margin: theme.spacing(1),
-//   },
-// }));
-// const theme = createMuiTheme({
-//   palette: {
-//     primary: {
-//       light: '#eeeeee',
-//       main: '#32e0c4',
-//       dark: '#0d7377',
-//       contrastText: '#fff',
-//     },
-//     secondary: {
-//       light: '#ff7961',
-//       main: '#f44336',
-//       dark: '#ba000d',
-//       contrastText: '#000',
-//     },
-//   },
-// });
+
+function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
+
 const CREATE_ADDRESS = gql`
   mutation createAddress(
     $detail: String!
@@ -227,31 +182,16 @@ function SearchInput({ setAddressId }) {
     return true;
   }
   return (
-    <>
-      <div id='search_container'>
-        <ThemeProvider>
-          <TextField
-            label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
-            value={searchValue}
-            onChange={(e) => setValue(e.target.value)}
-            style={{ width: '450px', height: '25px' }}
-          />
-        </ThemeProvider>
-        <Button variant='contained' onClick={() => handleSearch(searchValue)}>
-          검색
-        </Button>
-      </div>
-      {searchResults ? (
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <SearchResultList
-            searchResults={searchResults}
-            handleChecked={handleChecked}
-          />
-        </Modal>
-      ) : (
-        <div>{console.log('검색결과가 비어있습니다')}</div>
-      )}
-    </>
+    <div>
+      <MainHeader
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
+        isToken={isToken}
+        setIsToken={setIsToken}
+      />
+      <SearchInput setAddressId={setAddressId} />
+      <div id='search_background'></div>
+    </div>
   );
 }
-export default withRouter(SearchInput);
+export default withRouter(Main);

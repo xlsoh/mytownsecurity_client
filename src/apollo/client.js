@@ -6,8 +6,9 @@ const defaults = {
 
 const resolvers = {
   Mutation: {
-    logUserIn: (_, { token }, { cache }) => {
+    logUserIn: (_, { token, state }, { cache }) => {
       localStorage.setItem('token', token);
+      localStorage.setItem('state', JSON.stringify(state));
       cache.writeData({
         data: {
           isLoggedIn: true,
@@ -17,8 +18,8 @@ const resolvers = {
     },
     logUserOut: (_, __, { cache }) => {
       localStorage.removeItem('token');
+      localStorage.removeItem('state');
       window.location = '/';
-
       return null;
     },
   },
