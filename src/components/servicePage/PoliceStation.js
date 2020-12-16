@@ -19,6 +19,8 @@ const GET_STATION = gql`
 function PoliceStation(address) {
   const { loading, error, data } = useQuery(GET_STATION);
 
+  console.log(address);
+
   return (
     <>
       {loading && '로딩중입니다.'}
