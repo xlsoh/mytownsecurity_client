@@ -166,7 +166,7 @@ function Main({
     }
     return true;
   }
-
+  
   return (
     <div>
       <MainHeader
@@ -174,7 +174,6 @@ function Main({
         setUserInfo={setUserInfo}
         isToken={isToken}
         setIsToken={setIsToken}
-        setUserContent={setUserContent}
       />
       <SearchInput setAddressId={setAddressId} />
       <div id='search_background'></div>

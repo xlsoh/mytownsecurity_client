@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -10,9 +10,6 @@ const FavoriteWrapper = styled.div`
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   color: #000;
   display: grid;
-  grid-template-columns: 1fr;
-  position: relative;
-  z-index: 2;
   border-radius: 10px;
 `;
 
@@ -21,17 +18,18 @@ function MyFavoriteList({ data, id }) {
     <>
       <FavoriteWrapper>
         {data &&
-          data.favorites &&
-          data.favorites.map((favorite, index) => (
+          data.map((favorite, index) => (
             <Fragment key={index}>
+              <br />
               <MyFavoriteListEntry
                 id={id}
                 favoriteId={favorite.id}
-                addressDetail={favorite.addressDetail}
-                placeAlias={favorite.placeAlias}
+                addressDetail={favorite.postedAt.detail}
+                aliasInput={favorite.aliasInput}
                 createdAt={favorite.createdAt}
                 updatedAt={favorite.updatedAt}
               />
+              <br />
               <hr />
             </Fragment>
           ))}

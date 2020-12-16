@@ -8,12 +8,12 @@ import EditInfoPage from '../modal/user/EditInfoPage';
 const InfoWrapper = styled.div`
   width: 100%;
   padding: 20px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.2);
   color: #000;
   display: grid;
   grid-template-columns: 1fr;
   position: relative;
-  z-index: 2;
+  z-index: 1;
   border-radius: 10px;
 `;
 
@@ -35,7 +35,7 @@ function MyInfo({ userInfo }) {
         <div>
           <p>E-mail</p>
           <br />
-          <div>{userInfo.email} email@email.com 처럼 뜨는 곳</div>
+          <div>{userInfo.email}</div>
           <br />
         </div>
         <div>

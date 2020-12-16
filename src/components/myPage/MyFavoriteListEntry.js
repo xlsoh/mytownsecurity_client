@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
+
+import useInput from '../../hooks/useInput';
 
 const Button = styled.button`
   display: flex;
@@ -20,38 +21,34 @@ const Input = styled.input`
   padding: 10px;
 `;
 
-/*쿼리수정 필요 */
 const EDIT_MYFAVORITE = gql`
-  mutation editMyFavorite($id: Int!, $favoriteId: Int!, $placeAlias: String!) {
-    editMyFavorite(id: $id, favoriteId: $favoriteId, placeAlias: $placeAlias)
+  mutation editMyFavorite($favoriteId: ID!, $aliasInput: String!) {
+    editMyFavorite(favoriteId: $favoriteId, aliasInput: $aliasInput)
   }
 `;
 const DELETE_MYFAVORITE = gql`
-  mutation deleteMyFavorite($id: Int!, $favoriteId: Int!) {
-    deleteMyFavorite(id: $id, favoriteId: $favoriteId)
+  mutation deleteMyFavorite($favoriteId: ID!) {
+    deleteMyFavorite(favoriteId: $favoriteId)
   }
 `;
 
 function MyFavoriteListEntry({
-  id,
   favoriteId,
   addressDetail,
-  placeAlias,
+  aliasInput,
   createdAt,
   updatedAt,
 }) {
   const [viewForm, setViewForm] = useState(false);
-  const newPlaceAliasInput = useInput(placeAlias);
+  const newPlaceAliasInput = useInput(aliasInput);
   const [editMyFavoriteMutation] = useMutation(EDIT_MYFAVORITE, {
     variables: {
-      id: id,
       favoriteId: favoriteId,
-      placeAlias: newPlaceAliasInput.value,
+      aliasInput: newPlaceAliasInput.value,
     },
   });
   const [deleteMyFavoriteMutation] = useMutation(DELETE_MYFAVORITE, {
     variables: {
-      id: id,
       favoriteId: favoriteId,
     },
   });
@@ -60,34 +57,30 @@ function MyFavoriteListEntry({
     e.preventDefault();
     try {
       if (newPlaceAliasInput.value == '') {
-        alert('Please Enter your new Alias!😭');
-      } else if (placeAlias == newPlaceAliasInput.value) {
-        alert('Are you sure? Nothing changed!😱');
+        alert('새로운 별칭을 입력해주세요.');
+      } else if (aliasInput == newPlaceAliasInput.value) {
+        alert('변경사항이 없습니다. 다시 입력해 주세요.');
       } else {
         const { data: editMyFavorite } = await editMyFavoriteMutation();
         if (editMyFavorite) {
-          alert('The modification was successful!😄');
-          // setTimeout(() => {
-          //   const history = useHistory();
-          //   history.go(0);
-          //   window.location.reload();
-          // }, 2000);
+          alert('찜이 수정되었습니다.');
+          window.location.reload();
         }
       }
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
       <div>
         <p>주소</p>
-        {addressDetail`주소가 생길 곳`}
+        {addressDetail}
+        <br />
         <p>별칭</p>
         {!viewForm && (
           <>
-            {placeAlias`별칭이 생길 곳`}
+            {aliasInput}
             <Button
               onClick={() => {
                 setViewForm(true);
@@ -100,16 +93,24 @@ function MyFavoriteListEntry({
         <form onSubmit={onSubmit}>
           {viewForm && (
             <>
-              <Input type='placeAlias' {...newPlaceAliasInput} />
+              <Input type='aliasInput' {...newPlaceAliasInput} />
               <Button>수정</Button>
             </>
           )}
-          <Button onClick={() => deleteMyFavoriteMutation()}>삭제</Button>
         </form>
+        <Button
+          onClick={() => {
+            deleteMyFavoriteMutation();
+            window.location.reload();
+          }}
+        >
+          삭제
+        </Button>
+
         <p>생성일</p>
-        {createdAt`생성일이 생길 곳`}
+        {createdAt}
         <p>수정일</p>
-        {updatedAt`수정일이 생길 곳`}
+        {updatedAt}
       </div>
     </>
   );
