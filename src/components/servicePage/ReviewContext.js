@@ -1,4 +1,6 @@
 import React, { useReducer, createContext, useContext, useRef } from 'react';
+import { gql } from 'apollo-boost';
+import { useQuery } from 'react-apollo-hooks';
 
 const ReviewStateContext = createContext(null);
 const ReviewDispatchContext = createContext(null);
@@ -46,13 +48,13 @@ function ReviewReducer(state, action) {
 
 export function ReviewProvider({ addressId, children }) {
   //서버 통신에 맞춰 수정 필요!
-  const { data, loading, error } = useQuery(GET_REVIEWS, {
-    variables: {
-      addressId: addressId.id,
-    },
-  });
+  // const { data, loading, error } = useQuery(GET_REVIEWS, {
+  //   variables: {
+  //     addressId: addressId.id,
+  //   },
+  // });
 
-  const [state, dispatch] = useReducer(ReviewReducer, data); // 서버에서 받는 데이터 값 확인 후 수정 필요!!
+  const [state, dispatch] = useReducer(ReviewReducer, initialReviews); // 서버에서 받는 데이터 값 확인 후 수정 필요!!
   const nextId = useRef(5);
 
   return (

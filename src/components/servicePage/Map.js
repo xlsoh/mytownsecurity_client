@@ -3,11 +3,12 @@ import { useEffect } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../styles/Map.css';
-import { policeStations } from '../../data/policeStation';
+//import { policeStations } from '../../data/policeStation';
 import { cctvs } from '../../data/cctv';
+import Axios from 'axios';
 const { kakao } = window;
 
-function Map({ address }) {
+function Map({ address, policeStations }) {
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -20,6 +21,25 @@ function Map({ address }) {
         let map = new kakao.maps.Map(el, {
           //center: new kakao.maps.LatLng(address.longitudeY, address.latitudeX), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
           center: new kakao.maps.LatLng(37.56107588, 126.995346),
+          level: 3,
+        });
+
+        //줌 컨트롤러
+        var zoomControl = new kakao.maps.ZoomControl();
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+        kakao.maps.event.addListener(map, 'zoom_changed', function () {
+          var level = map.getLevel();
+          var message = '현재 지도 레벨은 ' + level + ' 입니다';
+          var resultDiv = document.getElementById('result');
+          resultDiv.innerHTML = message;
+        });
+
+        //클러스터러
+        var clusterer = new kakao.maps.MarkerClusterer({
+          map: map,
+          averageCenter: true,
+          minLevel: 6,
         });
 
         //마커
@@ -33,7 +53,7 @@ function Map({ address }) {
           police_imageOption
         );
 
-        policeStations.forEach(function (policeStation) {
+        policeStations.map(function (policeStation) {
           var police_marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(policeStation.Y, policeStation.X),
             title: policeStation.stationName,
@@ -72,12 +92,8 @@ function Map({ address }) {
             overlay.setMap(map);
           });
         });
-        var clusterer = new kakao.maps.MarkerClusterer({
-          map: map,
-          averageCenter: true,
-          minLevel: 8,
-        });
-        cctvs.forEach(function (cctv) {
+
+        var cctv_markers = cctvs.map(function (cctv) {
           if (cctv.카메라대수 >= 1 && cctv.카메라대수 < 3) {
             let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(20, 20);
@@ -88,24 +104,22 @@ function Map({ address }) {
               cctv_imageSize,
               cctv_imageOption
             );
-
-            let cctv_marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
-              title: cctv.소재지도로명주소,
-              image: cctv_markerImage,
-            });
-            cctv_marker.setMap(map);
-            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
-            let infowindow = new kakao.maps.InfoWindow({
-              content: iwContent,
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
-              infowindow.open(map, cctv_marker);
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
-              infowindow.close();
-            });
-            clusterer.addMarkers(cctv_marker);
+            if (
+              cctv.소재지도로명주소 === '' ||
+              cctv.소재지도로명주소 === '없음'
+            ) {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: 등록되지 않음`,
+                image: cctv_markerImage,
+              });
+            } else {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: ${cctv.소재지도로명주소}`,
+                image: cctv_markerImage,
+              });
+            }
           } else if (cctv.카메라대수 >= 3 && cctv.카메라대수 < 6) {
             let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(35, 35);
@@ -116,24 +130,22 @@ function Map({ address }) {
               cctv_imageSize,
               cctv_imageOption
             );
-
-            let cctv_marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
-              title: cctv.소재지도로명주소,
-              image: cctv_markerImage,
-            });
-            cctv_marker.setMap(map);
-            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
-            let infowindow = new kakao.maps.InfoWindow({
-              content: iwContent,
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
-              infowindow.open(map, cctv_marker);
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
-              infowindow.close();
-            });
-            clusterer.addMarkers(cctv_marker);
+            if (
+              cctv.소재지도로명주소 === '' ||
+              cctv.소재지도로명주소 === '없음'
+            ) {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: 등록되지 않음`,
+                image: cctv_markerImage,
+              });
+            } else {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: ${cctv.소재지도로명주소}`,
+                image: cctv_markerImage,
+              });
+            }
           } else if (cctv.카메라대수 >= 6 && cctv.카메라대수 < 10) {
             let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(50, 50);
@@ -144,24 +156,22 @@ function Map({ address }) {
               cctv_imageSize,
               cctv_imageOption
             );
-
-            let cctv_marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
-              title: cctv.소재지도로명주소,
-              image: cctv_markerImage,
-            });
-            cctv_marker.setMap(map);
-            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
-            let infowindow = new kakao.maps.InfoWindow({
-              content: iwContent,
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
-              infowindow.open(map, cctv_marker);
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
-              infowindow.close();
-            });
-            clusterer.addMarkers(cctv_marker);
+            if (
+              cctv.소재지도로명주소 === '' ||
+              cctv.소재지도로명주소 === '없음'
+            ) {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: 등록되지 않음`,
+                image: cctv_markerImage,
+              });
+            } else {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: ${cctv.소재지도로명주소}`,
+                image: cctv_markerImage,
+              });
+            }
           } else if (cctv.카메라대수 >= 10 && cctv.카메라대수 < 20) {
             let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(60, 60);
@@ -172,24 +182,22 @@ function Map({ address }) {
               cctv_imageSize,
               cctv_imageOption
             );
-
-            let cctv_marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
-              title: cctv.소재지도로명주소,
-              image: cctv_markerImage,
-            });
-            cctv_marker.setMap(map);
-            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
-            let infowindow = new kakao.maps.InfoWindow({
-              content: iwContent,
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
-              infowindow.open(map, cctv_marker);
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
-              infowindow.close();
-            });
-            clusterer.addMarkers(cctv_marker);
+            if (
+              cctv.소재지도로명주소 === '' ||
+              cctv.소재지도로명주소 === '없음'
+            ) {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: 등록되지 않음`,
+                image: cctv_markerImage,
+              });
+            } else {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: ${cctv.소재지도로명주소}`,
+                image: cctv_markerImage,
+              });
+            }
           } else {
             let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(70, 70);
@@ -200,32 +208,25 @@ function Map({ address }) {
               cctv_imageSize,
               cctv_imageOption
             );
-
-            let cctv_marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
-              title: cctv.소재지도로명주소,
-              image: cctv_markerImage,
-            });
-            cctv_marker.setMap(map);
-            let iwContent = `<div style="padding:5px;">${cctv.카메라대수}대</div>`;
-            let infowindow = new kakao.maps.InfoWindow({
-              content: iwContent,
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseover', function () {
-              infowindow.open(map, cctv_marker);
-            });
-            kakao.maps.event.addListener(cctv_marker, 'mouseout', function () {
-              infowindow.close();
-            });
-            clusterer.addMarkers(cctv_marker);
-            //   var clusterer = new kakao.maps.MarkerClusterer({
-            //     map: map,
-            //     averageCenter: true,
-            //     minLevel: 10
-            // });
-            // clusterer.addMarkers(markers);
+            if (
+              cctv.소재지도로명주소 === '' ||
+              cctv.소재지도로명주소 === '없음'
+            ) {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: 등록되지 않음`,
+                image: cctv_markerImage,
+              });
+            } else {
+              return new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(cctv.위도, cctv.경도),
+                title: `카메라대수: ${cctv.카메라대수}\n설치목적구분: ${cctv.설치목적구분}\n소재지: ${cctv.소재지도로명주소}`,
+                image: cctv_markerImage,
+              });
+            }
           }
         });
+        clusterer.addMarkers(cctv_markers);
       });
     };
   });
@@ -249,6 +250,7 @@ function Map({ address }) {
     <div>
       <MapWrapper>
         <div id='map' style={mapstyle}></div>
+        <p id='result'></p>
       </MapWrapper>
     </div>
   );

@@ -31,11 +31,26 @@ const SIGNIN = gql`
     signin(email: $email, password: $password) {
       token
       user {
+        id
         email
       }
     }
   }
 `;
+// favorites {[
+//   {
+//     favoriteId
+//     Y
+//     x
+//   }
+// ]}
+// reviews {[
+//   {
+//    reviewId
+//    Y
+//    X
+//   }
+// ]}
 
 const TOKENLOGIN = gql`
   mutation logUserIn($token: String!) {
@@ -65,8 +80,8 @@ function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
         if (token !== '' || token !== undefined) {
           tokenLoginMutation({ variables: { token } });
           setIsToken(true);
-          setUserInfo(data);
-
+          //setUserInfo(data);
+          console.log(data);
           // setTimeout(() => {
           //   window.location.reload();
           // }, 2000);
@@ -96,7 +111,7 @@ function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
                     {...passInput}
                     type={'password'}
                   ></LoginInput>
-                  <form onSubmit={onSubmit}></form>
+                  {/* <form onSubmit={onSubmit}></form> */}
                   <LoginButton text='Log in'></LoginButton>
                 </form>
               </div>

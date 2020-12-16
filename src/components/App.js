@@ -18,7 +18,11 @@ const GET_USERINFO_BYTOKEN = gql`
 
 function App() {
   const [isToken, setIsToken] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({
+    id: 0,
+    email: '123@email.com',
+    password: '123',
+  });
   const [addressId, setAddressId] = useState(0);
 
   const localToken = localStorage.getItem('token');
@@ -30,22 +34,22 @@ function App() {
     },
     skip: !localToken,
   });
-  useEffect(() => {
-    if (localToken) {
-      if (data.token) {
-        setIsToken(true);
-        setUserInfo(data);
+  // useEffect(() => {
+  //   if (localToken) {
+  //     if (data.token) {
+  //       //  setIsToken(true);
+  //       setUserInfo(data);
 
-        //reload 필요한지 확인하기
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
-    } else {
-      setIsToken(false);
-      return;
-    }
-  }, [isToken]);
+  //       //reload 필요한지 확인하기
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 2000);
+  //     }
+  //   } else {
+  //     setIsToken(false);
+  //     return;
+  //   }
+  // }, [isToken]);
 
   return (
     <div>
@@ -79,7 +83,7 @@ function App() {
         />
         <Route
           exact
-          path={`/mypage/:userId`}
+          path={`/mypage/:`}
           render={() => <MyPage isToken={isToken} userInfo={userInfo} />}
         />
         <Route

@@ -66,9 +66,8 @@ function ReviewListEntry({ id, done, text, rating, userInfo, addressId }) {
         starDimension='25px'
         starSpacing='2.5px'
       />
-      <Remove onClick={onRemove}>
-        <MdDelete />
-      </Remove>
+      {console.log(id)}
+      <Remove onClick={onRemove}>{userInfo === id && <MdDelete />}</Remove>
     </ReviewItemBlock>
   );
 }
