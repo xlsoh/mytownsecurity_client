@@ -5,6 +5,7 @@ import './main.css';
 import '../search/search.css';
 
 function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
+
   return (
     <>
       <MainHeader

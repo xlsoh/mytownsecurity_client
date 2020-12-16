@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
+
 import ServHeader from './ServHeader';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
-import Map from './Map';
 import Review from './Review';
 import SearchInput from '../search/SearchInput';
+import MapIntro from './MapIntro';
 
-/*쿼리 수정필요 */
-//useQuery
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
     getSearchedLocation(addressId: $addressId) {
@@ -31,26 +30,6 @@ const GET_SEARCHEDLOCATION = gql`
     }
   }
 `;
-// PoliceStation 불러오기.
-const GET_STATION = gql`
-  query getStation {
-    getStation {
-      id
-      X
-      Y
-      stationName
-      stationAddress
-    }
-  }
-`;
-
-
-function getStation() {
-  const { loading, error, data } = useQuery(GET_STATION);
-  let arrOfStation = Object.values(data.getStation);
-  return arrOfStation;
-}
-
 
 function Service({
   isToken,
@@ -65,7 +44,6 @@ function Service({
 }) {
   //서버 따라 수정 필요
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
-    // skip: !data,
     variables: { addressId },
   });
   
@@ -75,9 +53,6 @@ function Service({
       crime: '',
     };
 
-  const policeStations = getStation();
-
-
   if (loading) {
     return <div>...loading</div>;
   }
@@ -85,13 +60,21 @@ function Service({
   console.log(data.getSearchedLocation.address);
   console.log(data.getSearchedLocation.crime);
 
+//   const address = {
+//     id: 'ckir2cp2wa84y09991zez6kyb',
+//     detail: '서울특별시 서초구 남부순환로 2604 (양재동)',
+//     X: 958927.1262997636,
+//     Y: 1942909.9232516368,
+//   };
+//   const crime = {};
+  
   return (
     <>
       <ServHeader
         isToken={isToken}
         setIsToken={setIsToken}
         setUserInfo={setUserInfo}
-        setUserContent={setUserContent}
+        userInfo={userInfo}
       />
       <SearchInput addressId={addressId} setAddressId={setAddressId}/>
       <AddFavorite userInfo={userInfo}  address={data.getSearchedLocation.address} />

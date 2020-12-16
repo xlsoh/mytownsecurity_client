@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Pagination } from '@material-ui/lab';
 import { Box, List, ListItem } from '@chakra-ui/react';
+
 import UsePagination from '../../hooks/Pagenation';
 import { API_KEY_LOCATION } from '../../config';
 import proj4 from 'proj4';
@@ -77,6 +78,7 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
         <List p='10' pt='3' spacing={5}>
           {_DATA.currentData().map((elem, idx) => (
             <ListItem key={idx}>
+              {console.log(elem.gitroadAddr)}
               <input
                 type='radio'
                 checked={checkedAddress === elem.roadAddr}

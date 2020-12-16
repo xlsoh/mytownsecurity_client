@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { gql } from 'apollo-boost';
-import { useQuery } from 'react-apollo-hooks';
 import styled from 'styled-components';
 
 const CrimeWrapper = styled.div`

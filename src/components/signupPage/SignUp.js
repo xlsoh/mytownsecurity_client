@@ -2,9 +2,9 @@ import React from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
+import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
-import styled from 'styled-components';
 
 const Background = styled.div`
   width: 100%;
@@ -36,15 +36,25 @@ const SignupInput = styled.input`
   font-size: 16px;
 `;
 
-/*쿼리 수정필요 */
-//useMutation
 const SIGNUP = gql`
   mutation signup($email: String!, $password: String!) {
-    signup(email: $email, password: $password)
+    signup(email: $email, password: $password) {
+      token
+      user {
+        id
+        email
+      }
+    }
   }
 `;
 
-function SignUp({ isToken, setIsToken }) {
+const TOKENLOGIN = gql`
+  mutation logUserIn($token: String!, $state: Object!) {
+    logUserIn(token: $token, state: $state) @client
+  }
+`;
+
+function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
   const history = useHistory();
   const idInput = useInput('');
   const passInput = useInput('');
@@ -56,26 +66,39 @@ function SignUp({ isToken, setIsToken }) {
     },
   });
 
+  const [tokenLoginMutation] = useMutation(TOKENLOGIN);
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (
-        idInput.value !== '' &&
-        passInput.value !== '' &&
-        passConfirmInput.value !== ''
-      ) {
-        if (passInput.value !== passConfirmInput.value) {
-          alert('Please Check Password');
-        } else {
-          const { data: signup } = await signUpMutation();
-          if (signup) {
-            alert('Welocom to myTownSecurity');
-            history.push('/');
-          }
+    if (
+      idInput.value == '' ||
+      passInput.value == '' ||
+      passConfirmInput.value == ''
+    ) {
+      alert('이메일과 비밀번호를 입력해주세요.');
+    } else if (passInput.value !== passConfirmInput.value) {
+      alert('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.');
+    } else {
+      try {
+        const {
+          data: {
+            signup: { token, user },
+          },
+        } = await signUpMutation();
+        if (token !== '' || token !== undefined) {
+          alert('안전궁금해의 회원이 되신걸 환영합니다!');
+          const getUser = {
+            id: user.id,
+            email: user.email,
+          };
+          tokenLoginMutation({ variables: { token: token, state: getUser } });
+          setIsToken(true);
+          setUserInfo(getUser);
+          history.push('/');
         }
+      } catch (error) {
+        alert(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 

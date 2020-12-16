@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
+import ReviewRating from './ReviewRating';
 
 const Button = styled.button`
   display: flex;
@@ -20,23 +21,18 @@ const Input = styled.input`
 `;
 
 const EDIT_MYREVIEW = gql`
-  mutation editMyReview(
-    $id: Int!
-    $reviewId: Int!
-    $rating: Int
-    $text: String
-  ) {
-    editMyReview(id: $id, reviewId: $reviewId, rating: $rating, text: $text)
+  mutation editMyReview($reviewId: ID!, $rating: Int!, $text: String!) {
+    editMyReview(reviewId: $reviewId, rating: $rating, text: $text)
   }
 `;
+
 const DELETE_MYREVIEW = gql`
-  mutation deleteMyReview($id: Int!, $ReviewId: Int!) {
-    deleteMyReview(id: $id, ReviewId: $ReviewId)
+  mutation deleteMyReview($reviewId: ID!) {
+    deleteMyReview(reviewId: $reviewId)
   }
 `;
 
 function MyReviewListEntry({
-  id,
   reviewId,
   text,
   rating,
@@ -46,39 +42,33 @@ function MyReviewListEntry({
 }) {
   const [viewForm1, setViewForm1] = useState(false);
   const [viewForm2, setViewForm2] = useState(false);
-  const newGradeInput = useInput(rating);
+  const [newRating, setNewRating] = useState(rating);
   const newTextInput = useInput(text);
   const [editMyReviewMutation] = useMutation(EDIT_MYREVIEW, {
     variables: {
-      id: id,
       reviewId: reviewId,
-      rating: newGradeInput.value,
+      rating: newRating,
       text: newTextInput.value,
     },
   });
   const [deleteMyReviewMutation] = useMutation(DELETE_MYREVIEW, {
     variables: {
-      id: id,
-      ReviewId: ReviewId,
+      reviewId: reviewId,
     },
   });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (newGradeInput.value == '') {
-        alert('Please Enter your new Grade!😭');
-      } else if (newTextInput.value == '') {
-        alert('Please Enter your new Text!😭');
+      if (newTextInput.value == '') {
+        alert('내용을 입력해 주세요.');
+      } else if (newTextInput.value == text) {
+        alert('변경사항이 없습니다. 다시 입력해 주세요.');
       } else {
         const { data: editMyReview } = await editMyReviewMutation();
         if (editMyReview) {
-          alert('The modification was successful!😄');
-          // setTimeout(() => {
-          //   const history = useHistory();
-          //   history.go(0);
-          //   window.location.reload();
-          // }, 2000);
+          alert('리뷰가 수정되었습니다.');
+          window.location.reload();
         }
       }
     } catch (error) {
@@ -86,30 +76,27 @@ function MyReviewListEntry({
     }
   };
 
+  useEffect(() => {
+    editMyReviewMutation();
+  }, [newRating]);
+
   return (
     <>
       <div>
+        {console.log('prevRating', rating)}
+        {console.log('newRating', newRating)}
         <p>주소</p>
-        {addressDetail`주소가 생길 곳`}
+        {addressDetail}
+        <br />
         <p>별점</p>
-        {!viewForm1 && (
-          <>
-            <ReviewRating rating={rating} />
-            <Button onClick={() => setViewForm1(true)}>수정</Button>
-          </>
-        )}
         <form onSubmit={onSubmit}>
-          {viewForm1 && (
-            <>
-              <Input type='grade' {...newGradeInput} />
-              <Button>수정</Button>
-            </>
-          )}
+          <ReviewRating rating={rating} setNewRating={setNewRating} />
         </form>
+        <br />
         <p>리뷰</p>
         {!viewForm2 && (
           <>
-            {text`리뷰가 생길 곳`}
+            {text}
             <Button onClick={() => setViewForm2(true)}>수정</Button>
           </>
         )}
@@ -122,10 +109,17 @@ function MyReviewListEntry({
           )}
         </form>
         <p>생성일</p>
-        {createdAt`생성일이 생길 곳`}
+        {createdAt}
         <p>수정일</p>
-        {updatedAt`수정일이 생길 곳`}
-        <Button onClick={() => deleteMyReviewMutation()}>삭제</Button>
+        {updatedAt}
+        <Button
+          onClick={() => {
+            deleteMyReviewMutation();
+            window.location.reload();
+          }}
+        >
+          삭제
+        </Button>
       </div>
     </>
   );
