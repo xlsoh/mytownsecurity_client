@@ -61,11 +61,17 @@ import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
 // });
 
 const CREATE_ADDRESS = gql`
-createAddress($detail: String!, $gu: String!, $rn: String!, $Y: Float!, $X: Float!) {
-  createAddress(detail: $detail, gu: $gu, rn: $rn Y: $Y, X: $X) {
-    id
+  mutation createAddress(
+    $detail: String!
+    $gu: String!
+    $rn: String!
+    $Y: Float!
+    $X: Float!
+  ) {
+    createAddress(detail: $detail, gu: $gu, rn: $rn, Y: $Y, X: $X) {
+      id
+    }
   }
-}
 `;
 
 function SearchInput({ setAddressId }) {
@@ -78,8 +84,8 @@ function SearchInput({ setAddressId }) {
   const [rn, setRn] = useState('');
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  const classes = useStyles();
-  const inputClasses = useStylesInput();
+  // const classes = useStyles();
+  // const inputClasses = useStylesInput();
 
   const [createAddress, { data, loading, error }] = useMutation(
     CREATE_ADDRESS,
@@ -242,20 +248,15 @@ function SearchInput({ setAddressId }) {
   return (
     <>
       <div id='search_container'>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider>
           <TextField
-            className={inputClasses.margin}
             label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
             value={searchValue}
             onChange={(e) => setValue(e.target.value)}
             style={{ width: '450px', height: '25px' }}
           />
         </ThemeProvider>
-        <Button
-          className={classes.root}
-          variant='contained'
-          onClick={() => handleSearch(searchValue)}
-        >
+        <Button variant='contained' onClick={() => handleSearch(searchValue)}>
           검색
         </Button>
       </div>
