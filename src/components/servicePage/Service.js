@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-
 import ServHeader from './ServHeader';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
 import Map from './Map';
+import Review from './Review';
 import SearchInput from '../search/SearchInput';
 
 /*쿼리 수정필요 */
@@ -17,7 +17,15 @@ const GET_SEARCHEDLOCATION = gql`
   }
 `;
 
-function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
+function Service({
+  isToken,
+  setIsToken,
+  addressId,
+  userInfo,
+  setUserInfo,
+  userContent,
+  setUserContent,
+}) {
   //서버 따라 수정 필요
   //지우기
   const loading = true,
@@ -39,13 +47,18 @@ function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
 
   return (
     <>
-      <ServHeader isToken={isToken} setIsToken={setIsToken} />
+      <ServHeader
+        isToken={isToken}
+        setIsToken={setIsToken}
+        setUserInfo={setUserInfo}
+        setUserContent={setUserContent}
+      />
       <SearchInput addressId={addressId} />
       <AddFavorite userInfo={userInfo} address={data.address} />
-      <Map address={data.address} />
+      <Map address={data.address} userContent={userContent} />
       <CrimeRate crime={data.crime} />
+      <Review />
     </>
   );
 }
-
 export default withRouter(Service);

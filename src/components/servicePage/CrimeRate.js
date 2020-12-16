@@ -12,8 +12,9 @@ const CrimeWrapper = styled.div`
   grid-template-columns: 1fr;
   position: relative;
   z-index: 2;
-  border-radius: 10px;
+  border-radius: 5px;
   background: #fff;
+  padding: 5px;
   margin: 5px;
 `;
 
