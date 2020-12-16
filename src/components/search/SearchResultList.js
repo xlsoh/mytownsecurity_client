@@ -26,7 +26,7 @@ function SearchResultList({ searchResults, handleChecked }) {
         <List p='10' pt='3' spacing={5}>
           {_DATA.currentData().map((elem, idx) => (
             <ListItem key={idx}>
-              {console.log(elem.roadAddr)}
+              {console.log(elem.gitroadAddr)}
               <input
                 type='radio'
                 checked={checkedAddress === elem.roadAddr}
