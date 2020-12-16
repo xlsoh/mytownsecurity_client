@@ -7,67 +7,19 @@ import SearchResultList from './SearchResultList';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
 
-// import './search.css';
-// import Button from '@material-ui/core/Button';
-// import {
-//   makeStyles,
-//   createMuiTheme,
-//   ThemeProvider,
-// } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
-
-// const useStyles = makeStyles({
-//   root: {
-//     background: '#32e0c4',
-//     border: 0,
-//     borderRadius: 3,
-//     boxShadow: '0 3px 5px 2px rgba(104, 212, 174, .3)',
-//     color: '#212121',
-//     height: 48,
-//     padding: '0 30px',
-//     margin: '10px',
-//     '&:hover': {
-//       backgroundColor: '#0d7377',
-//       color: '#eeeeee',
-//       boxShadow: 'none',
-//     },
-//   },
-// });
-// const useStylesInput = makeStyles((theme) => ({
-//   root: {
-//     display: 'flex',
-//     flexWrap: 'wrap',
-//   },
-//   margin: {
-//     margin: theme.spacing(1),
-//   },
-// }));
-
-// const theme = createMuiTheme({
-//   palette: {
-//     primary: {
-//       light: '#eeeeee',
-//       main: '#32e0c4',
-//       dark: '#0d7377',
-//       contrastText: '#fff',
-//     },
-//     secondary: {
-//       light: '#ff7961',
-//       main: '#f44336',
-//       dark: '#ba000d',
-//       contrastText: '#000',
-//     },
-//   },
-// });
-
 const CREATE_ADDRESS = gql`
-createAddress($detail: String!, $gu: String!, $rn: String!, $Y: Float!, $X: Float!) {
-  createAddress(detail: $detail, gu: $gu, rn: $rn Y: $Y, X: $X) {
-    id
+  mutation createAddress(
+    $detail: String!
+    $gu: String!
+    $rn: String!
+    $Y: Float!
+    $X: Float!
+  ) {
+    createAddress(detail: $detail, gu: $gu, rn: $rn, Y: $Y, X: $X) {
+      id
+    }
   }
-}
 `;
-
 function SearchInput({ setAddressId }) {
   const [searchValue, setValue] = useState('');
   const [addressInput, setAddressInput] = useState('');
@@ -78,8 +30,6 @@ function SearchInput({ setAddressId }) {
   const [rn, setRn] = useState('');
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  const classes = useStyles();
-  const inputClasses = useStylesInput();
 
   const [createAddress, { data, loading, error }] = useMutation(
     CREATE_ADDRESS,
@@ -97,12 +47,10 @@ function SearchInput({ setAddressId }) {
   useEffect(() => {
     fetchData().then((res) => setResults(res.data.results.juso));
   }, [addressInput]);
-
   const handleSearch = (input) => {
     setIsOpen(true);
     setAddressInput(input);
   };
-
   //선택버튼
   const handleChecked = async (addrObj) => {
     console.log(addrObj);
@@ -117,34 +65,29 @@ function SearchInput({ setAddressId }) {
       siNm,
       rn,
     } = addrObj;
-
     if (siNm !== '서울특별시') {
       alert('죄송합니다. 현재는 서울 지역만 서비스하는 중입니다 🙏🏼');
       return;
     }
-
     setValue(roadAddr);
     setAddressInput(roadAddr);
     setAddrLocation({ admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno });
     setGu(ssgNm);
     setRn(rn);
-
     //서버에서 검색한 주소의 id 받아오기 - 서버랑 연동 확인 필요
     const {
-      data: { addressId },
+      data: {
+        createAddress: { id },
+      },
     } = await createAddress();
-
-    if (addressId) {
-      console.log(addressId);
-      setAddressId(addressId);
+    if (id) {
+      console.log(id);
+      setAddressId(id);
     }
-
     history.push(`/address/:addressId`);
-
     //서버 연동 확인되면 사용!
     //history.push(`/address/${addressId}`);
   };
-
   useEffect(() => {
     fetchLocation().then((res) => {
       if (res.data.results.juso) {
@@ -156,7 +99,6 @@ function SearchInput({ setAddressId }) {
       }
     });
   }, [addrLocatoin]);
-
   const fetchLocation = async () => {
     const { admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno } = addrLocatoin;
     const resLocation = await axios(
@@ -175,7 +117,6 @@ function SearchInput({ setAddressId }) {
     );
     return resLocation;
   };
-
   const fetchData = async () => {
     let obj = {};
     obj.value = addressInput;
@@ -192,12 +133,9 @@ function SearchInput({ setAddressId }) {
         resultType: 'json',
       },
     });
-
     //console.log(res);
-
     return res;
   };
-
   //특수문자, 특정문자열(sql예약어의 앞뒤공백포함) 제거
   function checkSearchedWord(obj) {
     if (obj.value.length > 0) {
@@ -238,26 +176,19 @@ function SearchInput({ setAddressId }) {
     }
     return true;
   }
-
   return (
     <>
       <div id='search_container'>
-        <ThemeProvider theme={theme}>
-          <TextField
-            className={inputClasses.margin}
-            label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
-            value={searchValue}
-            onChange={(e) => setValue(e.target.value)}
-            style={{ width: '450px', height: '25px' }}
-          />
-        </ThemeProvider>
-        <Button
-          className={classes.root}
-          variant='contained'
-          onClick={() => handleSearch(searchValue)}
-        >
+        <input
+          label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
+          value={searchValue}
+          onChange={(e) => setValue(e.target.value)}
+          style={{ width: '450px', height: '25px' }}
+        />
+
+        <button variant='contained' onClick={() => handleSearch(searchValue)}>
           검색
-        </Button>
+        </button>
       </div>
       {searchResults ? (
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>

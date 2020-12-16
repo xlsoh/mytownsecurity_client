@@ -33,9 +33,6 @@ const SIGNIN = gql`
       user {
         id
         email
-        favorite
-        review
-        content
       }
     }
   }
@@ -47,7 +44,7 @@ const TOKENLOGIN = gql`
   }
 `;
 
-function LoginPage({ setIsToken, setUserInfo, setUserContent }) {
+function LoginPage({ setIsToken, setUserInfo }) {
   const emailInput = useInput('');
   const passInput = useInput('');
   const [loginMutation, { loading }] = useMutation(SIGNIN, {
@@ -58,27 +55,30 @@ function LoginPage({ setIsToken, setUserInfo, setUserContent }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (emailInput.value == '' || passInput.value == '') {
-      alert('Please enter your Email or password!🙌🏻');
+      alert('이메일과 비밀번호를 입력해 주세요.');
     } else {
       try {
         const {
           data: {
-            signin: { token, user },
+            signin: {
+              token,
+              user: { id, email },
+            },
           },
         } = await loginMutation();
         if (token !== '' || token !== undefined) {
           const getUser = {
-            id: user.id,
-            email: user.email,
+            id: id,
+            email: email,
           };
-          const getContent = {
-            favorites: user.favorite,
-            reviews: user.review,
-          };
-          tokenLoginMutation({ variables: { token: token, state: getUser } });
+          tokenLoginMutation({
+            variables: {
+              token: token,
+              state: getUser,
+            },
+          });
           setIsToken(true);
           setUserInfo(getUser);
-          setUserContent(getContent);
         }
       } catch (error) {
         alert(error);

@@ -75,9 +75,9 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
       passInput.value == '' ||
       passConfirmInput.value == ''
     ) {
-      alert('Please enter your Email or password!🙌🏻');
+      alert('이메일과 비밀번호를 입력해주세요.');
     } else if (passInput.value !== passConfirmInput.value) {
-      alert('Please Check Password');
+      alert('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.');
     } else {
       try {
         const {
@@ -86,7 +86,7 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
           },
         } = await signUpMutation();
         if (token !== '' || token !== undefined) {
-          alert('Welcome to myTownSecurity');
+          alert('안전궁금해의 회원이 되신걸 환영합니다!');
           const getUser = {
             id: user.id,
             email: user.email,

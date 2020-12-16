@@ -38,14 +38,14 @@ const Button = styled.button`
 
 const EDITPASSWORD = gql`
   mutation editPassword(
-    $id: Int!
+    $userId: ID!
     $prevPassword: String!
-    $newPassword: String!
+    $nextPassword: String!
   ) {
     editPassword(
-      id: $id
+      userId: $userId
       prevPassword: $prevPassword
-      newPassword: $newPassword
+      nextPassword: $nextPassword
     )
   }
 `;
@@ -63,9 +63,9 @@ function EditInfoPage({ userInfo }) {
   const state = JSON.parse(localStorage.getItem('state'));
   const [editPasswordMutation] = useMutation(EDITPASSWORD, {
     variables: {
-      id: userInfo.id,
+      userId: userInfo.id,
       prevPassword: prevPassInput.value,
-      newPassword: passInput.value,
+      nextPassword: passInput.value,
     },
   });
   const [tokenLogoutMutation] = useMutation(TOKENLOGOUT, {
@@ -79,14 +79,14 @@ function EditInfoPage({ userInfo }) {
       passInput.value == '' ||
       passConfirmInput.value == ''
     ) {
-      alert('Please enter your password!🙌🏻');
+      alert('비밀번호를 입력해 주세요.');
     } else if (passInput.value !== passConfirmInput.value) {
-      alert('Please check Password!🤔');
+      alert('비밀번호를 확인해 주세요.');
     } else {
       try {
         const { data } = await editPasswordMutation();
         if (data) {
-          alert('로그아웃 됩니다. 다시 로그인해 주세요.');
+          alert('비밀번호가 변경되었습니다. 다시 로그인해 주세요.');
           tokenLogoutMutation({ variables: { token, state } });
         }
       } catch (error) {
