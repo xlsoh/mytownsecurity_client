@@ -18,6 +18,24 @@ const GET_SEARCHEDLOCATION = gql`
     }
   }
 `;
+// PoliceStation 불러오기.
+const GET_STATION = gql`
+  query getStation {
+    getStation {
+      id
+      X
+      Y
+      stationName
+      stationAddress
+    }
+  }
+`;
+
+function getStation() {
+  const { loading, error, data } = useQuery(GET_STATION);
+  let arrOfStation = Object.values(data.getStation);
+  return arrOfStation;
+}
 
 function Service({
   isToken,
@@ -39,6 +57,8 @@ function Service({
     variables: { addressId },
   });
 
+  const policeStations = getStation();
+
   // useEffect(() => {
   //   if (!loading && data && data.address && data.crime) {
   //     console.log(data.address, data.crime);
@@ -47,26 +67,21 @@ function Service({
 
   return (
     <>
-      {loading && '로딩 중입니다. 잠시만 기다려주세요.'}
-      {!loading && (
-        <>
-          <ServHeader
-            isToken={isToken}
-            setIsToken={setIsToken}
-            setUserInfo={setUserInfo}
-            setUserContent={setUserContent}
-          />
-          <AddFavorite
-            userInfo={userInfo}
-            address={data /*.getSearchedLocation.address*/}
-          />
-          <Map
-            address={data /*.getSearchedLocation.address*/}
-            userContent={userContent}
-          />
-          <CrimeRate crime={data /*.getSearchedLocation.crime*/} />
-        </>
-      )}
+      <ServHeader
+        isToken={isToken}
+        setIsToken={setIsToken}
+        setUserInfo={setUserInfo}
+        setUserContent={setUserContent}
+      />
+      <SearchInput addressId={addressId} />
+      <AddFavorite userInfo={userInfo} address={data.address} />
+      <Map
+        address={data.address}
+        userContent={userContent}
+        policeStations={policeStations}
+      />
+      <CrimeRate crime={data.crime} />
+      <Review userInfo={userInfo} addressId={addressId} />
     </>
   );
 }
