@@ -1,12 +1,14 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
-import { withRouter } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 
 import ServHeader from './ServHeader';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
 import Map from './Map';
+import Review from './Review';
+import SearchInput from '../search/SearchInput';
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: Int!) {
@@ -68,5 +70,4 @@ function Service({
     </>
   );
 }
-
 export default withRouter(Service);

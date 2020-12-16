@@ -1,77 +1,91 @@
 import { useEffect, useState } from 'react';
-import { withRouter, useHistory } from 'react-router-dom';
-import { gql } from 'apollo-boost';
-import { useMutation } from 'react-apollo-hooks';
 import axios from 'axios';
-import styled from 'styled-components';
-
-import MainHeader from './MainHeader';
-import SearchInput from '../search/SearchInput';
-import MainSearchResult from './MainSearchResult';
+import { withRouter, useHistory } from 'react-router-dom';
+import { useMutation } from 'react-apollo-hooks';
+import Modal from '../../styles/Modal';
+import SearchResultList from './SearchResultList';
+import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
 
+//guid 는 어떻게 할지 얘기 필요!!!
 const CREATE_ADDRESS = gql`
   mutation createAddress(
     $detail: String!
-    $longitudeY: Float!
-    $latitudeX: Float!
+    $Y: Float!
+    $X: Float!
     $gu: String!
   ) {
-    createAddress(
-      detail: $detail
-      longitudeY: $longitudeY
-      latitudeX: $latitudeX
-      gu: $gu
-    ) {
-      addressId
-    }
+    createAddress(detail: $detail, Y: $Y, X: $X, gu: $gu)
   }
 `;
 
-function Main({
-  setAddressId,
-  isToken,
-  setIsToken,
-  userInfo,
-  setUserInfo,
-  setUserContent,
-}) {
+function SearchInput({ setAddressId }) {
   const [searchValue, setValue] = useState('');
   const [addressInput, setAddressInput] = useState('');
   const [searchResults, setResults] = useState('');
   const [addrLocatoin, setAddrLocation] = useState({});
   const [locationXY, setLocationXY] = useState({});
+  const [gu, setGu] = useState('');
   const history = useHistory();
+  const [isOpen, setIsOpen] = useState(false);
+
   const [createAddress, { data, loading, error }] = useMutation(
     CREATE_ADDRESS,
     {
       variables: {
         detail: addressInput,
-        longitudeY: locationXY.longitudeY,
-        latitudeX: locationXY.latitudeX,
+        Y: locationXY.longitudeY,
+        X: locationXY.latitudeX,
+        gu,
       },
     }
   );
-
-  if (data) {
-    setAddressId(data.createAddress.addressId);
-  }
 
   useEffect(() => {
     fetchData().then((res) => setResults(res.data.results.juso));
   }, [addressInput]);
 
   const handleSearch = (input) => {
+    setIsOpen(true);
     setAddressInput(input);
   };
 
-  const handleChecked = (addrObj) => {
+  //선택버튼
+  const handleChecked = async (addrObj) => {
     console.log(addrObj);
-    const { admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno, roadAddr } = addrObj;
+    const {
+      admCd,
+      rnMgtSn,
+      udrtYn,
+      buldMnnm,
+      buldSlno,
+      roadAddr,
+      ssgNm,
+      siNm,
+    } = addrObj;
+
+    if (siNm !== '서울특별시') {
+      alert('죄송합니다. 현재는 서울 지역만 서비스하는 중입니다 🙏🏼');
+      return;
+    }
+
     setValue(roadAddr);
     setAddressInput(roadAddr);
     setAddrLocation({ admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno });
+    setGu(ssgNm);
+
+    //서버에서 검색한 주소의 id 받아오기
+    // const {
+    //   data: { addressId },
+    // } = await createAddress();
+
+    // if (addressId) {
+    //   console.log(addressId);
+    //   setAddressId(addressId);
+    // }
+
     history.push(`/address/:addressId`);
+    //history.push(`/address/${addressId}`);
   };
 
   useEffect(() => {
@@ -170,15 +184,27 @@ function Main({
 
   return (
     <div>
-      <MainHeader
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
-        isToken={isToken}
-        setIsToken={setIsToken}
-        setUserContent={setUserContent}
+      <input
+        className='main_search_input'
+        placeholder={
+          ' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
+        }
+        value={searchValue}
+        onChange={(e) => setValue(e.target.value)}
+        style={{ width: '370px', height: '25px' }}
       />
-      <SearchInput setAddressId={setAddressId} />
+      <button onClick={() => handleSearch(searchValue)}>검색</button>
+      {searchResults ? (
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <SearchResultList
+            searchResults={searchResults}
+            handleChecked={handleChecked}
+          />
+        </Modal>
+      ) : (
+        <div>{console.log('검색결과가 비어있습니다')}</div>
+      )}
     </div>
   );
 }
-export default withRouter(Main);
+export default withRouter(SearchInput);

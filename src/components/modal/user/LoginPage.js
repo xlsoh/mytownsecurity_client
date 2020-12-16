@@ -35,6 +35,7 @@ const SIGNIN = gql`
         email
         favorite
         review
+        content
       }
     }
   }
