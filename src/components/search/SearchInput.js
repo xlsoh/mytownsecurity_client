@@ -7,16 +7,65 @@ import SearchResultList from './SearchResultList';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
 
-//guid 는 어떻게 할지 얘기 필요!!!
+// import './search.css';
+// import Button from '@material-ui/core/Button';
+// import {
+//   makeStyles,
+//   createMuiTheme,
+//   ThemeProvider,
+// } from '@material-ui/core/styles';
+// import TextField from '@material-ui/core/TextField';
+
+// const useStyles = makeStyles({
+//   root: {
+//     background: '#32e0c4',
+//     border: 0,
+//     borderRadius: 3,
+//     boxShadow: '0 3px 5px 2px rgba(104, 212, 174, .3)',
+//     color: '#212121',
+//     height: 48,
+//     padding: '0 30px',
+//     margin: '10px',
+//     '&:hover': {
+//       backgroundColor: '#0d7377',
+//       color: '#eeeeee',
+//       boxShadow: 'none',
+//     },
+//   },
+// });
+// const useStylesInput = makeStyles((theme) => ({
+//   root: {
+//     display: 'flex',
+//     flexWrap: 'wrap',
+//   },
+//   margin: {
+//     margin: theme.spacing(1),
+//   },
+// }));
+
+// const theme = createMuiTheme({
+//   palette: {
+//     primary: {
+//       light: '#eeeeee',
+//       main: '#32e0c4',
+//       dark: '#0d7377',
+//       contrastText: '#fff',
+//     },
+//     secondary: {
+//       light: '#ff7961',
+//       main: '#f44336',
+//       dark: '#ba000d',
+//       contrastText: '#000',
+//     },
+//   },
+// });
+
 const CREATE_ADDRESS = gql`
-  mutation createAddress(
-    $detail: String!
-    $Y: Float!
-    $X: Float!
-    $gu: String!
-  ) {
-    createAddress(detail: $detail, Y: $Y, X: $X, gu: $gu)
+createAddress($detail: String!, $gu: String!, $rn: String!, $Y: Float!, $X: Float!) {
+  createAddress(detail: $detail, gu: $gu, rn: $rn Y: $Y, X: $X) {
+    id
   }
+}
 `;
 
 function SearchInput({ setAddressId }) {
@@ -26,8 +75,11 @@ function SearchInput({ setAddressId }) {
   const [addrLocatoin, setAddrLocation] = useState({});
   const [locationXY, setLocationXY] = useState({});
   const [gu, setGu] = useState('');
+  const [rn, setRn] = useState('');
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
+  const classes = useStyles();
+  const inputClasses = useStylesInput();
 
   const [createAddress, { data, loading, error }] = useMutation(
     CREATE_ADDRESS,
@@ -37,6 +89,7 @@ function SearchInput({ setAddressId }) {
         Y: locationXY.longitudeY,
         X: locationXY.latitudeX,
         gu,
+        rn,
       },
     }
   );
@@ -62,6 +115,7 @@ function SearchInput({ setAddressId }) {
       roadAddr,
       ssgNm,
       siNm,
+      rn,
     } = addrObj;
 
     if (siNm !== '서울특별시') {
@@ -73,18 +127,21 @@ function SearchInput({ setAddressId }) {
     setAddressInput(roadAddr);
     setAddrLocation({ admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno });
     setGu(ssgNm);
+    setRn(rn);
 
-    //서버에서 검색한 주소의 id 받아오기
-    // const {
-    //   data: { addressId },
-    // } = await createAddress();
+    //서버에서 검색한 주소의 id 받아오기 - 서버랑 연동 확인 필요
+    const {
+      data: { addressId },
+    } = await createAddress();
 
-    // if (addressId) {
-    //   console.log(addressId);
-    //   setAddressId(addressId);
-    // }
+    if (addressId) {
+      console.log(addressId);
+      setAddressId(addressId);
+    }
 
     history.push(`/address/:addressId`);
+
+    //서버 연동 확인되면 사용!
     //history.push(`/address/${addressId}`);
   };
 
@@ -183,17 +240,25 @@ function SearchInput({ setAddressId }) {
   }
 
   return (
-    <div>
-      <input
-        className='main_search_input'
-        placeholder={
-          ' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
-        }
-        value={searchValue}
-        onChange={(e) => setValue(e.target.value)}
-        style={{ width: '370px', height: '25px' }}
-      />
-      <button onClick={() => handleSearch(searchValue)}>검색</button>
+    <>
+      <div id='search_container'>
+        <ThemeProvider theme={theme}>
+          <TextField
+            className={inputClasses.margin}
+            label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
+            value={searchValue}
+            onChange={(e) => setValue(e.target.value)}
+            style={{ width: '450px', height: '25px' }}
+          />
+        </ThemeProvider>
+        <Button
+          className={classes.root}
+          variant='contained'
+          onClick={() => handleSearch(searchValue)}
+        >
+          검색
+        </Button>
+      </div>
       {searchResults ? (
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
           <SearchResultList
@@ -204,7 +269,7 @@ function SearchInput({ setAddressId }) {
       ) : (
         <div>{console.log('검색결과가 비어있습니다')}</div>
       )}
-    </div>
+    </>
   );
 }
 export default withRouter(SearchInput);
