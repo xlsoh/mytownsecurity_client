@@ -1,11 +1,14 @@
 import { withRouter, useHistory } from 'react-router-dom';
 import MainHeader from './MainHeader';
 import SearchInput from '../search/SearchInput';
+import './main.css';
+import '../search/search.css';
 import MainSearchResult from './MainSearchResult';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH, API_KEY_LOCATION } from '../../config';
 
-//guid 는 어떻게 할지 얘기 필요!!!
+function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
+
 const CREATE_ADDRESS = gql`
   mutation createAddress(
     $detail: String!
@@ -163,7 +166,7 @@ function Main({
     }
     return true;
   }
-  
+
   return (
     <div>
       <MainHeader
@@ -174,6 +177,7 @@ function Main({
         setUserContent={setUserContent}
       />
       <SearchInput setAddressId={setAddressId} />
+      <div id='search_background'></div>
     </div>
   );
 }

@@ -12,8 +12,23 @@ import SearchInput from '../search/SearchInput';
 /*쿼리 수정필요 */
 //useQuery
 const GET_SEARCHEDLOCATION = gql`
-  query getSearchedLocation($addressId: Int!) {
-    getSearchedLocation(addressId: $addressId)
+  query getSearchedLocation($addressId: ID!) {
+    getSearchedLocation(addressId: $addressId) {
+      address {
+        id
+        detail
+        X
+        Y
+      }
+      crime {
+        gu
+        murder
+        rape
+        robbery
+        theft
+        violence
+      }
+    }
   }
 `;
 // PoliceStation 불러오기.
@@ -29,11 +44,13 @@ const GET_STATION = gql`
   }
 `;
 
+
 function getStation() {
   const { loading, error, data } = useQuery(GET_STATION);
   let arrOfStation = Object.values(data.getStation);
   return arrOfStation;
 }
+
 
 function Service({
   isToken,
@@ -41,11 +58,17 @@ function Service({
   addressId,
   userInfo,
   setUserInfo,
+  setAddressId,
+}) {
   userContent,
   setUserContent,
 }) {
   //서버 따라 수정 필요
-  //지우기
+  const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
+    // skip: !data,
+    variables: { addressId },
+  });
+  
   const loading = true,
     data = {
       address: { longitudeY: 37.5137912, latitudeX: 127.0293161 },
@@ -53,17 +76,14 @@ function Service({
     };
 
   const policeStations = getStation();
-  // const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
-  //   skip: !data,
-  //   variables: { addressId },
-  // });
 
-  //서버 따라 수정 필요
-  // useEffect(() => {
-  //   if (!loading && data && data.address && data.crime) {
-  //     console.log(data.address, data.crime);
-  //   }
-  // }, [loading, data]);
+
+  if (loading) {
+    return <div>...loading</div>;
+  }
+
+  console.log(data.getSearchedLocation.address);
+  console.log(data.getSearchedLocation.crime);
 
   return (
     <>
@@ -73,10 +93,10 @@ function Service({
         setUserInfo={setUserInfo}
         setUserContent={setUserContent}
       />
-      <SearchInput addressId={addressId} />
-      <AddFavorite userInfo={userInfo} address={data.address} />
-      <Map address={data.address} userContent={userContent} policeStations={policeStations} />
-      <CrimeRate crime={data.crime} />
+      <SearchInput addressId={addressId} setAddressId={setAddressId}/>
+      <AddFavorite userInfo={userInfo}  address={data.getSearchedLocation.address} />
+      <Map address={data.getSearchedLocation.address} userContent={userContent} policeStations={policeStations} />
+      <CrimeRate crime={data.getSearchedLocation.crime} />
       <Review userInfo={userInfo} addressId={addressId} />
     </>
   );

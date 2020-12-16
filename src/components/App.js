@@ -21,6 +21,7 @@ function App() {
   const [addressId, setAddressId] = useState(0);
   const [userContent, setUserContent] = useState({});
 
+
   const localToken = localStorage.getItem('token');
   console.log(localToken);
 
@@ -49,10 +50,9 @@ function App() {
   // }, [isToken]);
 
 
+
   return (
     <div>
-      {console.log(isToken)}
-      {console.log(userInfo)}
       {console.log(addressId)}
       <Switch>
         <Route
@@ -70,7 +70,7 @@ function App() {
         />
         <Route
           exact
-          path={`/address/:addressId`}
+          path={`/address/${addressId}`}
           render={() => (
             <Service
               isToken={isToken}
@@ -78,8 +78,10 @@ function App() {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               addressId={addressId}
+              setAddressId={setAddressId}
               userContent={userContent}
               setUserContent={setUserContent}
+
             />
           )}
         />

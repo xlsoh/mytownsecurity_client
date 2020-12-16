@@ -1,0 +1,14 @@
+#search_container {
+  /*상당에 고정*/
+  position: sticky;
+  top: 0;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  /* 가운데정렬  */
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+}
