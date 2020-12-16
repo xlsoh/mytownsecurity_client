@@ -12,12 +12,9 @@ function App() {
   const [addressId, setAddressId] = useState(0);
 
   const localToken = localStorage.getItem('token');
-  console.log(localToken);
 
   return (
     <div>
-      {console.log(isToken)}
-      {console.log(userInfo)}
       {console.log(addressId)}
       <Switch>
         <Route
@@ -42,6 +39,7 @@ function App() {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               addressId={addressId}
+              setAddressId={setAddressId}
             />
           )}
         />
