@@ -1,21 +1,10 @@
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-
-import { useQuery } from 'react-apollo-hooks';
-
-import axios from 'axios';
+import React, { useState } from 'react';
 
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
 import SignUp from './signupPage/SignUp';
-import { gql } from 'apollo-boost';
-
-const GET_USERINFO_BYTOKEN = gql`
-  query getUserInfoByToken($token: String!) {
-    getUserInfoByToken(token: $token)
-  }
-`;
 
 function App() {
   const [isToken, setIsToken] = useState(false);
@@ -24,34 +13,12 @@ function App() {
 
   const localToken = localStorage.getItem('token');
   console.log(localToken);
-  // localToken이 없으면 실행 안하기
-  const { data, loading, error } = useQuery(GET_USERINFO_BYTOKEN, {
-    variables: {
-      token: localToken,
-    },
-    skip: !localToken,
-  });
-  useEffect(() => {
-    if (localToken) {
-      if (data.token) {
-        setIsToken(true);
-        setUserInfo(data);
-
-        //reload 필요한지 확인하기
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }
-    } else {
-      setIsToken(false);
-      return;
-    }
-  }, [isToken]);
 
   return (
     <div>
       {console.log(isToken)}
       {console.log(userInfo)}
+      {console.log(addressId)}
       <Switch>
         <Route
           path={`/main`}
