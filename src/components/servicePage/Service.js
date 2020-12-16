@@ -6,12 +6,12 @@ import { Route, Redirect, withRouter } from 'react-router-dom';
 import ServHeader from './ServHeader';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
-import Map from './Map';
 import Review from './Review';
 import SearchInput from '../search/SearchInput';
+import MapIntro from './MapIntro';
 
 const GET_SEARCHEDLOCATION = gql`
-  query getSearchedLocation($addressId: Int!) {
+  query getSearchedLocation($addressId: ID!) {
     getSearchedLocation(addressId: $addressId) {
       address
       crime
@@ -19,54 +19,31 @@ const GET_SEARCHEDLOCATION = gql`
   }
 `;
 
-function Service({
-  isToken,
-  setIsToken,
-  addressId,
-  userInfo,
-  setUserInfo,
-  userContent,
-  setUserContent,
-}) {
-  // const loading = true,
-  //   data = {
-  //     address: { longitudeY: 37.5137912, latitudeX: 127.0293161 },
-  //     crime: '',
-  //   };
-
+function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
-    //skip: !data,
     variables: { addressId },
   });
 
-  // useEffect(() => {
-  //   if (!loading && data && data.address && data.crime) {
-  //     console.log(data.address, data.crime);
-  //   }
-  // }, [loading, data]);
-
+  const address = {
+    id: 'ckir2cp2wa84y09991zez6kyb',
+    detail: '서울특별시 서초구 남부순환로 2604 (양재동)',
+    X: 958927.1262997636,
+    Y: 1942909.9232516368,
+  };
+  const crime = {};
   return (
     <>
-      {loading && '로딩 중입니다. 잠시만 기다려주세요.'}
-      {!loading && (
-        <>
-          <ServHeader
-            isToken={isToken}
-            setIsToken={setIsToken}
-            setUserInfo={setUserInfo}
-            setUserContent={setUserContent}
-          />
-          <AddFavorite
-            userInfo={userInfo}
-            address={data /*.getSearchedLocation.address*/}
-          />
-          <Map
-            address={data /*.getSearchedLocation.address*/}
-            userContent={userContent}
-          />
-          <CrimeRate crime={data /*.getSearchedLocation.crime*/} />
-        </>
-      )}
+      <ServHeader
+        isToken={isToken}
+        setIsToken={setIsToken}
+        setUserInfo={setUserInfo}
+        userInfo={userInfo}
+      />
+      <SearchInput addressId={addressId} />
+      <AddFavorite userInfo={userInfo} address={address} />
+      <MapIntro isToken={isToken} address={address} userInfo={userInfo} />
+      <CrimeRate crime={crime} />
+      <Review userInfo={userInfo} addressId={addressId} />
     </>
   );
 }

@@ -23,7 +23,7 @@ const TOKENLOGOUT = gql`
   }
 `;
 
-function MyHeader() {
+function MyHeader({ isToken }) {
   const history = useHistory();
   const token = localStorage.getItem('token');
   const state = JSON.parse(localStorage.getItem('state'));
@@ -33,7 +33,7 @@ function MyHeader() {
 
   return (
     <>
-      {token && (
+      {isToken && (
         <>
           <Container>
             <Button onClick={() => history.push(`/`)}>로고</Button>
@@ -48,7 +48,7 @@ function MyHeader() {
           </Container>
         </>
       )}
-      {!token && null}
+      {!isToken && null}
     </>
   );
 }

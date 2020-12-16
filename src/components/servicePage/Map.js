@@ -2,16 +2,13 @@
 import { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { policeStations } from '../../data/policeStation';
+import '../../styles/Map.css';
 import { cctvs } from '../../data/cctv';
 import '../../styles/Map.css';
 
 const { kakao } = window;
 
-function Map({ address, userContent }) {
-  //console.log(userContent.favorties)
-  //console.log(userContent.reviews)
+function Map({ address, policeStations, favorites, reviews }) {
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -22,7 +19,8 @@ function Map({ address, userContent }) {
       kakao.maps.load(() => {
         let el = document.getElementById('map');
         let map = new kakao.maps.Map(el, {
-          center: new kakao.maps.LatLng(address.Y, address.X),
+          center: new kakao.maps.LatLng(37.5137912, 127.0293161),
+          // center: new kakao.maps.LatLng(address.Y, address.X),
           level: 3,
         });
 
@@ -37,41 +35,45 @@ function Map({ address, userContent }) {
           levelDiv.innerHTML = message;
         });
 
-        //사용자 찜, 리뷰 마커
-        userContent.favorites.map(function (favorite) {
-          var favorite_imageSrc = 'https://ifh.cc/g/yA2CEy.png',
-            favorite_imageSize = new kakao.maps.Size(40, 40),
-            favorite_imageOption = { offset: new kakao.maps.Point(30, 65) };
+        // 사용자 찜, 리뷰 마커
+        if (favorites) {
+          favorites.map(function (favorite) {
+            var favorite_imageSrc = 'https://ifh.cc/g/yA2CEy.png',
+              favorite_imageSize = new kakao.maps.Size(40, 40),
+              favorite_imageOption = { offset: new kakao.maps.Point(30, 65) };
 
-          var favorite_markerImage = new kakao.maps.MarkerImage(
-            favorite_imageSrc,
-            favorite_imageSize,
-            favorite_imageOption
-          );
-          var favorite_marker = new kakao.maps.Marker({
-            position: new kakao.maps.LatLng(favorite.Y, favorite.X),
-            title: `$소재지: ${favorite.addressDetail}\n$별칭: ${favorite.placeAlias}`,
-            image: favorite_markerImage,
+            var favorite_markerImage = new kakao.maps.MarkerImage(
+              favorite_imageSrc,
+              favorite_imageSize,
+              favorite_imageOption
+            );
+            var favorite_marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(favorite.Y, favorite.X),
+              title: `$소재지: ${favorite.addressDetail}\n$별칭: ${favorite.placeAlias}`,
+              image: favorite_markerImage,
+            });
+            favorite_marker.setMap(map);
           });
-          favorite_marker.setMap(map);
-        });
-        userContent.reviews.map(function (review) {
-          var review_imageSrc = 'https://ifh.cc/g/kN7yTE.png',
-            review_imageSize = new kakao.maps.Size(20, 20),
-            review_imageOption = { offset: new kakao.maps.Point(30, 65) };
+        }
+        if (reviews) {
+          reviews.map(function (review) {
+            var review_imageSrc = 'https://ifh.cc/g/kN7yTE.png',
+              review_imageSize = new kakao.maps.Size(20, 20),
+              review_imageOption = { offset: new kakao.maps.Point(30, 65) };
 
-          var review_markerImage = new kakao.maps.MarkerImage(
-            review_imageSrc,
-            review_imageSize,
-            review_imageOption
-          );
-          var review_marker = new kakao.maps.Marker({
-            position: new kakao.maps.LatLng(review.Y, review.X),
-            title: `$소재지: ${review.addressDetail}\n별점: ${review.rating}\n리뷰: ${review.text}`,
-            image: review_markerImage,
+            var review_markerImage = new kakao.maps.MarkerImage(
+              review_imageSrc,
+              review_imageSize,
+              review_imageOption
+            );
+            var review_marker = new kakao.maps.Marker({
+              position: new kakao.maps.LatLng(review.Y, review.X),
+              title: `$소재지: ${review.addressDetail}\n별점: ${review.rating}\n리뷰: ${review.text}`,
+              image: review_markerImage,
+            });
+            review_marker.setMap(map);
           });
-          review_marker.setMap(map);
-        });
+        }
 
         //클러스터러
         var clusterer = new kakao.maps.MarkerClusterer({

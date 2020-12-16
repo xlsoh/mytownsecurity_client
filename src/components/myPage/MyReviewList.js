@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import MyReviewListEntry from './MyFavoriteListEntry';
+import MyReviewListEntry from './MyReviewListEntry';
 
 const ReviewWrapper = styled.div`
   width: 100%;
@@ -10,9 +10,6 @@ const ReviewWrapper = styled.div`
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   color: #000;
   display: grid;
-  grid-template-columns: 1fr;
-  position: relative;
-  z-index: 2;
   border-radius: 10px;
 `;
 
@@ -21,18 +18,19 @@ function MyReviewList({ data, id }) {
     <>
       <ReviewWrapper>
         {data &&
-          data.reviews &&
-          data.reviews.map((review, index) => (
+          data.map((review, index) => (
             <Fragment key={index}>
+              <br />
               <MyReviewListEntry
                 id={id}
                 reviewId={review.id}
                 text={review.text}
-                grade={review.grade}
-                addressDetail={review.addressDetail}
+                rating={review.rating}
+                addressDetail={review.postedAt.detail}
                 createdAt={review.createdAt}
                 updatedAt={review.updatedAt}
               />
+              <br />
               <hr />
             </Fragment>
           ))}
