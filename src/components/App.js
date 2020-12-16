@@ -11,8 +11,6 @@ function App() {
   const [userInfo, setUserInfo] = useState({});
   const [addressId, setAddressId] = useState(0);
 
-  const localToken = localStorage.getItem('token');
-
   return (
     <div>
       {console.log(addressId)}
@@ -31,7 +29,7 @@ function App() {
         />
         <Route
           exact
-          path={`/address/:addressId`}
+          path={`/address/${addressId}`}
           render={() => (
             <Service
               isToken={isToken}
