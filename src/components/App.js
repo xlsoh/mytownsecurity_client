@@ -1,20 +1,15 @@
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+
 import React, { useState, useEffect } from 'react';
 
 import { useQuery } from 'react-apollo-hooks';
 import axios from 'axios';
 
+
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
 import SignUp from './signupPage/SignUp';
-import { gql } from 'apollo-boost';
-
-const GET_USERINFO_BYTOKEN = gql`
-  query getUserInfoByToken($token: String!) {
-    getUserInfoByToken(token: $token)
-  }
-`;
 
 function App() {
   const [isToken, setIsToken] = useState(false);
@@ -24,9 +19,11 @@ function App() {
     password: '123',
   });
   const [addressId, setAddressId] = useState(0);
+  const [userContent, setUserContent] = useState({});
 
   const localToken = localStorage.getItem('token');
   console.log(localToken);
+
   // localToken이 없으면 실행 안하기
   const { data, loading, error } = useQuery(GET_USERINFO_BYTOKEN, {
     variables: {
@@ -51,10 +48,12 @@ function App() {
   //   }
   // }, [isToken]);
 
+
   return (
     <div>
       {console.log(isToken)}
       {console.log(userInfo)}
+      {console.log(addressId)}
       <Switch>
         <Route
           path={`/main`}
@@ -64,6 +63,7 @@ function App() {
               setIsToken={setIsToken}
               userInfo={userInfo}
               setUserInfo={setUserInfo}
+              setUserContent={setUserContent}
               setAddressId={setAddressId}
             />
           )}
@@ -78,13 +78,22 @@ function App() {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               addressId={addressId}
+              userContent={userContent}
+              setUserContent={setUserContent}
             />
           )}
         />
         <Route
           exact
-          path={`/mypage/:`}
-          render={() => <MyPage isToken={isToken} userInfo={userInfo} />}
+          path={`/mypage/:userId`}
+          render={() => (
+            <MyPage
+              isToken={isToken}
+              userInfo={userInfo}
+              userContent={userContent}
+            />
+          )}
+
         />
         <Route
           exact

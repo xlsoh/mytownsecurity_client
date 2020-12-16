@@ -35,7 +35,15 @@ function getStation() {
   return arrOfStation;
 }
 
-function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
+function Service({
+  isToken,
+  setIsToken,
+  addressId,
+  userInfo,
+  setUserInfo,
+  userContent,
+  setUserContent,
+}) {
   //서버 따라 수정 필요
   //지우기
   const loading = true,
@@ -59,10 +67,15 @@ function Service({ isToken, setIsToken, addressId, userInfo, setUserInfo }) {
 
   return (
     <>
-      <ServHeader isToken={isToken} setIsToken={setIsToken} />
+      <ServHeader
+        isToken={isToken}
+        setIsToken={setIsToken}
+        setUserInfo={setUserInfo}
+        setUserContent={setUserContent}
+      />
       <SearchInput addressId={addressId} />
       <AddFavorite userInfo={userInfo} address={data.address} />
-      <Map address={data.address} policeStations={policeStations} />
+      <Map address={data.address} userContent={userContent} policeStations={policeStations} />
       <CrimeRate crime={data.crime} />
       <Review userInfo={userInfo} addressId={addressId} />
     </>

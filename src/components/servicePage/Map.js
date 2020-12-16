@@ -8,7 +8,11 @@ import { cctvs } from '../../data/cctv';
 import Axios from 'axios';
 const { kakao } = window;
 
-function Map({ address, policeStations }) {
+
+function Map({ address, userContent, policeStations }) {
+  //console.log(userContent.favorties)
+  //console.log(userContent.reviews)
+
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -30,10 +34,46 @@ function Map({ address, policeStations }) {
 
         kakao.maps.event.addListener(map, 'zoom_changed', function () {
           var level = map.getLevel();
-          var message = '현재 지도 레벨은 ' + level + ' 입니다';
-          var resultDiv = document.getElementById('result');
-          resultDiv.innerHTML = message;
+          var message = '현재 지도 레벨: ' + level;
+          var levelDiv = document.getElementById('level');
+          levelDiv.innerHTML = message;
         });
+
+        //사용자 찜, 리뷰 마커
+        // userContent.favorites.map(function (favorite) {
+        //   var favorite_imageSrc = 'https://ifh.cc/g/yA2CEy.png',
+        //     favorite_imageSize = new kakao.maps.Size(40, 40),
+        //     favorite_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
+        //   var favorite_markerImage = new kakao.maps.MarkerImage(
+        //     favorite_imageSrc,
+        //     favorite_imageSize,
+        //     favorite_imageOption
+        //   );
+        //   var favorite_marker = new kakao.maps.Marker({
+        //     position: new kakao.maps.LatLng(favorite.Y, favorite.X),
+        //     title: `$소재지: {favorite.addressDetail}\n$별칭: {favorite.placeAlias}`,
+        //     image: favorite_markerImage,
+        //   });
+        //   favorite_marker.setMap(map);
+        // });
+        // userContent.reviews.map(function (review) {
+        //   var review_imageSrc = 'https://ifh.cc/g/kN7yTE.png',
+        //     review_imageSize = new kakao.maps.Size(20, 20),
+        //     review_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
+        //   var review_markerImage = new kakao.maps.MarkerImage(
+        //     review_imageSrc,
+        //     review_imageSize,
+        //     review_imageOption
+        //   );
+        //   var review_marker = new kakao.maps.Marker({
+        //     position: new kakao.maps.LatLng(review.Y, review.X),
+        //     title: `$소재지: {review.addressDetail}\n별점: ${review.rating}\n리뷰: ${review.text}`,
+        //     image: review_markerImage,
+        //   });
+        //   review_marker.setMap(map);
+        // });
 
         //클러스터러
         var clusterer = new kakao.maps.MarkerClusterer({
@@ -42,7 +82,7 @@ function Map({ address, policeStations }) {
           minLevel: 6,
         });
 
-        //마커
+        //경찰서 마커
         var police_imageSrc = 'https://ifh.cc/g/FWXYgJ.png',
           police_imageSize = new kakao.maps.Size(55, 60),
           police_imageOption = { offset: new kakao.maps.Point(30, 65) };
@@ -93,12 +133,13 @@ function Map({ address, policeStations }) {
           });
         });
 
+        //cctv 마커
+        var cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png',
+          cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
+
         var cctv_markers = cctvs.map(function (cctv) {
           if (cctv.카메라대수 >= 1 && cctv.카메라대수 < 3) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(20, 20);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -121,10 +162,7 @@ function Map({ address, policeStations }) {
               });
             }
           } else if (cctv.카메라대수 >= 3 && cctv.카메라대수 < 6) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(35, 35);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -147,10 +185,7 @@ function Map({ address, policeStations }) {
               });
             }
           } else if (cctv.카메라대수 >= 6 && cctv.카메라대수 < 10) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(50, 50);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -173,10 +208,7 @@ function Map({ address, policeStations }) {
               });
             }
           } else if (cctv.카메라대수 >= 10 && cctv.카메라대수 < 20) {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(60, 60);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -199,10 +231,7 @@ function Map({ address, policeStations }) {
               });
             }
           } else {
-            let cctv_imageSrc = 'https://ifh.cc/g/HEqaQd.png';
             let cctv_imageSize = new kakao.maps.Size(70, 70);
-            let cctv_imageOption = { offset: new kakao.maps.Point(30, 65) };
-
             let cctv_markerImage = new kakao.maps.MarkerImage(
               cctv_imageSrc,
               cctv_imageSize,
@@ -248,9 +277,9 @@ function Map({ address, policeStations }) {
 
   return (
     <div>
+      <p id='level'></p>
       <MapWrapper>
         <div id='map' style={mapstyle}></div>
-        <p id='result'></p>
       </MapWrapper>
     </div>
   );

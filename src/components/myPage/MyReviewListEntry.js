@@ -23,10 +23,10 @@ const EDIT_MYREVIEW = gql`
   mutation editMyReview(
     $id: Int!
     $reviewId: Int!
-    $grade: Int
+    $rating: Int
     $text: String
   ) {
-    editMyReview(id: $id, reviewId: $reviewId, grade: $grade, text: $text)
+    editMyReview(id: $id, reviewId: $reviewId, rating: $rating, text: $text)
   }
 `;
 const DELETE_MYREVIEW = gql`
