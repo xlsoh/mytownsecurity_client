@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
 import MainHeader from './MainHeader';
 import SearchInput from '../search/SearchInput';
@@ -5,7 +7,6 @@ import './main.css';
 import '../search/search.css';
 
 function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
-
   return (
     <>
       <MainHeader

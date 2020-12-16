@@ -169,20 +169,15 @@ function SearchInput({ setAddressId }) {
   return (
     <>
       <div id='search_container'>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider>
           <TextField
-            className={inputClasses.margin}
             label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)'
             value={searchValue}
             onChange={(e) => setValue(e.target.value)}
             style={{ width: '450px', height: '25px' }}
           />
         </ThemeProvider>
-        <Button
-          className={classes.root}
-          variant='contained'
-          onClick={() => handleSearch(searchValue)}
-        >
+        <Button variant='contained' onClick={() => handleSearch(searchValue)}>
           검색
         </Button>
       </div>
