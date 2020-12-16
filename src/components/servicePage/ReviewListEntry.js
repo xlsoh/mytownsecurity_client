@@ -35,7 +35,17 @@ const Text = styled.div`
   color: #495057;
 `;
 
-function ReviewListEntry({ id, done, text, rating }) {
+// const REMOVE_MYREVIEW = gql`
+//   mutation editReview(
+//     $reviewId: Int!
+//   ) {
+//     editMyReview(
+//       reviewId: $reviewId
+//     )
+//   }
+// `;
+
+function ReviewListEntry({ id, done, text, rating, userInfo, addressId }) {
   const dispatch = useReviewDispatch();
 
   const onRemove = () => {
@@ -56,9 +66,8 @@ function ReviewListEntry({ id, done, text, rating }) {
         starDimension='25px'
         starSpacing='2.5px'
       />
-      <Remove onClick={onRemove}>
-        <MdDelete />
-      </Remove>
+      {console.log(id)}
+      <Remove onClick={onRemove}>{userInfo === id && <MdDelete />}</Remove>
     </ReviewItemBlock>
   );
 }

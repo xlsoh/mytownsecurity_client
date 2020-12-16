@@ -24,6 +24,31 @@ function App() {
   const localToken = localStorage.getItem('token');
   console.log(localToken);
 
+  // localToken이 없으면 실행 안하기
+  const { data, loading, error } = useQuery(GET_USERINFO_BYTOKEN, {
+    variables: {
+      token: localToken,
+    },
+    skip: !localToken,
+  });
+  // useEffect(() => {
+  //   if (localToken) {
+  //     if (data.token) {
+  //       //  setIsToken(true);
+  //       setUserInfo(data);
+
+  //       //reload 필요한지 확인하기
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 2000);
+  //     }
+  //   } else {
+  //     setIsToken(false);
+  //     return;
+  //   }
+  // }, [isToken]);
+
+
   return (
     <div>
       {console.log(isToken)}
@@ -68,6 +93,7 @@ function App() {
               userContent={userContent}
             />
           )}
+
         />
         <Route
           exact

@@ -28,7 +28,7 @@ function MyReviewList({ data, id }) {
                 id={id}
                 reviewId={review.id}
                 text={review.text}
-                grade={review.grade}
+                rating={review.rating}
                 addressDetail={review.addressDetail}
                 createdAt={review.createdAt}
                 updatedAt={review.updatedAt}

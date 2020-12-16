@@ -16,6 +16,24 @@ const GET_SEARCHEDLOCATION = gql`
     getSearchedLocation(addressId: $addressId)
   }
 `;
+// PoliceStation 불러오기.
+const GET_STATION = gql`
+  query getStation {
+    getStation {
+      id
+      X
+      Y
+      stationName
+      stationAddress
+    }
+  }
+`;
+
+function getStation() {
+  const { loading, error, data } = useQuery(GET_STATION);
+  let arrOfStation = Object.values(data.getStation);
+  return arrOfStation;
+}
 
 function Service({
   isToken,
@@ -33,6 +51,8 @@ function Service({
       address: { longitudeY: 37.5137912, latitudeX: 127.0293161 },
       crime: '',
     };
+
+  const policeStations = getStation();
   // const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
   //   skip: !data,
   //   variables: { addressId },
@@ -55,9 +75,9 @@ function Service({
       />
       <SearchInput addressId={addressId} />
       <AddFavorite userInfo={userInfo} address={data.address} />
-      <Map address={data.address} userContent={userContent} />
+      <Map address={data.address} userContent={userContent} policeStations={policeStations} />
       <CrimeRate crime={data.crime} />
-      <Review />
+      <Review userInfo={userInfo} addressId={addressId} />
     </>
   );
 }

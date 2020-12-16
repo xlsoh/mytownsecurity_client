@@ -3,14 +3,16 @@ import { useEffect } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import '../../styles/Map.css';
-import { policeStations } from '../../data/policeStation';
+//import { policeStations } from '../../data/policeStation';
 import { cctvs } from '../../data/cctv';
 import Axios from 'axios';
 const { kakao } = window;
 
-function Map({ address, userContent }) {
+
+function Map({ address, userContent, policeStations }) {
   //console.log(userContent.favorties)
   //console.log(userContent.reviews)
+
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
