@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import '../../styles/Map.css';
 import { cctvs } from '../../data/cctv';
 import '../../styles/Map.css';
-
+//import CctvVideo from './CctvVideo';
+import Axios from 'axios';
 const { kakao } = window;
 
 function Map({ address, policeStations, favorites, reviews }) {
@@ -18,9 +19,11 @@ function Map({ address, policeStations, favorites, reviews }) {
     script.onload = () => {
       kakao.maps.load(() => {
         let el = document.getElementById('map');
+
         let map = new kakao.maps.Map(el, {
-          center: new kakao.maps.LatLng(37.5137912, 127.0293161),
-          // center: new kakao.maps.LatLng(address.Y, address.X),
+          center: new kakao.maps.LatLng(address.Y, address.X), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
+          //center: new kakao.maps.LatLng(address.longitudeY, address.latitudeX), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
+          //center: new kakao.maps.LatLng(37.56107588, 126.995346),
           level: 3,
         });
 
@@ -33,6 +36,7 @@ function Map({ address, policeStations, favorites, reviews }) {
           var message = '현재 지도 레벨: ' + level;
           var levelDiv = document.getElementById('level');
           levelDiv.innerHTML = message;
+
         });
 
         // 사용자 찜, 리뷰 마커
@@ -281,6 +285,7 @@ function Map({ address, policeStations, favorites, reviews }) {
       <MapWrapper>
         <div id='map' style={mapstyle}></div>
       </MapWrapper>
+      {/* <CctvVideo /> */}
     </div>
   );
 }

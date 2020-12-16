@@ -25,6 +25,7 @@ function App() {
     }
   }, [isToken, userInfo]);
 
+
   return (
     <div>
       {console.log('isToken', isToken)}
@@ -45,7 +46,7 @@ function App() {
         />
         <Route
           exact
-          path={`/address/:addressId`}
+          path={`/address/${addressId}`}
           render={() => (
             <Service
               isToken={isToken}
@@ -53,6 +54,7 @@ function App() {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               addressId={addressId}
+              setAddressId={setAddressId}
             />
           )}
         />
