@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
+import styled from 'styled-components';
 
 import LoginInput from './loginInput';
 import LoginButton from './loginButton';
@@ -31,48 +31,56 @@ const SIGNIN = gql`
     signin(email: $email, password: $password) {
       token
       user {
+        id
         email
-        password
+        favorite
+        review
       }
     }
   }
 `;
 
 const TOKENLOGIN = gql`
-  mutation logUserIn($token: String!) {
-    logUserIn(token: $token) @client
+  mutation logUserIn($token: String!, $state: Object!) {
+    logUserIn(token: $token, state: $state) @client
   }
 `;
 
-function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
-  const idInput = useInput('');
+function LoginPage({ setIsToken, setUserInfo, setUserContent }) {
+  const emailInput = useInput('');
   const passInput = useInput('');
-  const [loginMutation, { loading, data }] = useMutation(SIGNIN, {
-    variables: { email: idInput.value, password: passInput.value },
+  const [loginMutation, { loading }] = useMutation(SIGNIN, {
+    variables: { email: emailInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (idInput.value == '' || passInput.value == '') {
+    if (emailInput.value == '' || passInput.value == '') {
       alert('Please enter your Email or password!🙌🏻');
     } else {
       try {
         const {
           data: {
-            signin: { token },
+            signin: { token, user },
           },
         } = await loginMutation();
         if (token !== '' || token !== undefined) {
-          tokenLoginMutation({ variables: { token } });
+          const getUser = {
+            id: user.id,
+            email: user.email,
+          };
+          const getContent = {
+            favorites: user.favorite,
+            reviews: user.review,
+          };
+          tokenLoginMutation({ variables: { token: token, state: getUser } });
           setIsToken(true);
-          setUserInfo(data);
-          // setTimeout(() => {
-          //   window.location.reload();
-          // }, 2000);
+          setUserInfo(getUser);
+          setUserContent(getContent);
         }
       } catch (error) {
-        alert('This information does not exist. Please try again!😇');
+        alert(error);
       }
     }
   };
@@ -89,14 +97,13 @@ function LoginPage({ isToken, setIsToken, userInfo, setUserInfo }) {
                 <form onSubmit={onSubmit}>
                   <LoginInput
                     placeholder={'  Enter your Email'}
-                    {...idInput}
+                    {...emailInput}
                   ></LoginInput>
                   <LoginInput
                     placeholder={'  Enter your Password'}
                     {...passInput}
                     type={'password'}
                   ></LoginInput>
-                  <form onSubmit={onSubmit}></form>
                   <LoginButton text='Log in'></LoginButton>
                 </form>
               </div>

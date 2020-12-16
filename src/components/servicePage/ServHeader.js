@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
+import styled from 'styled-components';
 
 import Modal from '../../styles/Modal';
 import LoginPage from '../modal/user/LoginPage';
@@ -21,17 +21,24 @@ const Button = styled.button`
   cursor: pointer;
 `;
 const TOKENLOGOUT = gql`
-  mutation logUserOut($token: String!) {
-    logUserOut(token: $token) @client
+  mutation logUserOut($token: String!, $state: Object!) {
+    logUserOut(token: $token, state: $state) @client
   }
 `;
 
-function ServHeader({ isToken, setIsToken, userInfo }) {
+function ServHeader({
+  isToken,
+  setIsToken,
+  userInfo,
+  setUserInfo,
+  setUserContent,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
   const token = localStorage.getItem('token');
+  const state = JSON.parse(localStorage.getItem('state'));
   const [tokenLogoutMutation] = useMutation(TOKENLOGOUT, {
-    variables: { token },
+    variables: { token, state },
   });
 
   return (
@@ -45,7 +52,9 @@ function ServHeader({ isToken, setIsToken, userInfo }) {
             <Button onClick={() => history.push(`/`)}>로고</Button>
             <Button
               text='Log out'
-              onClick={() => tokenLogoutMutation({ variables: { token } })}
+              onClick={() =>
+                tokenLogoutMutation({ variables: { token, state } })
+              }
             >
               로그아웃
             </Button>
@@ -65,7 +74,11 @@ function ServHeader({ isToken, setIsToken, userInfo }) {
               로그인
             </Button>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-              <LoginPage isToken={isToken} setIsToken={setIsToken} />
+              <LoginPage
+                setIsToken={setIsToken}
+                setUserInfo={setUserInfo}
+                setUserContent={setUserContent}
+              />
             </Modal>
           </Container>
         </>

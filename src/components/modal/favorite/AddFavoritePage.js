@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-import useInput from '../../../hooks/useInput';
 import styled from 'styled-components';
+
+import useInput from '../../../hooks/useInput';
 
 const FavoriteButton = styled.button`
   display: relative;
@@ -20,11 +21,9 @@ const FavoriteInput = styled.input`
   padding: 10px;
 `;
 
-/*쿼리 수정필요 */
-//useMutation
 const ADDFAVORITE = gql`
-  mutation addFavorite($userId: Int!, $addressId: Int!, $aliase: String!) {
-    addFavorite(userId: $userId, addressId: $addressId, aliase: $aliase)
+  mutation addFavorite($userId: Int!, $addressId: Int!, $placeAlias: String!) {
+    addFavorite(userId: $userId, addressId: $addressId, placeAlias: $placeAlias)
   }
 `;
 
@@ -34,7 +33,7 @@ function AddFavoritePage({ userInfo, address }) {
     variables: {
       userId: userInfo.id,
       addressId: address.id,
-      aliase: aliaseInput.value,
+      placeAlias: aliaseInput.value,
     },
   });
 
@@ -47,9 +46,11 @@ function AddFavoritePage({ userInfo, address }) {
         const { data: addFavortie } = await addFavoriteMutation();
         if (addFavortie) {
           alert('The enrollment was successful!😄');
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   const history = useHistory();
+          //   history.go(0);
+          //   // window.location.reload();
+          // }, 2000);
         }
       }
     } catch (error) {

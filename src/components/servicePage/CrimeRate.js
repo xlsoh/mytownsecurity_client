@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { gql } from 'apollo-boost';
-import { useQuery } from 'react-apollo-hooks';
 import styled from 'styled-components';
 
 const CrimeWrapper = styled.div`
@@ -12,8 +10,9 @@ const CrimeWrapper = styled.div`
   grid-template-columns: 1fr;
   position: relative;
   z-index: 2;
-  border-radius: 10px;
+  border-radius: 5px;
   background: #fff;
+  padding: 5px;
   margin: 5px;
 `;
 

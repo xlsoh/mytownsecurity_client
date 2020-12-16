@@ -1,8 +1,8 @@
 import { useState } from 'react';
-
 import { withRouter } from 'react-router-dom';
 import { Pagination } from '@material-ui/lab';
 import { Box, List, ListItem } from '@chakra-ui/react';
+
 import UsePagination from './Pagenation';
 
 function MainSearchResult({ searchResults, handleChecked }) {
