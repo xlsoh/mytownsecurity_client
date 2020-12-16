@@ -5,6 +5,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.2",
     "@apollo/react-hooks": "^4.0.0",
+    "@babel/plugin-syntax-class-properties": "^7.12.1",
     "@chakra-ui/core": "^0.8.0",
     "@chakra-ui/react": "^1.0.3",
     "@emotion/core": "^11.0.0",
@@ -36,6 +37,7 @@
     "react-icons": "^4.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-star-ratings": "^2.3.0",
     "styled-components": "^5.2.1",
     "styled-reset": "^4.3.3",
     "web-vitals": "^0.2.4",

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useReviewDispatch, useReviewNextId } from './ReviewContext';
+import ReviewRating from './ReviewRating';
 
 const InsertFormPositioner = styled.div`
   width: 100%;
-  bottom: 0;
-  left: 0;
-  position: absolute;
+  position: relative;
 `;
 
 const InsertForm = styled.form`
@@ -31,8 +30,18 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
+const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+`;
+
 function ReviewCreate() {
   const [value, setValue] = useState('');
+  const [rating, setRating] = useState(0);
   const dispatch = useReviewDispatch();
   const nextId = useReviewNextId();
 
@@ -44,7 +53,7 @@ function ReviewCreate() {
       Review: {
         id: nextId.current,
         text: value,
-        done: false,
+        rating: rating,
       },
     });
     nextId.current += 1;
@@ -54,13 +63,15 @@ function ReviewCreate() {
   return (
     <>
       <InsertFormPositioner>
-        <InsertForm onSubmit={onSubmit}>
+        <ReviewRating rating={rating} setRating={setRating} />
+        <InsertForm>
           <Input
             autoFocus
             onChange={onChange}
             value={value}
             placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
           />
+          <Button onClick={onSubmit}>enter</Button>
         </InsertForm>
       </InsertFormPositioner>
     </>

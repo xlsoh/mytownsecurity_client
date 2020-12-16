@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { MdDelete } from 'react-icons/md';
 import { useReviewDispatch } from './ReviewContext';
+import StarRatings from 'react-star-ratings';
 
 const Remove = styled.div`
   display: flex;
@@ -32,14 +33,19 @@ const Text = styled.div`
   flex: 1;
   font-size: 21px;
   color: #495057;
-  ${(props) =>
-    props.done &&
-    css`
-      color: #ced4da;
-    `}
 `;
 
-function ReviewItem({ id, done, text }) {
+// const REMOVE_MYREVIEW = gql`
+//   mutation editReview(
+//     $reviewId: Int!
+//   ) {
+//     editMyReview(
+//       reviewId: $reviewId
+//     )
+//   }
+// `;
+
+function ReviewListEntry({ id, done, text, rating, userInfo, addressId }) {
   const dispatch = useReviewDispatch();
 
   const onRemove = () => {
@@ -52,11 +58,18 @@ function ReviewItem({ id, done, text }) {
   return (
     <ReviewItemBlock>
       <Text done={done}>{text}</Text>
-      <Remove onClick={onRemove}>
-        <MdDelete />
-      </Remove>
+      <StarRatings
+        rating={rating}
+        starRatedColor='red'
+        numberOfStars={5}
+        name='rating'
+        starDimension='25px'
+        starSpacing='2.5px'
+      />
+      {console.log(id)}
+      <Remove onClick={onRemove}>{userInfo === id && <MdDelete />}</Remove>
     </ReviewItemBlock>
   );
 }
 
-export default React.memo(ReviewItem);
+export default React.memo(ReviewListEntry);

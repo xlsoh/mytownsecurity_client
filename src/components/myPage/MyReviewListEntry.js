@@ -23,10 +23,10 @@ const EDIT_MYREVIEW = gql`
   mutation editMyReview(
     $id: Int!
     $reviewId: Int!
-    $grade: Int
+    $rating: Int
     $text: String
   ) {
-    editMyReview(id: $id, reviewId: $reviewId, grade: $grade, text: $text)
+    editMyReview(id: $id, reviewId: $reviewId, rating: $rating, text: $text)
   }
 `;
 const DELETE_MYREVIEW = gql`
@@ -39,20 +39,20 @@ function MyReviewListEntry({
   id,
   reviewId,
   text,
-  grade,
+  rating,
   addressDetail,
   createdAt,
   updatedAt,
 }) {
   const [viewForm1, setViewForm1] = useState(false);
   const [viewForm2, setViewForm2] = useState(false);
-  const newGradeInput = useInput(grade);
+  const newGradeInput = useInput(rating);
   const newTextInput = useInput(text);
   const [editMyReviewMutation] = useMutation(EDIT_MYREVIEW, {
     variables: {
       id: id,
       reviewId: reviewId,
-      grade: newGradeInput.value,
+      rating: newGradeInput.value,
       text: newTextInput.value,
     },
   });
@@ -94,7 +94,7 @@ function MyReviewListEntry({
         <p>별점</p>
         {!viewForm1 && (
           <>
-            {grade`별점이 생길 곳`}
+            <ReviewRating rating={rating} />
             <Button onClick={() => setViewForm1(true)}>수정</Button>
           </>
         )}
