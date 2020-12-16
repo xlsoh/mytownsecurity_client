@@ -44,18 +44,20 @@ function Service({
     variables: { addressId },
   });
 
-  const loading = true,
-    data = {
-      address: { longitudeY: 37.5137912, latitudeX: 127.0293161 },
-      crime: '',
-    };
+  // const loading = true,
+  //   data = {
+  //     address: { longitudeY: 37.5137912, latitudeX: 127.0293161 },
+  //     crime: '',
+  //   };
 
   if (loading) {
     return <div>...loading</div>;
   }
 
+  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   console.log(data.getSearchedLocation.address);
   console.log(data.getSearchedLocation.crime);
+  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 
   //   const address = {
   //     id: 'ckir2cp2wa84y09991zez6kyb',
@@ -78,10 +80,10 @@ function Service({
         userInfo={userInfo}
         address={data.getSearchedLocation.address}
       />
-      <Map
+      <MapIntro
+        isToken={isToken}
         address={data.getSearchedLocation.address}
-        userContent={userContent}
-        policeStations={policeStations}
+        userInfo={userInfo}
       />
       <CrimeRate crime={data.getSearchedLocation.crime} />
       <Review userInfo={userInfo} addressId={addressId} />

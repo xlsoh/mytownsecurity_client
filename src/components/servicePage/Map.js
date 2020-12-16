@@ -16,6 +16,13 @@ function Map({ address, policeStations, favorites, reviews }) {
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=6a85830691d46018cca1166f500ad946&autoload=false`;
     document.head.appendChild(script);
 
+    console.log(
+      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1'
+    );
+    console.log(address.Y);
+    console.log(address.X);
+    console.log(address);
+
     script.onload = () => {
       kakao.maps.load(() => {
         let el = document.getElementById('map');
@@ -36,7 +43,6 @@ function Map({ address, policeStations, favorites, reviews }) {
           var message = '현재 지도 레벨: ' + level;
           var levelDiv = document.getElementById('level');
           levelDiv.innerHTML = message;
-
         });
 
         // 사용자 찜, 리뷰 마커

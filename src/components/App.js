@@ -1,11 +1,5 @@
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { useQuery } from 'react-apollo-hooks';
-import axios from 'axios';
-=======
-
->>>>>>> 27a33db05f1d7edce03a04619984d3ce095f3cd4
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
@@ -64,19 +58,8 @@ function App() {
         />
         <Route
           exact
-<<<<<<< HEAD
-          path={`/mypage/:userId`}
-          render={() => (
-            <MyPage
-              isToken={isToken}
-              userInfo={userInfo}
-              userContent={userContent}
-            />
-          )}
-=======
           path={`/mypage/${userInfo.id}`}
           render={() => <MyPage isToken={isToken} userInfo={userInfo} />}
->>>>>>> 27a33db05f1d7edce03a04619984d3ce095f3cd4
         />
         <Route
           exact
