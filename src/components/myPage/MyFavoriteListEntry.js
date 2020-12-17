@@ -120,11 +120,13 @@ function MyFavoriteListEntry({
           onClick={() => {
             deleteMyFavoriteMutation();
             swal({
-              title: ' 🖐🏻',
-              text: '찜이 삭제되었습니다.',
-              button: '확인',
+              button: false,
+              icon: 'success',
+              title: '찜이 삭제되었습니다.',
             });
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload(true);
+            }, 1000);
           }}
         >
           삭제

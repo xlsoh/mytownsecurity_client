@@ -6,6 +6,7 @@ import Modal from '../../styles/Modal';
 import SearchResultList from './SearchResultList';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH } from '../../config';
+import swal from '@sweetalert/with-react';
 
 import Button from '@material-ui/core/Button';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -36,6 +37,7 @@ function SearchInput({ setAddressId }) {
   const searchBtn = useStylesBtn();
   const inputClasses = useStylesInput();
   const [createAddress] = useMutation(CREATE_ADDRESS);
+
   useEffect(() => {
     fetchData().then((res) => setResults(res.data.results.juso));
   }, [addressInput]);
@@ -45,9 +47,15 @@ function SearchInput({ setAddressId }) {
   };
   //선택버튼
   const handleChecked = async (addrObj) => {
+    console.log(addrObj);
     const { roadAddr, sggNm, siNm, rn } = addrObj;
     if (siNm !== '서울특별시') {
-      alert('죄송합니다. 현재는 서울 지역만 서비스하는 중입니다 🙏🏼');
+      swal('죄송합니다. 현재는 서울 지역만 서비스하는 중입니다', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
+
       return;
     }
     setValue(roadAddr);
@@ -61,8 +69,9 @@ function SearchInput({ setAddressId }) {
         rn,
       },
     });
-
+    console.log(`방금 검색한 addressId : ${testRes.data.createAddress.id}`);
     setAddressId(testRes.data.createAddress.id);
+
     if (localStorage.getItem('addressId')) {
       localStorage.removeItem('addressId');
       localStorage.setItem('addressId', testRes.data.createAddress.id);
@@ -97,7 +106,11 @@ function SearchInput({ setAddressId }) {
     if (obj.value.length > 0) {
       var expText = /[%=><]/;
       if (expText.test(obj.value) == true) {
-        alert('특수문자를 입력 할수 없습니다.');
+        swal('특수문자를 입력 할수 없습니다.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
         obj.value = obj.value.split(expText).join('');
         return false;
       }
@@ -119,8 +132,13 @@ function SearchInput({ setAddressId }) {
       for (var i = 0; i < sqlArray.length; i++) {
         regex = new RegExp(sqlArray[i], 'gi');
         if (regex.test(obj.value)) {
-          alert(
-            '"' + sqlArray[i] + '"와(과) 같은 특정문자로 검색할 수 없습니다.'
+          swal(
+            '"' + sqlArray[i] + '"와(과) 같은 특정문자로 검색할 수 없습니다.',
+            {
+              button: false,
+              timer: 1000,
+              icon: 'warning',
+            }
           );
           obj.value = obj.value.replace(regex, '');
           return false;

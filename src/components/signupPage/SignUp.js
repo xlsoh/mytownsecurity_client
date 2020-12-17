@@ -112,7 +112,11 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
           history.push('/main');
         }
       } catch (error) {
-        alert(error);
+        swal('아이디와 비밀번호를 다시 입력해주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       }
     }
   };
