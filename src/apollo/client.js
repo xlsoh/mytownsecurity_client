@@ -19,7 +19,8 @@ const resolvers = {
     logUserOut: (_, __, { cache }) => {
       localStorage.removeItem('token');
       localStorage.removeItem('state');
-      window.location = '/';
+      localStorage.removeItem('addressId');
+      window.location = '/main';
       return null;
     },
   },

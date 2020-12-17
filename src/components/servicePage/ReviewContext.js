@@ -6,35 +6,6 @@ const ReviewStateContext = createContext(null);
 const ReviewDispatchContext = createContext(null);
 const ReviewNextIdContext = createContext(null);
 
-const initialReviews = [
-  {
-    id: 1,
-    text: '프로젝트 생성하기',
-    rating: 3,
-  },
-  {
-    id: 2,
-    text: '컴포넌트 스타일링하기',
-    rating: 2,
-  },
-  {
-    id: 3,
-    text: 'Context 만들기',
-    rating: 1,
-  },
-  {
-    id: 4,
-    text: '기능 구현하기',
-    rating: 3,
-  },
-];
-
-const GET_REVIEWS = gql`
-  query getReviews($adressId: Int!) {
-    getReviews(addressId: $addressId)
-  }
-`;
-
 function ReviewReducer(state, action) {
   switch (action.type) {
     case 'CREATE':
@@ -46,15 +17,10 @@ function ReviewReducer(state, action) {
   }
 }
 
-export function ReviewProvider({ addressId, children }) {
-  //서버 통신에 맞춰 수정 필요!
-  // const { data, loading, error } = useQuery(GET_REVIEWS, {
-  //   variables: {
-  //     addressId: addressId.id,
-  //   },
-  // });
+export function ReviewProvider({ addressData, children }) {
+  console.log(addressData);
 
-  const [state, dispatch] = useReducer(ReviewReducer, initialReviews); // 서버에서 받는 데이터 값 확인 후 수정 필요!!
+  const [state, dispatch] = useReducer(ReviewReducer, addressData); // 서버에서 받는 데이터 값 확인 후 수정 필요!!
   const nextId = useRef(5);
 
   return (

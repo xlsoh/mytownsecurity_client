@@ -10,20 +10,25 @@ const ReviewListBlock = styled.div`
   overflow-y: auto;
 `;
 
-const ReviewList = ({ userInfo, addressId }) => {
+const ReviewList = ({ userInfo, addressId, reviewData }) => {
   const reviews = useReviewState();
+
   return (
     <ReviewListBlock>
-      {reviews.map((reviews) => (
-        <ReviewListEntry
-          id={reviews.id}
-          text={reviews.text}
-          key={reviews.id}
-          rating={reviews.rating}
-          userInfo={userInfo}
-          addressId={addressId}
-        />
-      ))}
+      {console.log(reviews)}
+      {reviews.length !== 0 &&
+        reviews.map((reviews) => (
+          <ReviewListEntry
+            id={reviews.id}
+            text={reviews.text}
+            key={reviews.id}
+            rating={reviews.rating}
+            userInfo={userInfo}
+            addressId={addressId}
+            reviewData={reviews.postedBy.id}
+          />
+        ))}
+      {reviews.length === 0 && <div>등록된 리뷰가 없습니다.</div>}
     </ReviewListBlock>
   );
 };

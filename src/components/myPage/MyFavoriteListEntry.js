@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
+
 import useInput from '../../hooks/useInput';
 
 const MyFavoriteListContainer = styled.div`
@@ -58,12 +60,15 @@ const DELETE_MYFAVORITE = gql`
 `;
 
 function MyFavoriteListEntry({
+  id,
   favoriteId,
   addressDetail,
   aliasInput,
   createdAt,
   updatedAt,
 }) {
+  const createdAtView = createdAt.slice(0, -14);
+  const updatedAtView = updatedAt.slice(0, -14);
   const [viewForm, setViewForm] = useState(false);
   const newPlaceAliasInput = useInput(aliasInput);
   const [editMyFavoriteMutation] = useMutation(EDIT_MYFAVORITE, {
@@ -82,14 +87,28 @@ function MyFavoriteListEntry({
     e.preventDefault();
     try {
       if (newPlaceAliasInput.value == '') {
-        alert('새로운 별칭을 입력해주세요.');
+        swal('내용을 입력해주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       } else if (aliasInput == newPlaceAliasInput.value) {
-        alert('변경사항이 없습니다. 다시 입력해 주세요.');
+        swal('변경사항이 없습니다. 다시 입력해 주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       } else {
         const { data: editMyFavorite } = await editMyFavoriteMutation();
         if (editMyFavorite) {
-          alert('찜이 수정되었습니다.');
-          window.location.reload();
+          swal({
+            button: false,
+            icon: 'success',
+            title: '찜이 수정되었습니다.',
+          });
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 1000);
         }
       }
     } catch (error) {

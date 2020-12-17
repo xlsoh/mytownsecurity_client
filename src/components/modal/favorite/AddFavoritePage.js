@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
-
+import swal from '@sweetalert/with-react';
 import useInput from '../../../hooks/useInput';
 
 const FavoriteButton = styled.button`
@@ -22,8 +22,8 @@ const FavoriteInput = styled.input`
 `;
 
 const ADDFAVORITE = gql`
-  mutation addFavorite($userId: Int!, $addressId: Int!, $placeAlias: String!) {
-    addFavorite(userId: $userId, addressId: $addressId, placeAlias: $placeAlias)
+  mutation addFavorite($userId: ID!, $addressId: ID!, $aliasInput: String!) {
+    addFavorite(userId: $userId, addressId: $addressId, aliasInput: $aliasInput)
   }
 `;
 
@@ -33,7 +33,7 @@ function AddFavoritePage({ userInfo, address }) {
     variables: {
       userId: userInfo.id,
       addressId: address.id,
-      placeAlias: aliaseInput.value,
+      aliasInput: aliaseInput.value,
     },
   });
 
@@ -41,16 +41,20 @@ function AddFavoritePage({ userInfo, address }) {
     e.preventDefault();
     try {
       if (aliaseInput.value == '') {
-        alert('Please Enter your aliase!😭');
+        swal('별칭을 입력해 주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       } else {
         const { data: addFavortie } = await addFavoriteMutation();
         if (addFavortie) {
-          alert('The enrollment was successful!😄');
-          // setTimeout(() => {
-          //   const history = useHistory();
-          //   history.go(0);
-          //   // window.location.reload();
-          // }, 2000);
+          swal('찜이 완료되었습니다.', {
+            button: false,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       }
     } catch (error) {
@@ -64,7 +68,7 @@ function AddFavoritePage({ userInfo, address }) {
         <a>검색하신 주소를 등록하시겠습니까?</a>
         <br />
         <br />
-        <a>{address.detail}/검색한 주소가 나타나게될 곳/</a>
+        <a>{address.detail}</a>
         <br />
         <a>장소 별칭</a>
         <form onSubmit={onSubmit}>

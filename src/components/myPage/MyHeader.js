@@ -3,6 +3,9 @@ import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
+import Button from '@material-ui/core/Button';
+import { useStylesHeader } from '../mainPage/HeaderCss';
 
 const FixedHeader = styled.div`
   position: fixed;
@@ -19,7 +22,7 @@ const HeaderContainer = styled.div`
   height: 80px;
   display: flex;
   justify-content: space-between;
-  padding: 0px 50px;
+  padding: 0px 0px;
 `;
 
 const HomeButton = styled.button`
@@ -27,26 +30,13 @@ const HomeButton = styled.button`
   border: none;
   width: 250px;
   height: 80px;
-  margin-left: 30px;
+  margin-left: 20px;
   cursor: pointer;
 `;
 
-const LogOutButton = styled.button`
-  background: white;
-  border: none;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin-right: 30px;
-  font-family: Gill Sans;
-  font-size: 25px;
-  font-weight: 700;
-  &:hover {
-    background-color: #32e0c4;
-  }
-`;
 const TOKENLOGOUT = gql`
-  mutation logUserOut($token: String!, $state: Object!) {
-    logUserOut(token: $token, state: $state) @client
+  mutation logUserOut($token: String!, $state: Object!, $addressId: Int!) {
+    logUserOut(token: $token, state: $state, addressId: $addressId) @client
   }
 `;
 
@@ -54,28 +44,39 @@ function MyHeader({ isToken }) {
   const history = useHistory();
   const token = localStorage.getItem('token');
   const state = JSON.parse(localStorage.getItem('state'));
+  const addressId = localStorage.getItem('addressId');
   const [tokenLogoutMutation] = useMutation(TOKENLOGOUT, {
-    variables: { token, state },
+    variables: { token, state, addressId },
   });
+
+  const headersBtn = useStylesHeader();
 
   return (
     <>
       {isToken && (
-        <>
-          <FixedHeader>
-            <HeaderContainer>
-              <HomeButton onClick={() => history.push(`/`)} />
-              <LogOutButton
-                text='Log out'
-                onClick={() =>
-                  tokenLogoutMutation({ variables: { token, state } })
-                }
-              >
-                Log Out
-              </LogOutButton>
-            </HeaderContainer>
-          </FixedHeader>
-        </>
+        <FixedHeader>
+          <HeaderContainer>
+            <HomeButton onClick={() => history.push(`/main`)}></HomeButton>
+            <Button
+              className={[headersBtn.header, headersBtn.login].join(' ')}
+              variant='outlined'
+              text='Log out'
+              onClick={() => {
+                swal({
+                  button: false,
+                  icon: 'success',
+                });
+                setTimeout(() => {
+                  tokenLogoutMutation({
+                    variables: { token, state, addressId },
+                  });
+                }, 1300);
+              }}
+            >
+              로그아웃
+            </Button>
+          </HeaderContainer>
+        </FixedHeader>
       )}
       {!isToken && null}
     </>

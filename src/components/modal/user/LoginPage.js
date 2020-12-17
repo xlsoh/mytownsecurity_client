@@ -3,11 +3,14 @@ import { withRouter, Link } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
+import '../../../styles/Alert.css';
 
 import LoginInput from './loginInput';
-import LoginButton from './loginButton';
 import useInput from '../../../hooks/useInput';
 
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../../styles/globalBtnCss';
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -51,11 +54,15 @@ function LoginPage({ setIsToken, setUserInfo }) {
     variables: { email: emailInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
-
+  const loginClass = useStylesBtn();
   const onSubmit = async (e) => {
     e.preventDefault();
     if (emailInput.value == '' || passInput.value == '') {
-      alert('이메일과 비밀번호를 입력해 주세요.');
+      swal('이메일과 비밀번호를 입력해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else {
       try {
         const {
@@ -79,16 +86,27 @@ function LoginPage({ setIsToken, setUserInfo }) {
           });
           setIsToken(true);
           setUserInfo(getUser);
+          swal({
+            button: false,
+            icon: 'success',
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1300);
         }
       } catch (error) {
-        alert(error);
+        swal('이메일과 비밀번호를 확인해 주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       }
     }
   };
 
   return (
     <>
-      {loading && '로그인 중입니다. 잠시만 기다려주세요.'}
+      {loading && <>{}</>}
       {!loading && (
         <>
           {' '}
@@ -105,7 +123,9 @@ function LoginPage({ setIsToken, setUserInfo }) {
                     {...passInput}
                     type={'password'}
                   ></LoginInput>
-                  <LoginButton text='Log in'></LoginButton>
+                  <Button type='submit' className={loginClass.modalBtn}>
+                    로그인
+                  </Button>
                 </form>
               </div>
               <div>

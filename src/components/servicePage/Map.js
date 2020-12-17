@@ -16,21 +16,12 @@ function Map({ address, policeStations, favorites, reviews }) {
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=6a85830691d46018cca1166f500ad946&autoload=false`;
     document.head.appendChild(script);
 
-    console.log(
-      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1'
-    );
-    console.log(address.address.Y);
-    console.log(address.address.X);
-    console.log(address);
-
     script.onload = () => {
       kakao.maps.load(() => {
         let el = document.getElementById('map');
 
         let map = new kakao.maps.Map(el, {
-          center: new kakao.maps.LatLng(address.address.Y, address.address.X), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
-          //center: new kakao.maps.LatLng(address.longitudeY, address.latitudeX), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
-          //center: new kakao.maps.LatLng(37.56107588, 126.995346),
+          center: new kakao.maps.LatLng(address.Y, address.X), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
           level: 3,
         });
 
@@ -58,8 +49,11 @@ function Map({ address, policeStations, favorites, reviews }) {
               favorite_imageOption
             );
             var favorite_marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(favorite.Y, favorite.X),
-              title: `$소재지: ${favorite.addressDetail}\n$별칭: ${favorite.placeAlias}`,
+              position: new kakao.maps.LatLng(
+                favorite.postedAt.Y,
+                favorite.postedAt.X
+              ),
+              title: `소재지: ${favorite.postedAt.detail}\n별칭: ${favorite.aliasInput}`,
               image: favorite_markerImage,
             });
             favorite_marker.setMap(map);
@@ -77,8 +71,11 @@ function Map({ address, policeStations, favorites, reviews }) {
               review_imageOption
             );
             var review_marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(review.Y, review.X),
-              title: `$소재지: ${review.addressDetail}\n별점: ${review.rating}\n리뷰: ${review.text}`,
+              position: new kakao.maps.LatLng(
+                review.postedAt.Y,
+                review.postedAt.X
+              ),
+              title: `소재지: ${review.postedAt.detail}\n별점: ${review.rating}\n리뷰: ${review.text}`,
               image: review_markerImage,
             });
             review_marker.setMap(map);
@@ -112,35 +109,35 @@ function Map({ address, policeStations, favorites, reviews }) {
           police_marker.setMap(map);
 
           //오버레이
-          var content = document.createElement('div');
-          content.className = 'content';
-          content.innerHTML =
-            `<div class="overlaybox">` +
-            `<div class="boxtitle">` +
-            `${policeStation.stationName}` +
-            `<div class ="cctv"></div>` +
-            `</div>` +
-            `</div>`;
+          //   var content = document.createElement('div');
+          //   content.className = 'content';
+          //   content.innerHTML =
+          //     `<div class="overlaybox">` +
+          //     `<div class="boxtitle">` +
+          //     `${policeStation.stationName}` +
+          //     `<div class ="cctv"></div>` +
+          //     `</div>` +
+          //     `</div>`;
 
-          var closeBtn = document.createElement('button');
-          closeBtn.className = 'close';
-          closeBtn.innerHTML = `X`;
-          closeBtn.onclick = function () {
-            overlay.setMap(null);
-          };
+          //   var closeBtn = document.createElement('button');
+          //   closeBtn.className = 'close';
+          //   closeBtn.innerHTML = `X`;
+          //   closeBtn.onclick = function () {
+          //     overlay.setMap(null);
+          //   };
 
-          content.appendChild(closeBtn);
+          //   content.appendChild(closeBtn);
 
-          var overlay = new kakao.maps.CustomOverlay({
-            position: police_marker.getPosition(),
-            content: content,
-            xAnchor: 0.33,
-            yAnchor: 1.19,
-            clickable: true,
-          });
-          kakao.maps.event.addListener(police_marker, 'click', function () {
-            overlay.setMap(map);
-          });
+          //   var overlay = new kakao.maps.CustomOverlay({
+          //     position: police_marker.getPosition(),
+          //     content: content,
+          //     xAnchor: 0.33,
+          //     yAnchor: 1.19,
+          //     clickable: true,
+          //   });
+          //   kakao.maps.event.addListener(police_marker, 'click', function () {
+          //     overlay.setMap(map);
+          //   });
         });
 
         //cctv 마커
