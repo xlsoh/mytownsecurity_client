@@ -18,8 +18,8 @@ const Button = styled.button`
   cursor: pointer;
 `;
 const TOKENLOGOUT = gql`
-  mutation logUserOut($token: String!, $state: Object!) {
-    logUserOut(token: $token, state: $state) @client
+  mutation logUserOut($token: String!, $state: Object!, $addressId: Int!) {
+    logUserOut(token: $token, state: $state, addressId: $addressId) @client
   }
 `;
 
@@ -27,8 +27,9 @@ function MyHeader({ isToken }) {
   const history = useHistory();
   const token = localStorage.getItem('token');
   const state = JSON.parse(localStorage.getItem('state'));
+  const addressId = localStorage.getItem('addressId');
   const [tokenLogoutMutation] = useMutation(TOKENLOGOUT, {
-    variables: { token, state },
+    variables: { token, state, addressId },
   });
 
   return (
@@ -36,11 +37,11 @@ function MyHeader({ isToken }) {
       {isToken && (
         <>
           <Container>
-            <Button onClick={() => history.push(`/`)}>로고</Button>
+            <Button onClick={() => history.push(`/main`)}>로고</Button>
             <Button
               text='Log out'
               onClick={() =>
-                tokenLogoutMutation({ variables: { token, state } })
+                tokenLogoutMutation({ variables: { token, state, addressId } })
               }
             >
               로그아웃
