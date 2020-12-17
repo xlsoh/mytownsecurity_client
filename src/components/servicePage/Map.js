@@ -28,7 +28,7 @@ function Map({ address, policeStations, favorites, reviews }) {
         let el = document.getElementById('map');
 
         let map = new kakao.maps.Map(el, {
-          center: new kakao.maps.LatLng(address.Y, address.X), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
+          center: new kakao.maps.LatLng(address.address.Y, address.address.X), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
           //center: new kakao.maps.LatLng(address.longitudeY, address.latitudeX), // 추후 사용자가 입력한 주소의 좌표 변수로 대체 예정
           //center: new kakao.maps.LatLng(37.56107588, 126.995346),
           level: 3,
