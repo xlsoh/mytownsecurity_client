@@ -6,7 +6,6 @@ export const useStylesHeader = makeStyles({
   header: {
     border: '1px solid #0d7377',
     borderRadius: 3,
-    color: '#0d7377',
     height: 36,
     width: 80,
     padding: '0 10px',

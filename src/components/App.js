@@ -12,7 +12,6 @@ import MyPage from './myPage/MyPage';
 import SignUp from './signupPage/SignUp';
 
 function App() {
-  const history = useHistory();
   const [isToken, setIsToken] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [addressId, setAddressId] = useState(0);
@@ -31,8 +30,11 @@ function App() {
       setUserInfo(loggedIn);
     }
   }, [isToken, userInfo]);
+
   useEffect(() => {
-    setAddressId(loggedAddressId);
+    if (!addressId) {
+      setAddressId(loggedAddressId);
+    }
   }, [addressId]);
 
   return (
@@ -93,6 +95,7 @@ function App() {
             return <Redirect to={location.pathname} />;
           }}
         />
+        {/* <Route path={`/`} render={() => <Redirect to={`/main`} />} /> */}
       </Switch>
     </div>
   );

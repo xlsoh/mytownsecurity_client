@@ -132,11 +132,13 @@ function MyReviewListEntry({
           onClick={() => {
             deleteMyReviewMutation();
             swal({
-              title: ' 🖐🏻',
-              text: '리뷰가 삭제되었습니다.',
-              button: '확인',
+              button: false,
+              icon: 'success',
+              title: '리뷰가 삭제되었습니다.',
             });
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload(true);
+            }, 1000);
           }}
         >
           삭제

@@ -4,7 +4,7 @@ import { useReviewDispatch, useReviewNextId } from './ReviewContext';
 import ReviewRating from './ReviewRating';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-
+import swal from '@sweetalert/with-react';
 const InsertFormPositioner = styled.div`
   width: 100%;
   position: relative;
@@ -85,7 +85,11 @@ function ReviewCreate({ userInfo, addressId }) {
     } = await addReview();
 
     if (value == '') {
-      alert('내용을 입력해 주세요.');
+      swal('내용을 입력해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else {
       dispatch({
         type: 'CREATE',
@@ -129,7 +133,10 @@ function ReviewCreate({ userInfo, addressId }) {
             />
             <Button
               onClick={() => {
-                alert('로그인 후 이용해 주세요.');
+                swal('로그인 후 이용해 주세요.', {
+                  button: false,
+                  timer: 1000,
+                });
               }}
             >
               enter

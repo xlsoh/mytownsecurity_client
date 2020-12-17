@@ -39,7 +39,7 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
             >
               <img src='https://ifh.cc/g/uCRQxb.png' />
             </button> */}
-            <HomeButton onClick={() => history.push(`/`)} />
+            <HomeButton onClick={() => history.push(`/main`)} />
 
             <Button
               className={[headersBtn.header, headersBtn.login].join(' ')}
@@ -71,7 +71,7 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
       ) : (
         <>
           <Container>
-            <HomeButton onClick={() => history.push(`/`)} />
+            <HomeButton onClick={() => history.push(`/main`)} />
             <Button
               className={[headersBtn.header, headersBtn.login].join(' ')}
               text='Log in'
