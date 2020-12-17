@@ -5,6 +5,8 @@ import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
 
 import useInput from '../../hooks/useInput';
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../styles/globalBtnCss';
 
 const Background = styled.div`
   width: 100%;
@@ -15,19 +17,17 @@ const Background = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+
 const Wrapper = styled.section`
   padding: 5em;
-  border: 3px solid #4cd59e;
+  border: 3px solid #0d7377;
   border-radius: 40px;
   display: grid;
 `;
-const SignupButton = styled.button`
-  display: relative;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
+const SiginupSpan = styled.span`
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
 `;
 const SignupInput = styled.input`
   border: solid 1px #dadada;
@@ -55,6 +55,7 @@ const TOKENLOGIN = gql`
 `;
 
 function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
+  const loginClass = useStylesBtn();
   const history = useHistory();
   const idInput = useInput('');
   const passInput = useInput('');
@@ -107,7 +108,7 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
       {!isToken && (
         <Background>
           <Wrapper>
-            <a>회원가입</a>
+            <SiginupSpan>회원가입</SiginupSpan>
             <br />
             <a>Email</a>
             <form onSubmit={onSubmit}>
@@ -134,7 +135,9 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
               />
               <br />
               <br />
-              <SignupButton>회원가입</SignupButton>
+              <Button className={loginClass.signUpBtn} type='submit'>
+                Sign Up!
+              </Button>
             </form>
           </Wrapper>
         </Background>
