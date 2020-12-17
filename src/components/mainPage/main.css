@@ -1,22 +1,19 @@
-#search_background {
-  width: 100%;
-  height: 100px;
-  position: relative;
-  z-index: -1;
+/* 우리 동네 안전이 궁금하다면, */
+.main_first {
+  font-size: 40px;
+  margin-top: 150px;
+  margin-bottom: 20px;
+  color: rgb(55, 55, 55);
 }
-#search_background::after {
-  width: 100%;
-  height: 100px;
-  content: '';
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('./search_bg3.jpg');
-  background-color: #0d7377;
-  opacity: 0.7;
-  background-size: cover;
-  padding-top: 20%;
-  padding-bottom: 20%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -2;
+
+/* MyTownSecurity */
+.main_second {
+  font-size: 50px;
+  margin-bottom: 5px;
+}
+
+/* 주소를 검색하고 여러분의 의견을 공유해주세요 */
+.main_third {
+  font-size: 30px;
+  color: rgb(55, 55, 55);
 }

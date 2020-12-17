@@ -2,13 +2,13 @@ import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-
-import ServHeader from './ServHeader';
+import ServHeader from '../mainPage/Header';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
 import Review from './Review';
 import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
+import { MainCenter } from '../mainPage/MainCss';
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
@@ -54,7 +54,9 @@ function Service({
         setUserInfo={setUserInfo}
         userInfo={userInfo}
       />
-      <SearchInput addressId={addressId} setAddressId={setAddressId} />
+      <MainCenter>
+        <SearchInput addressId={addressId} setAddressId={setAddressId} />
+      </MainCenter>
       <AddFavorite
         isToken={isToken}
         userInfo={userInfo}
