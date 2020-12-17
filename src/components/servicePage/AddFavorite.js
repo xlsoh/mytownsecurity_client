@@ -19,20 +19,38 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function AddFavorite({ address, userInfo }) {
+function AddFavorite({ isToken, address, userInfo }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [viewForm, setViewForm] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   };
 
   return (
     <>
-      <Container>
-        <Button onClick={openModal}>❤</Button>
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <AddFavoritePage userInfo={userInfo} address={address} />
-        </Modal>
-      </Container>
+      {isToken && (
+        <>
+          <Container>
+            <Button onClick={openModal}>❤</Button>
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+              <AddFavoritePage userInfo={userInfo} address={address} />
+            </Modal>
+          </Container>
+        </>
+      )}
+      {!isToken && (
+        <>
+          <Container>
+            <Button
+              onClick={() => {
+                alert('로그인 후 이용해 주세요.');
+              }}
+            >
+              ❤
+            </Button>
+          </Container>
+        </>
+      )}
     </>
   );
 }

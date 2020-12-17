@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
@@ -33,12 +33,15 @@ const DELETE_MYFAVORITE = gql`
 `;
 
 function MyFavoriteListEntry({
+  id,
   favoriteId,
   addressDetail,
   aliasInput,
   createdAt,
   updatedAt,
 }) {
+  const createdAtView = createdAt.slice(0, -14);
+  const updatedAtView = updatedAt.slice(0, -14);
   const [viewForm, setViewForm] = useState(false);
   const newPlaceAliasInput = useInput(aliasInput);
   const [editMyFavoriteMutation] = useMutation(EDIT_MYFAVORITE, {
@@ -64,7 +67,7 @@ function MyFavoriteListEntry({
         const { data: editMyFavorite } = await editMyFavoriteMutation();
         if (editMyFavorite) {
           alert('찜이 수정되었습니다.');
-          window.location.reload();
+          window.location.reload(true);
         }
       }
     } catch (error) {
@@ -108,9 +111,9 @@ function MyFavoriteListEntry({
         </Button>
 
         <p>생성일</p>
-        {createdAt}
+        {createdAtView}
         <p>수정일</p>
-        {updatedAt}
+        {updatedAtView}
       </div>
     </>
   );
