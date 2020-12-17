@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../../hooks/useInput';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
 
 const Container = styled.div`
   display: flex;
@@ -79,15 +80,29 @@ function EditInfoPage({ userInfo }) {
       passInput.value == '' ||
       passConfirmInput.value == ''
     ) {
-      alert('비밀번호를 입력해 주세요.');
+      swal('비밀번호를 입력해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else if (passInput.value !== passConfirmInput.value) {
-      alert('비밀번호를 확인해 주세요.');
+      swal('비밀번호를 확인해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else {
       try {
         const { data } = await editPasswordMutation();
         if (data) {
-          alert('비밀번호가 변경되었습니다. 다시 로그인해 주세요.');
-          tokenLogoutMutation({ variables: { token, state } });
+          swal({
+            button: false,
+            icon: 'success',
+            title: '비밀번호가 변경되었습니다. 다시 로그인해 주세요.',
+          });
+          setTimeout(() => {
+            tokenLogoutMutation({ variables: { token, state } });
+          }, 1000);
         }
       } catch (error) {
         console.log(error);

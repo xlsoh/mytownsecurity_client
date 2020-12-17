@@ -3,6 +3,7 @@ import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
 
 import useInput from '../../hooks/useInput';
 
@@ -75,9 +76,17 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
       passInput.value == '' ||
       passConfirmInput.value == ''
     ) {
-      alert('이메일과 비밀번호를 입력해주세요.');
+      swal('이메일과 비밀번호를 입력해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else if (passInput.value !== passConfirmInput.value) {
-      alert('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.');
+      swal('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else {
       try {
         const {
@@ -86,7 +95,12 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
           },
         } = await signUpMutation();
         if (token !== '' || token !== undefined) {
-          alert('안전궁금해의 회원이 되신걸 환영합니다!');
+          swal({
+            icon: 'success',
+            button: false,
+            timer: 1300,
+            title: '안전궁금해의 회원이 되신걸 환영합니다!',
+          });
           const getUser = {
             id: user.id,
             email: user.email,
@@ -94,7 +108,7 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
           tokenLoginMutation({ variables: { token: token, state: getUser } });
           setIsToken(true);
           setUserInfo(getUser);
-          history.push('/');
+          history.push('/main');
         }
       } catch (error) {
         alert(error);
