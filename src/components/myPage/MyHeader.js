@@ -3,6 +3,7 @@ import { withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
 
 const Container = styled.div`
   display: flex;
@@ -40,9 +41,17 @@ function MyHeader({ isToken }) {
             <Button onClick={() => history.push(`/main`)}>로고</Button>
             <Button
               text='Log out'
-              onClick={() =>
-                tokenLogoutMutation({ variables: { token, state, addressId } })
-              }
+              onClick={() => {
+                swal({
+                  button: false,
+                  icon: 'success',
+                });
+                setTimeout(() => {
+                  tokenLogoutMutation({
+                    variables: { token, state, addressId },
+                  });
+                }, 1300);
+              }}
             >
               로그아웃
             </Button>

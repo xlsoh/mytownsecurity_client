@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
-
+import swal from '@sweetalert/with-react';
 import useInput from '../../../hooks/useInput';
 
 const FavoriteButton = styled.button`
@@ -41,12 +41,20 @@ function AddFavoritePage({ userInfo, address }) {
     e.preventDefault();
     try {
       if (aliaseInput.value == '') {
-        alert('별칭을 입력해 주세요.');
+        swal('별칭을 입력해 주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       } else {
         const { data: addFavortie } = await addFavoriteMutation();
         if (addFavortie) {
-          alert('찜이 완료되었습니다.');
-          window.location.reload();
+          swal('찜이 완료되었습니다.', {
+            button: false,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         }
       }
     } catch (error) {
