@@ -2,13 +2,20 @@ import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-
 import ServHeader from './ServHeader';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
 import Review from './Review';
 import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
+import styled from 'styled-components';
+
+const ServiceBodyPositioner = styled.div`
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  height: 950px;
+`;
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
@@ -56,17 +63,19 @@ function Service({
         userInfo={userInfo}
       />
       <SearchInput addressId={addressId} setAddressId={setAddressId} />
-      <AddFavorite
-        isToken={isToken}
-        userInfo={userInfo}
-        address={data.getSearchedLocation.address}
-      />
-      <MapIntro
-        isToken={isToken}
-        address={data.getSearchedLocation.address}
-        userInfo={userInfo}
-      />
-      <CrimeRate crime={data.getSearchedLocation.crime} />
+      <ServiceBodyPositioner>
+        <AddFavorite
+          isToken={isToken}
+          userInfo={userInfo}
+          address={data.getSearchedLocation.address}
+        />
+        <CrimeRate crime={data.getSearchedLocation.crime} />
+        <MapIntro
+          isToken={isToken}
+          address={data.getSearchedLocation.address}
+          userInfo={userInfo}
+        />
+      </ServiceBodyPositioner>
       <Review userInfo={userInfo} addressId={addressId} />
     </>
   );

@@ -9,17 +9,14 @@ import { useQuery } from 'react-apollo-hooks';
 const ReviewTemplate = styled.div`
   width: 512px;
   height: 768px;
-
   position: relative;
+  top: 0px;
   background: white;
   border-radius: 16px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
   margin: 0 auto;
-  margin-top: 96px;
-  margin-bottom: 32px;
   display: flex;
   flex-direction: column;
-  position: relative;
 `;
 
 const GET_REVIEWS = gql`
@@ -69,6 +66,16 @@ function Review({ userInfo, addressId }) {
                   addressId={addressId}
                   reviewData={assortedReview}
                 />
+              </ReviewTemplate>
+            </ReviewProvider>
+          </>
+        )}
+        {assortedReview.length === 0 && (
+          <>
+            <ReviewProvider addressData={assortedReview}>
+              <ReviewTemplate>
+                <ReviewCreate userInfo={userInfo} addressId={addressId} />
+                등록된 리뷰가 없습니다.
               </ReviewTemplate>
             </ReviewProvider>
           </>

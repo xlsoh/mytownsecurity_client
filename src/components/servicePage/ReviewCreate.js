@@ -39,6 +39,8 @@ const Button = styled.button`
   margin-top: 15px;
   margin-bottom: 15px;
   cursor: pointer;
+  position: absolute;
+  left: 500px;
 `;
 
 const ADD_REVIEW = gql`
@@ -105,28 +107,28 @@ function ReviewCreate({ userInfo, addressId }) {
     <>
       {userInfo.id && (
         <InsertFormPositioner>
-          <ReviewRating rating={rating} setRating={setRating} />
           <InsertForm>
             <Input
               autoFocus
               onChange={onChange}
               value={value}
-              placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
+              placeholder='리뷰와 별점을 입력하신 후, Enter 를 누르세요'
             />
+            <ReviewRating rating={rating} setRating={setRating} />
             <Button onClick={onSubmit}>enter</Button>
           </InsertForm>
         </InsertFormPositioner>
       )}
       {!userInfo.id && (
         <InsertFormPositioner>
-          <ReviewRating rating={rating} setRating={setRating} />
           <InsertForm>
             <Input
               autoFocus
               onChange={onChange}
               value={value}
-              placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
+              placeholder='리뷰와 별점을 입력하신 후, Enter 를 누르세요'
             />
+            <ReviewRating rating={rating} setRating={setRating} />
             <Button
               onClick={() => {
                 alert('로그인 후 이용해 주세요.');
