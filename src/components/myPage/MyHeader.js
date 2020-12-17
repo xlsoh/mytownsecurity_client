@@ -4,20 +4,36 @@ import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
 import swal from '@sweetalert/with-react';
+import Button from '@material-ui/core/Button';
+import { useStylesHeader } from '../mainPage/HeaderCss';
 
-const Container = styled.div`
+const FixedHeader = styled.div`
+  position: fixed;
+  width: 100%;
+  box-shadow: rgba(24, 71, 23, 0.05) 0px 2px 5px;
   display: flex;
+  background: rgba(255, 255, 255, 0.8);
+  justify-content: center;
 `;
-const Button = styled.button`
-  min-width: 100px;
-  padding: 16px 32px;
+
+const HeaderContainer = styled.div`
+  min-width: 760px;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 0px;
+`;
+
+const HomeButton = styled.button`
+  background-image: url(https://ifh.cc/g/uCRQxb.png);
   border: none;
-  border-radius: 4px;
-  background: #4cd59e;
-  color: #fff;
-  font-size: 18px;
+  width: 250px;
+  height: 80px;
+  margin-left: 20px;
   cursor: pointer;
 `;
+
 const TOKENLOGOUT = gql`
   mutation logUserOut($token: String!, $state: Object!, $addressId: Int!) {
     logUserOut(token: $token, state: $state, addressId: $addressId) @client
@@ -33,13 +49,17 @@ function MyHeader({ isToken }) {
     variables: { token, state, addressId },
   });
 
+  const headersBtn = useStylesHeader();
+
   return (
     <>
       {isToken && (
-        <>
-          <Container>
-            <Button onClick={() => history.push(`/main`)}>로고</Button>
+        <FixedHeader>
+          <HeaderContainer>
+            <HomeButton onClick={() => history.push(`/main`)}></HomeButton>
             <Button
+              className={[headersBtn.header, headersBtn.login].join(' ')}
+              variant='outlined'
               text='Log out'
               onClick={() => {
                 swal({
@@ -55,8 +75,8 @@ function MyHeader({ isToken }) {
             >
               로그아웃
             </Button>
-          </Container>
-        </>
+          </HeaderContainer>
+        </FixedHeader>
       )}
       {!isToken && null}
     </>

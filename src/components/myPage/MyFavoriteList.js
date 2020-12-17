@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import MyFavoriteListEntry from './MyFavoriteListEntry';
 
 const FavoriteWrapper = styled.div`
-  width: 100%;
-  padding: 20px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
-  color: #000;
-  display: grid;
-  border-radius: 10px;
+  width: 750px;
+  box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background: #e1f5f1;
+  margin-left: 170px;
+  margin-bottom: 50px;
 `;
 
 function MyFavoriteList({ data, id }) {
@@ -29,7 +29,6 @@ function MyFavoriteList({ data, id }) {
                 createdAt={favorite.createdAt}
                 updatedAt={favorite.updatedAt}
               />
-              <br />
               <hr />
             </Fragment>
           ))}

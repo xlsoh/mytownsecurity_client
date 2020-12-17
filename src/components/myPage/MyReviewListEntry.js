@@ -8,18 +8,50 @@ import swal from '@sweetalert/with-react';
 
 import ReviewRating from './ReviewRating';
 
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
+const MyReviewListContainer = styled.div`
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 50px;
 `;
+const ButtonWrapper = styled.div`
+  display: frid;
+  justify-content: end;
+  margin-right: 30ox;
+`;
+
+const EditDeleteButton = styled.button`
+  border: solid 1px #dadada;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  padding: 5px;
+  transition: all 0.5s;
+  cursor: pointer;
+  &:hover {
+    background-color: #32e0c4;
+  }
+`;
+
+const SubTitle = styled.span`
+  font-size: 25px;
+`;
+
+const Description = styled.span`
+  opacity: 0.6;
+  font-size: 20px;
+  font-weight: 400;
+`;
+
 const Input = styled.input`
   border: solid 1px #fff;
+  width: 550px;
+  margin-right: 15px;
   margin-bottom: 15px;
   padding: 10px;
+`;
+
+const RatingWrapper = styled.div`
+  display: flex;
+  justify-content: start;
 `;
 
 const EDIT_MYREVIEW = gql`
@@ -42,7 +74,6 @@ function MyReviewListEntry({
   createdAt,
   updatedAt,
 }) {
-  const createdAtView = createdAt.slice(0, -14);
   const updatedAtView = updatedAt.slice(0, -14);
   const [viewForm1, setViewForm1] = useState(false);
   const [viewForm2, setViewForm2] = useState(false);
@@ -100,50 +131,51 @@ function MyReviewListEntry({
 
   return (
     <>
-      <div>
-        <p>주소</p>
-        {addressDetail}
+      <MyReviewListContainer>
+        <SubTitle>주소: </SubTitle>
+        <Description>{addressDetail}</Description>
         <br />
-        <p>별점</p>
-        <form onSubmit={onSubmit}>
-          <ReviewRating rating={rating} setNewRating={setNewRating} />
-        </form>
         <br />
-        <p>리뷰</p>
         {!viewForm2 && (
           <>
-            {text}
-            <Button onClick={() => setViewForm2(true)}>수정</Button>
+            <SubTitle>리뷰: </SubTitle>
+            <Description>{text}</Description>
+            <br />
+            <br />
+            <RatingWrapper>
+              <SubTitle>평점: </SubTitle>
+              <form onSubmit={onSubmit}>
+                <ReviewRating rating={rating} setNewRating={setNewRating} />
+              </form>
+            </RatingWrapper>
+            <br />
+            <SubTitle>등록한 날짜: </SubTitle>
+            <Description>{updatedAtView}</Description>
+            <br />
+            <ButtonWrapper>
+              <EditDeleteButton onClick={() => setViewForm2(true)}>
+                수정
+              </EditDeleteButton>
+              <EditDeleteButton
+                onClick={() => {
+                  deleteMyReviewMutation();
+                  window.location.reload();
+                }}
+              >
+                삭제
+              </EditDeleteButton>
+            </ButtonWrapper>
           </>
         )}
         <form onSubmit={onSubmit}>
           {viewForm2 && (
             <>
               <Input type='text' {...newTextInput} />
-              <Button>수정</Button>
+              <EditDeleteButton>수정</EditDeleteButton>
             </>
           )}
         </form>
-        <p>생성일</p>
-        {createdAtView}
-        <p>수정일</p>
-        {updatedAtView}
-        <Button
-          onClick={() => {
-            deleteMyReviewMutation();
-            swal({
-              button: false,
-              icon: 'success',
-              title: '리뷰가 삭제되었습니다.',
-            });
-            setTimeout(() => {
-              window.location.reload(true);
-            }, 1000);
-          }}
-        >
-          삭제
-        </Button>
-      </div>
+      </MyReviewListContainer>
     </>
   );
 }

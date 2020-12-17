@@ -9,6 +9,44 @@ import MyInfo from './MyInfo';
 import MyFavoriteList from './MyFavoriteList';
 import MyReviewList from './MyReviewList';
 
+const MyInfoContainer = styled.div`
+  display: grid;
+  place-items: center;
+  margin-top: 80px;
+`;
+
+const FavoritesReviewsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FavoritesReviewsWrapper = styled.div`
+  display: grid;
+  place-items: center;
+`;
+
+const Title = styled.div`
+  font-size: 45px;
+  font-weight: 700;
+  font-family: Gill Sans;
+`;
+
+const FavoriteTitle = styled.div`
+  font-size: 45px;
+  font-weight: 700;
+  font-family: Gill Sans;
+  margin-bottom: 20px;
+  margin-left: 170px;
+`;
+
+const ReviewTitle = styled.div`
+  font-size: 45px;
+  font-weight: 700;
+  font-family: Gill Sans;
+  margin-bottom: 20px;
+  margin-right: 150px;
+`;
+
 const GET_MYINFO = gql`
   query getMyInfo($userId: ID!) {
     getMyInfo(userId: $userId) {
@@ -55,29 +93,27 @@ function MyPage({ isToken, userInfo }) {
             <>
               <MyHeader isToken={isToken} />
               <br /> <br />
-              <div>
-                내 정보
-                <hr />
+              <MyInfoContainer>
+                <Title>나의 정보</Title>
+                <br />
                 <br />
                 <MyInfo userInfo={userInfo} />
-              </div>
-              <div>
-                <br /> <br /> <br />
-                내가 찜한 동네
-                <hr />
-                <br />
-                <MyFavoriteList
-                  data={data.getMyInfo.favorite}
-                  id={userInfo.id}
-                />
-              </div>
+              </MyInfoContainer>
               <br /> <br /> <br />
-              <div>
-                내가 등록한 리뷰
-                <hr />
-                <br />
-                <MyReviewList data={data.getMyInfo.review} id={userInfo.id} />
-              </div>
+              <br />
+              <FavoritesReviewsContainer>
+                <FavoritesReviewsWrapper>
+                  <FavoriteTitle>찜한 동네</FavoriteTitle>
+                  <MyFavoriteList
+                    data={data.getMyInfo.favorite}
+                    id={userInfo.id}
+                  />
+                </FavoritesReviewsWrapper>
+                <FavoritesReviewsWrapper>
+                  <ReviewTitle>작성한 리뷰</ReviewTitle>
+                  <MyReviewList data={data.getMyInfo.review} id={userInfo.id} />
+                </FavoritesReviewsWrapper>
+              </FavoritesReviewsContainer>
             </>
           )}
         </>
