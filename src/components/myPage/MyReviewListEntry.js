@@ -40,6 +40,8 @@ function MyReviewListEntry({
   createdAt,
   updatedAt,
 }) {
+  const createdAtView = createdAt.slice(0, -14);
+  const updatedAtView = updatedAt.slice(0, -14);
   const [viewForm1, setViewForm1] = useState(false);
   const [viewForm2, setViewForm2] = useState(false);
   const [newRating, setNewRating] = useState(rating);
@@ -83,8 +85,6 @@ function MyReviewListEntry({
   return (
     <>
       <div>
-        {console.log('prevRating', rating)}
-        {console.log('newRating', newRating)}
         <p>주소</p>
         {addressDetail}
         <br />
@@ -109,13 +109,13 @@ function MyReviewListEntry({
           )}
         </form>
         <p>생성일</p>
-        {createdAt}
+        {createdAtView}
         <p>수정일</p>
-        {updatedAt}
+        {updatedAtView}
         <Button
           onClick={() => {
             deleteMyReviewMutation();
-            window.location.reload();
+            //window.location.reload();
           }}
         >
           삭제
