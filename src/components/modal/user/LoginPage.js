@@ -5,9 +5,10 @@ import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
 
 import LoginInput from './loginInput';
-import LoginButton from './loginButton';
 import useInput from '../../../hooks/useInput';
 
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../../styles/globalBtnCss';
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -51,7 +52,7 @@ function LoginPage({ setIsToken, setUserInfo }) {
     variables: { email: emailInput.value, password: passInput.value },
   });
   const [tokenLoginMutation] = useMutation(TOKENLOGIN);
-
+  const loginClass = useStylesBtn();
   const onSubmit = async (e) => {
     e.preventDefault();
     if (emailInput.value == '' || passInput.value == '') {
@@ -105,7 +106,9 @@ function LoginPage({ setIsToken, setUserInfo }) {
                     {...passInput}
                     type={'password'}
                   ></LoginInput>
-                  <LoginButton text='Log in'></LoginButton>
+                  <Button type='submit' className={loginClass.modalBtn}>
+                    로그인
+                  </Button>
                 </form>
               </div>
               <div>
