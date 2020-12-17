@@ -39,33 +39,13 @@ function Service({
   setUserInfo,
   setAddressId,
 }) {
-  //서버 따라 수정 필요
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
     variables: { addressId },
   });
 
-  // const loading = true,
-  //   data = {
-  //     address: { longitudeY: 37.5137912, latitudeX: 127.0293161 },
-  //     crime: '',
-  //   };
-
   if (loading) {
     return <div>...loading</div>;
   }
-
-  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-  console.log(data.getSearchedLocation.address);
-  console.log(data.getSearchedLocation.crime);
-  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-
-  //   const address = {
-  //     id: 'ckir2cp2wa84y09991zez6kyb',
-  //     detail: '서울특별시 서초구 남부순환로 2604 (양재동)',
-  //     X: 958927.1262997636,
-  //     Y: 1942909.9232516368,
-  //   };
-  //   const crime = {};
 
   return (
     <>
@@ -77,6 +57,7 @@ function Service({
       />
       <SearchInput addressId={addressId} setAddressId={setAddressId} />
       <AddFavorite
+        isToken={isToken}
         userInfo={userInfo}
         address={data.getSearchedLocation.address}
       />
