@@ -29,14 +29,15 @@ const GET_REVIEWS = gql`
         id
         text
         rating
+        postedBy {
+          id
+        }
       }
     }
   }
 `;
 
 function Review({ userInfo, addressId }) {
-  console.log(addressId);
-  console.log(typeof addressId);
   // 서버 통신에 맞춰 수정 필요!
   if (addressId) {
     const { data, loading, error } = useQuery(GET_REVIEWS, {
@@ -48,23 +49,28 @@ function Review({ userInfo, addressId }) {
       return <div>...loading</div>;
     }
     if (error) return `Error! ${error.message}`;
-    console.log(data);
+
+    const assortedReview = [];
+    for (let i = 0; i < data.getReviews.length; i++) {
+      for (let j = 0; j < data.getReviews[i].review.length; j++) {
+        assortedReview.push(data.getReviews[i].review[j]);
+      }
+    }
 
     return (
       <>
-        {data && data.getReviews && (
+        {assortedReview && (
           <>
-            <ReviewProvider addressData={data}>
+            <ReviewProvider addressData={assortedReview}>
               <ReviewTemplate>
-                <ReviewCreate />
-                <ReviewList userInfo={userInfo} addressId={addressId} />
+                <ReviewCreate userInfo={userInfo} addressId={addressId} />
+                <ReviewList
+                  userInfo={userInfo}
+                  addressId={addressId}
+                  reviewData={assortedReview}
+                />
               </ReviewTemplate>
             </ReviewProvider>
-          </>
-        )}
-        {data && !data.getReviews && (
-          <>
-            <div>등록된 리뷰가 없습니다.</div>
           </>
         )}
       </>

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-
 import { MdDelete } from 'react-icons/md';
 import { useReviewDispatch } from './ReviewContext';
 import StarRatings from 'react-star-ratings';
+import { gql } from 'apollo-boost';
+import { useMutation } from 'react-apollo-hooks';
 
 const Remove = styled.div`
   display: flex;
@@ -36,24 +37,34 @@ const Text = styled.div`
   color: #495057;
 `;
 
-// const REMOVE_MYREVIEW = gql`
-//   mutation editReview(
-//     $reviewId: Int!
-//   ) {
-//     editMyReview(
-//       reviewId: $reviewId
-//     )
-//   }
-// `;
+const DELETE_MYREVIEW = gql`
+  mutation deleteMyReview($reviewId: ID!) {
+    deleteMyReview(reviewId: $reviewId)
+  }
+`;
 
-function ReviewListEntry({ id, done, text, rating, userInfo, addressId }) {
+function ReviewListEntry({
+  id,
+  done,
+  text,
+  rating,
+  userInfo,
+  addressId,
+  reviewData,
+}) {
   const dispatch = useReviewDispatch();
+  const [deleteMyReviewMutation] = useMutation(DELETE_MYREVIEW, {
+    variables: {
+      reviewId: id,
+    },
+  });
 
   const onRemove = () => {
     dispatch({
       type: 'REMOVE',
       id,
     });
+    deleteMyReviewMutation();
   };
 
   return (
@@ -67,8 +78,9 @@ function ReviewListEntry({ id, done, text, rating, userInfo, addressId }) {
         starDimension='25px'
         starSpacing='2.5px'
       />
-      {console.log(id)}
-      <Remove onClick={onRemove}>{userInfo === id && <MdDelete />}</Remove>
+      <Remove onClick={onRemove}>
+        {userInfo.id === reviewData && <MdDelete />}
+      </Remove>
     </ReviewItemBlock>
   );
 }

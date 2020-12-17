@@ -88,14 +88,13 @@ function SearchInput({ setAddressId }) {
   };
   //선택버튼
   const handleChecked = async (addrObj) => {
-    console.log(addrObj);
     const { roadAddr, sggNm, siNm, rn } = addrObj;
     if (siNm !== '서울특별시') {
       alert('죄송합니다. 현재는 서울 지역만 서비스하는 중입니다 🙏🏼');
       return;
     }
     setValue(roadAddr);
-    console.log(locationXY);
+
     const testRes = await createAddress({
       variables: {
         detail: roadAddr,
@@ -105,7 +104,7 @@ function SearchInput({ setAddressId }) {
         rn,
       },
     });
-    console.log(testRes.data.createAddress.id);
+
     setAddressId(testRes.data.createAddress.id);
     //서버 연동 확인되면 사용!
     history.push(`/address/${testRes.data.createAddress.id}`);
