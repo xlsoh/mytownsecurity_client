@@ -46,7 +46,6 @@ function Service({
   if (loading) {
     return <div>...loading</div>;
   }
-
   return (
     <>
       <ServHeader

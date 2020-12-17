@@ -1,0 +1,28 @@
+.swal-overlay {
+  background-color: rgba(31, 36, 32, 0.863);
+}
+.swal-modal {
+  background-color: rgba(0, 0, 0, 0);
+}
+.swal-title {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.swal-text {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.swal-button {
+}
+.swal-button:hover {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.swal-icon {
+  size: 10px;
+}
