@@ -13,8 +13,12 @@ function ReviewRating({ rating, setNewRating }) {
     }
   };
 
+  const Rating = styled.div`
+    margin-left: 10px;
+  `;
+
   return (
-    <>
+    <Rating>
       <StarRatings
         rating={rating}
         starRatedColor='red'
@@ -24,7 +28,7 @@ function ReviewRating({ rating, setNewRating }) {
         starDimension='25px'
         starSpacing='5px'
       />
-    </>
+    </Rating>
   );
 }
 

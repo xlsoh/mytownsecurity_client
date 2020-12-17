@@ -5,12 +5,13 @@ import styled from 'styled-components';
 import MyReviewListEntry from './MyReviewListEntry';
 
 const ReviewWrapper = styled.div`
-  width: 100%;
-  padding: 20px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
-  color: #000;
-  display: grid;
-  border-radius: 10px;
+  width: 750px;
+  box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background: #e1f5f1;
+  margin-right: 170px;
+  margin-bottom: 50px;
+  padding: 0px; 30px;
 `;
 
 function MyReviewList({ data, id }) {
@@ -27,10 +28,9 @@ function MyReviewList({ data, id }) {
                 text={review.text}
                 rating={review.rating}
                 addressDetail={review.postedAt.detail}
-                createdAt={review.createdAt}
+                // createdAt={review.createdAt}
                 updatedAt={review.updatedAt}
               />
-              <br />
               <hr />
             </Fragment>
           ))}
