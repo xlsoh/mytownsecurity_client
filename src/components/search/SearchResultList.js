@@ -8,10 +8,16 @@ import { API_KEY_LOCATION } from '../../config';
 import proj4 from 'proj4';
 import axios from 'axios';
 
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../styles/globalBtnCss';
+import { SearchListContainer } from './SearchCss.js';
+
 function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
   const [checkedAddress, setCheckdAddress] = useState('');
   const [addrObj, setAddrObj] = useState();
   const [page, setPage] = useState(1);
+  const selectBtn = useStylesBtn();
+
   const PER_PAGE = 5;
   const count = Math.ceil(searchResults.length / PER_PAGE);
   const _DATA = UsePagination(searchResults, PER_PAGE);
@@ -72,34 +78,27 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
   return (
     <div>
       {console.log(searchResults)}
-      <h2>선택주소: {checkedAddress}</h2>
 
-      <Box p='5'>
-        <List p='10' pt='3' spacing={5}>
-          {_DATA.currentData().map((elem, idx) => (
-            <ListItem key={idx}>
-              {console.log(elem.gitroadAddr)}
-              <input
-                type='radio'
-                checked={checkedAddress === elem.roadAddr}
-                value={elem.roadAddr}
-                onChange={(e) => {
-                  setCheckdAddress(e.target.value);
-                  setAddrObj(elem);
-                }}
-              />
-              &nbsp; {elem.roadAddr}
-              <div>&emsp; [지번] {elem.jibunAddr}</div>
-            </ListItem>
-          ))}
-        </List>
-        <button
-          onClick={() => {
-            handleChecked(addrObj);
-          }}
-        >
-          선택
-        </button>
+      <List p='5' pt='3' spacing={2}>
+        {_DATA.currentData().map((elem, idx) => (
+          <ListItem key={idx}>
+            {console.log(elem.roadAddr)}
+            <input
+              type='radio'
+              checked={checkedAddress === elem.roadAddr}
+              value={elem.roadAddr}
+              onChange={(e) => {
+                setCheckdAddress(e.target.value);
+                setAddrObj(elem);
+              }}
+            />
+            &nbsp; {elem.roadAddr}
+            <div>&emsp; [지번] {elem.jibunAddr}</div>
+          </ListItem>
+        ))}
+      </List>
+
+      <SearchListContainer>
         <Pagination
           count={count}
           size='small'
@@ -108,7 +107,16 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
           shape='rounded'
           onChange={handlePage}
         />
-      </Box>
+        <Button
+          className={selectBtn.modalBtn}
+          variant='contained'
+          onClick={() => {
+            handleChecked(addrObj);
+          }}
+        >
+          선택
+        </Button>
+      </SearchListContainer>
     </div>
   );
 }
