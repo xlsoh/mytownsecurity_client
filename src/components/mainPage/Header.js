@@ -7,20 +7,9 @@ import swal from '@sweetalert/with-react';
 
 import Modal from '../../styles/Modal';
 import LoginPage from '../modal/user/LoginPage';
+import Button from '@material-ui/core/Button';
+import { HomeButton, useStylesHeader, Container } from './HeaderCss.js';
 
-const Container = styled.div`
-  display: flex;
-`;
-const Button = styled.button`
-  min-width: 100px;
-  padding: 16px 32px;
-  border: none;
-  border-radius: 4px;
-  background: #4cd59e;
-  color: #fff;
-  font-size: 18px;
-  cursor: pointer;
-`;
 const TOKENLOGOUT = gql`
   mutation logUserOut($token: String!, $state: Object!, $addressId: Int!) {
     logUserOut(token: $token, state: $state, addressId: $addressId) @client
@@ -37,16 +26,24 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
     variables: { token, state, addressId },
   });
 
+  const headersBtn = useStylesHeader();
   return (
     <>
-      {isToken && (
+      {isToken ? (
         <>
           <Container>
-            <Button onClick={() => history.push(`/mypage/${userInfo.id}`)}>
-              마이페이지
-            </Button>
-            <Button onClick={() => history.push(`/main`)}>로고</Button>
+            {/* <button
+              
+              type='button'
+              onClick={() => history.push(`/`)}
+            >
+              <img src='https://ifh.cc/g/uCRQxb.png' />
+            </button> */}
+            <HomeButton onClick={() => history.push(`/`)} />
+
             <Button
+              className={[headersBtn.header, headersBtn.login].join(' ')}
+              variant='outlined'
               text='Log out'
               onClick={() => {
                 swal({
@@ -62,15 +59,23 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
             >
               로그아웃
             </Button>
+            <Button
+              className={[headersBtn.header, headersBtn.mypage].join(' ')}
+              variant='outlined'
+              onClick={() => history.push(`/mypage/${userInfo.id}`)}
+            >
+              마이페이지
+            </Button>
           </Container>
         </>
-      )}
-      {!isToken && (
+      ) : (
         <>
           <Container>
-            <Button onClick={() => history.push(`/main`)}>로고</Button>
+            <HomeButton onClick={() => history.push(`/`)} />
             <Button
+              className={[headersBtn.header, headersBtn.login].join(' ')}
               text='Log in'
+              variant='outlined'
               onClick={() => {
                 setIsOpen(true);
               }}

@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic:wght@400;700&family=Noto+Sans+KR:wght@300&display=swap');
+
+.main_font {
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+.logo_font {
+  font-family: 'Gill Sans';
+}
+
+.default_font {
+  font-family: 'Noto Sans KR', sans-serif;
+}
