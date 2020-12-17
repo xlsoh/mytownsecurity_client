@@ -106,6 +106,13 @@ function SearchInput({ setAddressId }) {
     });
 
     setAddressId(testRes.data.createAddress.id);
+    if (localStorage.getItem('addressId')) {
+      localStorage.removeItem('addressId');
+      localStorage.setItem('addressId', testRes.data.createAddress.id);
+    } else {
+      localStorage.setItem('addressId', testRes.data.createAddress.id);
+    }
+
     //서버 연동 확인되면 사용!
     history.push(`/address/${testRes.data.createAddress.id}`);
   };
