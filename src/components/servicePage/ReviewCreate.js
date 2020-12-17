@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
 import { useReviewDispatch, useReviewNextId } from './ReviewContext';
 import ReviewRating from './ReviewRating';
+import { gql } from 'apollo-boost';
+import { useMutation } from 'react-apollo-hooks';
 
 const InsertFormPositioner = styled.div`
   width: 100%;
@@ -40,41 +41,102 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function ReviewCreate() {
+const ADD_REVIEW = gql`
+  mutation addReview(
+    $userId: ID!
+    $addressId: ID!
+    $text: String!
+    $rating: Int!
+  ) {
+    addReview(
+      userId: $userId
+      addressId: $addressId
+      text: $text
+      rating: $rating
+    ) {
+      id
+    }
+  }
+`;
+
+function ReviewCreate({ userInfo, addressId }) {
   const [value, setValue] = useState('');
   const [rating, setRating] = useState(0);
   const dispatch = useReviewDispatch();
   const nextId = useReviewNextId();
 
+  const [addReview] = useMutation(ADD_REVIEW, {
+    variables: {
+      userId: userInfo.id,
+      addressId: addressId,
+      rating: rating,
+      text: value,
+    },
+  });
+
   const onChange = (e) => setValue(e.target.value);
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    dispatch({
-      type: 'CREATE',
-      Review: {
-        id: nextId.current,
-        text: value,
-        rating: rating,
+
+    const {
+      data: {
+        addReview: { id },
       },
-    });
-    nextId.current += 1;
-    setValue('');
+    } = await addReview();
+
+    if (value == '') {
+      alert('내용을 입력해 주세요.');
+    } else {
+      dispatch({
+        type: 'CREATE',
+        Review: {
+          id: id,
+          text: value,
+          rating: rating,
+          postedBy: { id: userInfo.id },
+        },
+      });
+      nextId.current += 1;
+      setValue('');
+    }
   };
 
   return (
     <>
-      <InsertFormPositioner>
-        <ReviewRating rating={rating} setRating={setRating} />
-        <InsertForm>
-          <Input
-            autoFocus
-            onChange={onChange}
-            value={value}
-            placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
-          />
-          <Button onClick={onSubmit}>enter</Button>
-        </InsertForm>
-      </InsertFormPositioner>
+      {userInfo.id && (
+        <InsertFormPositioner>
+          <ReviewRating rating={rating} setRating={setRating} />
+          <InsertForm>
+            <Input
+              autoFocus
+              onChange={onChange}
+              value={value}
+              placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
+            />
+            <Button onClick={onSubmit}>enter</Button>
+          </InsertForm>
+        </InsertFormPositioner>
+      )}
+      {!userInfo.id && (
+        <InsertFormPositioner>
+          <ReviewRating rating={rating} setRating={setRating} />
+          <InsertForm>
+            <Input
+              autoFocus
+              onChange={onChange}
+              value={value}
+              placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
+            />
+            <Button
+              onClick={() => {
+                alert('로그인 후 이용해 주세요.');
+              }}
+            >
+              enter
+            </Button>
+          </InsertForm>
+        </InsertFormPositioner>
+      )}
     </>
   );
 }

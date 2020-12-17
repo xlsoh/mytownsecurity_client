@@ -25,7 +25,6 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
       '+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +units=m +no_defs'; //from - utmK
     let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'; //to - WG84
     let transRes = proj4(firstProjection, secondProjection, [x, y]);
-    console.log(transRes);
 
     let latitudeX = transRes[0];
     let longitudeY = transRes[1];
@@ -34,10 +33,7 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
 
   useEffect(async () => {
     const fetchRes = await fetchLocation(addrObj);
-    console.log(fetchRes);
-
     if (fetchRes) {
-      console.log(fetchRes.data.results.juso);
       const { entX, entY } = fetchRes.data.results.juso[0];
       let y = parseFloat(entY);
       let x = parseFloat(entX);
@@ -48,7 +44,6 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
 
   // 좌표 API
   const fetchLocation = async (addrObj) => {
-    console.log(addrObj);
     if (addrObj) {
       const { admCd, rnMgtSn, udrtYn, buldMnnm, buldSlno } = addrObj;
       const resLocation = await axios(
@@ -71,7 +66,6 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
 
   return (
     <div>
-      {console.log(searchResults)}
       <h2>선택주소: {checkedAddress}</h2>
 
       <Box p='5'>
