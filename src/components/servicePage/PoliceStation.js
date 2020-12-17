@@ -16,17 +16,19 @@ const GET_STATION = gql`
   }
 `;
 
-function PoliceStation(address) {
+function PoliceStation({ address, favorites, reviews }) {
   const { loading, error, data } = useQuery(GET_STATION);
-
-  console.log(address);
-
   return (
     <>
       {loading && '로딩중입니다.'}
       {!loading && (
         <>
-          <Map policeStations={data.getStation} address={address} />
+          <Map
+            policeStations={data.getStation}
+            address={address}
+            favorites={favorites}
+            reviews={reviews}
+          />
         </>
       )}
     </>
