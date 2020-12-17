@@ -42,8 +42,7 @@ function MapIntro({ isToken, address, userInfo }) {
         userId: userInfo.id,
       },
     });
-    //console.log(data.getMyInfo.favorite);
-    //console.log(data);
+
     return (
       <>
         {loading && '로딩중입니다.'}

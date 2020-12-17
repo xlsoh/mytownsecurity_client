@@ -10,9 +10,6 @@ import Axios from 'axios';
 const { kakao } = window;
 
 function Map({ address, policeStations, favorites, reviews }) {
-  console.log(address);
-  console.log(favorites);
-  console.log(reviews);
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;

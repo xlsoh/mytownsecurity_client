@@ -29,12 +29,6 @@ const initialReviews = [
   },
 ];
 
-const GET_REVIEWS = gql`
-  query getReviews($adressId: Int!) {
-    getReviews(addressId: $addressId)
-  }
-`;
-
 function ReviewReducer(state, action) {
   switch (action.type) {
     case 'CREATE':
@@ -46,15 +40,15 @@ function ReviewReducer(state, action) {
   }
 }
 
-export function ReviewProvider({ addressId, children }) {
-  //서버 통신에 맞춰 수정 필요!
-  // const { data, loading, error } = useQuery(GET_REVIEWS, {
-  //   variables: {
-  //     addressId: addressId.id,
-  //   },
-  // });
+export function ReviewProvider({ addressData, children }) {
+  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
+  console.log(initialReviews);
+  console.log(addressData);
 
-  const [state, dispatch] = useReducer(ReviewReducer, initialReviews); // 서버에서 받는 데이터 값 확인 후 수정 필요!!
+  const [state, dispatch] = useReducer(
+    ReviewReducer,
+    addressData.getReviews.review
+  ); // 서버에서 받는 데이터 값 확인 후 수정 필요!!
   const nextId = useRef(5);
 
   return (
