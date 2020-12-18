@@ -5,20 +5,48 @@ import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
 import swal from '@sweetalert/with-react';
 import useInput from '../../../hooks/useInput';
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../../styles/globalBtnCss';
 
-const FavoriteButton = styled.button`
-  display: relative;
+const Wrapper = styled.div`
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
+  form {
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+  }
+  text-align: center;
+  font-size: 17px;
+  font-family: Gill Sans;
+`;
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 450px;
+`;
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  color: #212121;
+`;
+const SubTitle = styled.div`
+  font-size: 16px;
+  text-align: left;
+  color: #212121;
+  margin-left: 10px;
 `;
 const FavoriteInput = styled.input`
-  margin: 10px;
-  border: solid 1px #dadada;
-  margin-bottom: 15px;
+  position: flex;
+  border: solid 1px #fff;
+  width: 400px;
   padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
 `;
 
 const ADDFAVORITE = gql`
@@ -36,6 +64,7 @@ function AddFavoritePage({ userInfo, address }) {
       aliasInput: aliaseInput.value,
     },
   });
+  const loginClass = useStylesBtn();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -58,25 +87,40 @@ function AddFavoritePage({ userInfo, address }) {
         }
       }
     } catch (error) {
-      console.log(error);
+      swal(error, {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     }
   };
 
   return (
     <>
-      <div>
-        <a>검색하신 주소를 등록하시겠습니까?</a>
-        <br />
-        <br />
-        <a>{address.detail}</a>
-        <br />
-        <a>장소 별칭</a>
-        <form onSubmit={onSubmit}>
-          <FavoriteInput placeholder='별칭을 입력 해주세요.' {...aliaseInput} />
-          <br />
-          <FavoriteButton>찜하기</FavoriteButton>
-        </form>
-      </div>
+      <Wrapper>
+        <Container>
+          <div>
+            <Title>검색하신 주소를 등록하시겠습니까?</Title>
+            <br />
+            <br />
+            <a>{address.detail}</a>
+            <br />
+            <br />
+            <br />
+            <SubTitle>장소 별칭</SubTitle>
+            <form onSubmit={onSubmit}>
+              <FavoriteInput
+                placeholder='별칭을 입력 해주세요.'
+                {...aliaseInput}
+              />
+              <br />
+              <Button type='submit' className={loginClass.modalBtn}>
+                찜하기
+              </Button>
+            </form>
+          </div>
+        </Container>
+      </Wrapper>
     </>
   );
 }

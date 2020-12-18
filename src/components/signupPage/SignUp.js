@@ -31,9 +31,13 @@ const SiginupSpan = styled.span`
   text-align: center;
 `;
 const SignupInput = styled.input`
-  border: solid 1px #dadada;
+  position: flex;
+  border: solid 1px #fff;
   margin-bottom: 15px;
+  width: 300px;
   padding: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
   font-size: 16px;
 `;
 

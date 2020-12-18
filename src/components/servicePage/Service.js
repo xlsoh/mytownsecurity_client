@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
@@ -10,6 +10,7 @@ import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
 import styled from 'styled-components';
 import { MainCenter } from '../mainPage/MainCss';
+import '../../styles/Loading.css';
 
 const MiddleTemplate = styled.div`
   display: flex;
@@ -56,9 +57,10 @@ function Service({
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
     variables: { addressId },
   });
+  useEffect(() => {});
 
   if (loading) {
-    return <div>...loading</div>;
+    return <></>;
   }
   return (
     <>
