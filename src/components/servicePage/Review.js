@@ -47,7 +47,6 @@ const GET_REVIEWS = gql`
   }
 `;
 function Review({ userInfo, addressId }) {
-  // 서버 통신에 맞춰 수정 필요!
   if (addressId) {
     const { data, loading, error } = useQuery(GET_REVIEWS, {
       variables: {
@@ -64,6 +63,15 @@ function Review({ userInfo, addressId }) {
         assortedReview.push(data.getReviews[i].review[j]);
       }
     }
+
+    //리뷰 평균값 구하기
+    let sumRate = 0;
+    for (let i = 0; i < assortedReview.length; i++) {
+      sumRate += assortedReview[i].rating;
+    }
+    let averageRate = sumRate / assortedReview.length;
+    //
+
     return (
       <>
         {assortedReview.length !== 0 && (

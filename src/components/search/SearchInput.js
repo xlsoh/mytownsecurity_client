@@ -69,7 +69,6 @@ function SearchInput({ setAddressId }) {
         rn,
       },
     });
-    console.log(`방금 검색한 addressId : ${testRes.data.createAddress.id}`);
     setAddressId(testRes.data.createAddress.id);
 
     if (localStorage.getItem('addressId')) {
