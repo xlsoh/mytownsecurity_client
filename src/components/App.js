@@ -10,7 +10,7 @@ import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
 import SignUp from './signupPage/SignUp';
-
+import ScrollToTop from './servicePage/ScrollToTop';
 function App() {
   const [isToken, setIsToken] = useState(false);
   const [userInfo, setUserInfo] = useState({});
@@ -44,6 +44,7 @@ function App() {
       {console.log('userInfo', userInfo)}
       {console.log('addressId', addressId)}
       {console.log('searchedAddress', searchedAddress)}
+      {/* <ScrollToTop> */}
       <Switch>
         <Route
           exact
@@ -101,8 +102,8 @@ function App() {
             return <Redirect to={location.pathname} />;
           }}
         />
-        {/* <Route path={`/`} render={() => <Redirect to={`/main`} />} /> */}
       </Switch>
+      {/* </ScrollToTop> */}
     </div>
   );
 }
