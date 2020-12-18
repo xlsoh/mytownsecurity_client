@@ -141,17 +141,19 @@ function ReviewCreate({ userInfo, addressId }) {
               value={value}
               placeholder='리뷰와 별점을 입력하신 후, Enter 를 누르세요'
             />
-            <ReviewRating rating={rating} setRating={setRating} />
-            <Button
-              onClick={() => {
-                swal('로그인 후 이용해 주세요.', {
-                  button: false,
-                  timer: 1000,
-                });
-              }}
-            >
-              enter
-            </Button>
+            <StarAndButton>
+              <ReviewRating rating={rating} setRating={setRating} />
+              <Button
+                onClick={() => {
+                  swal('로그인 후 이용해 주세요.', {
+                    button: false,
+                    timer: 1000,
+                  });
+                }}
+              >
+                enter
+              </Button>
+            </StarAndButton>
           </InsertForm>
         </InsertFormPositioner>
       )}
