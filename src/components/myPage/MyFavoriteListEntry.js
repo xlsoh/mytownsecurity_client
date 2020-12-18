@@ -128,7 +128,7 @@ function MyFavoriteListEntry({
             <br />
             <br />
             <SubTitle>등록한 날짜: </SubTitle>
-            <Description>{updatedAt}</Description>
+            <Description>{updatedAtView}</Description>
             <br />
             <ButtonWrapper>
               <EditDeleteButton
