@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Container = styled.span`
+const Container = styled.div`
   position: relative;
-  top: 400px;
-  left: 950px;
+  top: 200px;
+  left: 30px;
   z-index: 2;
 `;
-const CrimeWrapper = styled.span`
+const CrimeWrapper = styled.div`
   width: 100px;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   color: #000;

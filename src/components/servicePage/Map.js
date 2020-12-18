@@ -13,7 +13,7 @@ const mapstyle = {
   height: '700px',
 };
 
-const MapWrapper = styled.span`
+const MapWrapper = styled.div`
   display: table;
   position: relative;
   width: 920px;

@@ -5,10 +5,10 @@ import swal from '@sweetalert/with-react';
 import AddFavoritePage from '../modal/favorite/AddFavoritePage';
 import Modal from '../../styles/Modal';
 
-const Container = styled.span`
+const Container = styled.div`
   position: relative;
-  top: 200px;
-  left: 950px;
+  left: 30px;
+  top: 80px;
   z-index: 2;
 `;
 const Button = styled.button`
