@@ -6,8 +6,21 @@ import '../../styles/Map.css';
 import { cctvs } from '../../data/cctv';
 import '../../styles/Map.css';
 //import CctvVideo from './CctvVideo';
-import Axios from 'axios';
 const { kakao } = window;
+
+const mapstyle = {
+  width: '900px',
+  height: '700px',
+};
+
+const MapWrapper = styled.div`
+  display: table;
+  position: relative;
+  width: 920px;
+  height: 720px;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+`;
 
 function Map({ address, policeStations, favorites, reviews }) {
   useEffect(() => {
@@ -266,21 +279,6 @@ function Map({ address, policeStations, favorites, reviews }) {
       });
     };
   });
-
-  const mapstyle = {
-    // width: '1920px',
-    // height: '1080px',
-    width: '1000px',
-    height: '800px',
-  };
-
-  const MapWrapper = styled.div`
-    position: initial;
-    width: 800px;
-    height: 500px;
-    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
-    z-index: 1;
-  `;
 
   return (
     <div>

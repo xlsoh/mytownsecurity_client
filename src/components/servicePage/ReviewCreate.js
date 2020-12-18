@@ -5,6 +5,7 @@ import ReviewRating from './ReviewRating';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import swal from '@sweetalert/with-react';
+
 const InsertFormPositioner = styled.div`
   width: 100%;
   position: relative;
@@ -15,8 +16,7 @@ const InsertForm = styled.form`
   padding-left: 32px;
   padding-top: 32px;
   padding-right: 32px;
-  padding-bottom: 72px;
-
+  padding-bottom: 32px;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   border-top: 1px solid #e9ecef;
@@ -39,6 +39,15 @@ const Button = styled.button`
   margin-top: 15px;
   margin-bottom: 15px;
   cursor: pointer;
+  position: relative;
+  left: 200px;
+`;
+
+const StarAndButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: auto 0;
+  justify-content: start;
 `;
 
 const ADD_REVIEW = gql`
@@ -109,28 +118,30 @@ function ReviewCreate({ userInfo, addressId }) {
     <>
       {userInfo.id && (
         <InsertFormPositioner>
-          <ReviewRating rating={rating} setRating={setRating} />
           <InsertForm>
             <Input
               autoFocus
               onChange={onChange}
               value={value}
-              placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
+              placeholder='리뷰와 별점을 입력하신 후, Enter 를 누르세요'
             />
-            <Button onClick={onSubmit}>enter</Button>
+            <StarAndButton>
+              <ReviewRating rating={rating} setRating={setRating} />
+              <Button onClick={onSubmit}>enter</Button>
+            </StarAndButton>
           </InsertForm>
         </InsertFormPositioner>
       )}
       {!userInfo.id && (
         <InsertFormPositioner>
-          <ReviewRating rating={rating} setRating={setRating} />
           <InsertForm>
             <Input
               autoFocus
               onChange={onChange}
               value={value}
-              placeholder='리뷰를 입력하신 후, Enter 를 누르세요'
+              placeholder='리뷰와 별점을 입력하신 후, Enter 를 누르세요'
             />
+            <ReviewRating rating={rating} setRating={setRating} />
             <Button
               onClick={() => {
                 swal('로그인 후 이용해 주세요.', {

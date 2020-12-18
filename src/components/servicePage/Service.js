@@ -8,7 +8,21 @@ import CrimeRate from './CrimeRate';
 import Review from './Review';
 import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
+import styled from 'styled-components';
 import { MainCenter } from '../mainPage/MainCss';
+
+const MiddleTemplate = styled.div`
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const RightTemplate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+`;
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
@@ -57,17 +71,21 @@ function Service({
       <MainCenter>
         <SearchInput addressId={addressId} setAddressId={setAddressId} />
       </MainCenter>
-      <AddFavorite
-        isToken={isToken}
-        userInfo={userInfo}
-        address={data.getSearchedLocation.address}
-      />
-      <MapIntro
-        isToken={isToken}
-        address={data.getSearchedLocation.address}
-        userInfo={userInfo}
-      />
-      <CrimeRate crime={data.getSearchedLocation.crime} />
+      <MiddleTemplate>
+        <MapIntro
+          isToken={isToken}
+          address={data.getSearchedLocation.address}
+          userInfo={userInfo}
+        />
+        <RightTemplate>
+          <AddFavorite
+            isToken={isToken}
+            userInfo={userInfo}
+            address={data.getSearchedLocation.address}
+          />
+          <CrimeRate crime={data.getSearchedLocation.crime} />
+        </RightTemplate>
+      </MiddleTemplate>
       <Review userInfo={userInfo} addressId={addressId} />
     </>
   );

@@ -91,11 +91,12 @@ import { MdClose } from 'react-icons/md';
 //   );
 // }
 
-//-----------styled-component 삭제
 const Modal_styles = {
   position: 'fixed',
   top: '50%',
   left: '50%',
+  width: 500,
+  height: 300,
   transform: 'translate(-50%, -50%)',
   background: '#fff',
   padding: '50px',

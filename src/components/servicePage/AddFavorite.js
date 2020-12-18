@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import swal from '@sweetalert/with-react';
-
 import AddFavoritePage from '../modal/favorite/AddFavoritePage';
 import Modal from '../../styles/Modal';
 
 const Container = styled.div`
-  display: flex;
+  position: relative;
+  left: 30px;
+  top: 80px;
+  z-index: 2;
 `;
 const Button = styled.button`
   min-width: 50px;
@@ -16,7 +18,7 @@ const Button = styled.button`
   border: none;
   background: #ffffff;
   color: red;
-  font-size: 24px;
+  font-size: 75px;
   cursor: pointer;
 `;
 
