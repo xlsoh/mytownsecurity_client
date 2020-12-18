@@ -15,6 +15,7 @@ function App() {
   const [isToken, setIsToken] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [addressId, setAddressId] = useState(0);
+  const [searchedAddress, setSearchedAddress] = useState('');
   const loggedInToken = localStorage.getItem('token');
   const loggedInUserInfo = JSON.parse(localStorage.getItem('state'));
   const loggedAddressId = localStorage.getItem('addressId');
@@ -42,6 +43,7 @@ function App() {
       {console.log('isToken', isToken)}
       {console.log('userInfo', userInfo)}
       {console.log('addressId', addressId)}
+      {console.log('searchedAddress', searchedAddress)}
       <Switch>
         <Route
           exact
@@ -53,6 +55,8 @@ function App() {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               setAddressId={setAddressId}
+              setSearchedAddress={setSearchedAddress}
+              searchedAddress={searchedAddress}
             />
           )}
         />
@@ -67,6 +71,8 @@ function App() {
               setUserInfo={setUserInfo}
               addressId={addressId}
               setAddressId={setAddressId}
+              searchedAddress={searchedAddress}
+              setSearchedAddress={setSearchedAddress}
             />
           )}
         />

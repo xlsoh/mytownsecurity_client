@@ -38,6 +38,8 @@ function Service({
   userInfo,
   setUserInfo,
   setAddressId,
+  searchedAddress,
+  setSearchedAddress,
 }) {
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
     variables: { addressId },
@@ -55,7 +57,12 @@ function Service({
         userInfo={userInfo}
       />
       <MainCenter>
-        <SearchInput addressId={addressId} setAddressId={setAddressId} />
+        <SearchInput
+          addressId={addressId}
+          setAddressId={setAddressId}
+          searchedAddress={searchedAddress}
+          setSearchedAddress={setSearchedAddress}
+        />
       </MainCenter>
       <AddFavorite
         isToken={isToken}

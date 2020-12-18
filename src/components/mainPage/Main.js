@@ -7,7 +7,15 @@ import { MainBackground, MainCenter } from './MainCss.js';
 import '../../styles/font.css';
 import './main.css';
 
-function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
+function Main({
+  setAddressId,
+  isToken,
+  setIsToken,
+  userInfo,
+  setUserInfo,
+  setSearchedAddress,
+  searchedAddress,
+}) {
   return (
     <>
       <MainHeader
@@ -17,7 +25,11 @@ function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
         setIsToken={setIsToken}
       />
       <MainCenter>
-        <SearchInput setAddressId={setAddressId} />
+        <SearchInput
+          setAddressId={setAddressId}
+          setSearchedAddress={setSearchedAddress}
+          searchedAddress={searchedAddress}
+        />
 
         <div className={'main_font main_first'}>
           우리 동네 안전이 궁금하다면,

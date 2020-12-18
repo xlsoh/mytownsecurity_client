@@ -27,7 +27,7 @@ const CREATE_ADDRESS = gql`
     }
   }
 `;
-function SearchInput({ setAddressId }) {
+function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
   const [searchValue, setValue] = useState('');
   const [addressInput, setAddressInput] = useState('');
   const [searchResults, setResults] = useState('');
@@ -41,6 +41,13 @@ function SearchInput({ setAddressId }) {
   useEffect(() => {
     fetchData().then((res) => setResults(res.data.results.juso));
   }, [addressInput]);
+
+  useEffect(() => {
+    if (searchedAddress) {
+      setValue(searchedAddress);
+    }
+  }, [searchedAddress]);
+
   const handleSearch = (input) => {
     setIsOpen(true);
     setAddressInput(input);
@@ -59,7 +66,8 @@ function SearchInput({ setAddressId }) {
       return;
     }
     setValue(roadAddr);
-
+    setSearchedAddress(roadAddr);
+    setIsOpen(false);
     const testRes = await createAddress({
       variables: {
         detail: roadAddr,
@@ -78,9 +86,12 @@ function SearchInput({ setAddressId }) {
     } else {
       localStorage.setItem('addressId', testRes.data.createAddress.id);
     }
+    console.log(window.location.pathname);
+    if (window.location.pathname === '/main') {
+      history.push(`/address/${testRes.data.createAddress.id}`);
+    }
 
-    //서버 연동 확인되면 사용!
-    history.push(`/address/${testRes.data.createAddress.id}`);
+    return;
   };
   // 주소 검색 API
   const fetchData = async () => {
