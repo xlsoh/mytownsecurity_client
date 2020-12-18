@@ -18,8 +18,6 @@ function ReviewReducer(state, action) {
 }
 
 export function ReviewProvider({ addressData, children }) {
-  console.log(addressData);
-
   const [state, dispatch] = useReducer(ReviewReducer, addressData); // 서버에서 받는 데이터 값 확인 후 수정 필요!!
   const nextId = useRef(5);
 

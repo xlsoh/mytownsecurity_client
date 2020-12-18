@@ -40,11 +40,6 @@ function App() {
 
   return (
     <div>
-      {console.log('isToken', isToken)}
-      {console.log('userInfo', userInfo)}
-      {console.log('addressId', addressId)}
-      {console.log('searchedAddress', searchedAddress)}
-      {/* <ScrollToTop> */}
       <Switch>
         <Route
           exact

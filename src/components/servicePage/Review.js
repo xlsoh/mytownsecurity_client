@@ -5,11 +5,25 @@ import { ReviewProvider } from './ReviewContext';
 import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
+
+const ReviewMiddleTemplate = styled.div`
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const ReviewRightTemplate = styled.div`
+  display: flex;
+  width: 110px;
+  flex-direction: column;
+  justify-content: start;
+`;
+
 const ReviewTemplate = styled.div`
-  width: 512px;
+  width: 920px;
   height: 768px;
   position: relative;
-  top: 0px;
   background: white;
   border-radius: 16px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.04);
@@ -17,6 +31,7 @@ const ReviewTemplate = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const GET_REVIEWS = gql`
   query getReviews($addressId: ID!) {
     getReviews(addressId: $addressId) {
@@ -32,7 +47,6 @@ const GET_REVIEWS = gql`
   }
 `;
 function Review({ userInfo, addressId }) {
-  // 서버 통신에 맞춰 수정 필요!
   if (addressId) {
     const { data, loading, error } = useQuery(GET_REVIEWS, {
       variables: {
@@ -49,10 +63,19 @@ function Review({ userInfo, addressId }) {
         assortedReview.push(data.getReviews[i].review[j]);
       }
     }
+
+    //리뷰 평균값 구하기
+    let sumRate = 0;
+    for (let i = 0; i < assortedReview.length; i++) {
+      sumRate += assortedReview[i].rating;
+    }
+    let averageRate = sumRate / assortedReview.length;
+    //
+
     return (
       <>
-        {assortedReview && (
-          <>
+        {assortedReview.length !== 0 && (
+          <ReviewMiddleTemplate>
             <ReviewProvider addressData={assortedReview}>
               <ReviewTemplate>
                 <ReviewCreate userInfo={userInfo} addressId={addressId} />
@@ -63,17 +86,19 @@ function Review({ userInfo, addressId }) {
                 />
               </ReviewTemplate>
             </ReviewProvider>
-          </>
+            <ReviewRightTemplate></ReviewRightTemplate>
+          </ReviewMiddleTemplate>
         )}
         {assortedReview.length === 0 && (
-          <>
+          <ReviewMiddleTemplate>
             <ReviewProvider addressData={assortedReview}>
               <ReviewTemplate>
                 <ReviewCreate userInfo={userInfo} addressId={addressId} />
                 등록된 리뷰가 없습니다.
               </ReviewTemplate>
             </ReviewProvider>
-          </>
+            <ReviewRightTemplate></ReviewRightTemplate>
+          </ReviewMiddleTemplate>
         )}
       </>
     );

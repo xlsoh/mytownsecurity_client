@@ -6,8 +6,21 @@ import '../../styles/Map.css';
 import { cctvs } from '../../data/cctv';
 import '../../styles/Map.css';
 //import CctvVideo from './CctvVideo';
-import Axios from 'axios';
 const { kakao } = window;
+
+const mapstyle = {
+  width: '900px',
+  height: '700px',
+};
+
+const MapWrapper = styled.div`
+  display: table;
+  position: relative;
+  width: 920px;
+  height: 720px;
+  border: solid;
+  border-color: #32e0c4;
+`;
 
 function Map({ address, policeStations, favorites, reviews }) {
   useEffect(() => {
@@ -29,12 +42,12 @@ function Map({ address, policeStations, favorites, reviews }) {
         var zoomControl = new kakao.maps.ZoomControl();
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-        kakao.maps.event.addListener(map, 'zoom_changed', function () {
-          var level = map.getLevel();
-          var message = '현재 지도 레벨: ' + level;
-          var levelDiv = document.getElementById('level');
-          levelDiv.innerHTML = message;
-        });
+        // kakao.maps.event.addListener(map, 'zoom_changed', function () {
+        //   var level = map.getLevel();
+        //   var message = '현재 지도 레벨: ' + level;
+        //   var levelDiv = document.getElementById('level');
+        //   levelDiv.innerHTML = message;
+        // });
 
         // 사용자 찜, 리뷰 마커
         if (favorites) {
@@ -267,24 +280,8 @@ function Map({ address, policeStations, favorites, reviews }) {
     };
   });
 
-  const mapstyle = {
-    // width: '1920px',
-    // height: '1080px',
-    width: '1000px',
-    height: '800px',
-  };
-
-  const MapWrapper = styled.div`
-    position: initial;
-    width: 800px;
-    height: 500px;
-    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
-    z-index: 1;
-  `;
-
   return (
     <div>
-      <p id='level'></p>
       <MapWrapper>
         <div id='map' style={mapstyle}></div>
       </MapWrapper>

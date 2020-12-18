@@ -105,7 +105,11 @@ function EditInfoPage({ userInfo }) {
           }, 1000);
         }
       } catch (error) {
-        console.log(error);
+        swal('비밀번호를 확인해 주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       }
     }
   };

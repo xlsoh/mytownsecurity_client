@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Input = styled.input`
-  border: solid 1px #dadada;
-  margin-bottom: 15px;
+  position: flex;
+  border: solid 1px #fff;
+  width: 300px;
   padding: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 16px;
 `;
 
 const loginInput = ({ placeholder, value, onChange, type = 'text' }) => {

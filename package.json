@@ -29,6 +29,7 @@
     "graphql": "^15.4.0",
     "http-proxy-middleware": "^1.0.6",
     "jsonp": "^0.2.1",
+    "keyframes": "^2.3.0",
     "polished": "^4.0.5",
     "proj4": "^2.6.3",
     "prop-types": "^15.7.2",

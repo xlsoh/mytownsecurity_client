@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import { borderRadius } from 'polished';
 
 // const Background = styled.div`
 //   position: fixed;
@@ -92,12 +91,11 @@ import { borderRadius } from 'polished';
 //   );
 // }
 
+//-----------styled-component 삭제
 const Modal_styles = {
   position: 'fixed',
   top: '50%',
   left: '50%',
-  width: 500,
-  height: 300,
   transform: 'translate(-50%, -50%)',
   background: '#fff',
   padding: '50px',
@@ -118,18 +116,6 @@ const Overlay_styled = {
   zIndex: 1000,
 };
 
-// const ModalButton = {
-//   cursor: 'pointer',
-//   background: '#fff',
-//   position: 'absolute',
-//   top: '20px',
-//   right: '20px',
-//   width: '32px',
-//   height: '32px',
-//   padding: 0,
-//   zIndex: 10,
-// };
-
 const ModalButton = {
   cursor: 'pointer',
   background: '#fff',
@@ -140,11 +126,10 @@ const ModalButton = {
   height: '32px',
   padding: 0,
   zIndex: 10,
-  fontSize: '30px',
-  fontWeight: 'bold',
+  color: '#212121',
 };
 
-function Modal({ isOpen, setIsOpen, children }) {
+function SearchModal({ isOpen, setIsOpen, children }) {
   const modalRef = useRef();
 
   const closeModal = (e) => {
@@ -172,14 +157,14 @@ function Modal({ isOpen, setIsOpen, children }) {
         <>
           <div style={Overlay_styled} ref={modalRef} onClick={closeModal} />
           <div style={Modal_styles}>
-            <div
+            <button
               style={ModalButton}
               onClick={() => {
                 setIsOpen(false);
               }}
             >
-              Ⅹ
-            </div>
+              X
+            </button>
             {children}
           </div>
         </>
@@ -188,4 +173,4 @@ function Modal({ isOpen, setIsOpen, children }) {
   );
 }
 
-export default Modal;
+export default SearchModal;

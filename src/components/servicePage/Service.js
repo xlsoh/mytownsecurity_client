@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
@@ -8,7 +8,22 @@ import CrimeRate from './CrimeRate';
 import Review from './Review';
 import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
+import styled from 'styled-components';
 import { MainCenter } from '../mainPage/MainCss';
+import '../../styles/Loading.css';
+
+const MiddleTemplate = styled.div`
+  display: flex;
+  margin: 0 auto;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const RightTemplate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+`;
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
@@ -44,9 +59,10 @@ function Service({
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
     variables: { addressId },
   });
+  useEffect(() => {});
 
   if (loading) {
-    return <div>...loading</div>;
+    return <></>;
   }
   return (
     <>
@@ -64,17 +80,21 @@ function Service({
           setSearchedAddress={setSearchedAddress}
         />
       </MainCenter>
-      <AddFavorite
-        isToken={isToken}
-        userInfo={userInfo}
-        address={data.getSearchedLocation.address}
-      />
-      <MapIntro
-        isToken={isToken}
-        address={data.getSearchedLocation.address}
-        userInfo={userInfo}
-      />
-      <CrimeRate crime={data.getSearchedLocation.crime} />
+      <MiddleTemplate>
+        <MapIntro
+          isToken={isToken}
+          address={data.getSearchedLocation.address}
+          userInfo={userInfo}
+        />
+        <RightTemplate>
+          <AddFavorite
+            isToken={isToken}
+            userInfo={userInfo}
+            address={data.getSearchedLocation.address}
+          />
+          <CrimeRate crime={data.getSearchedLocation.crime} />
+        </RightTemplate>
+      </MiddleTemplate>
       <Review userInfo={userInfo} addressId={addressId} />
     </>
   );

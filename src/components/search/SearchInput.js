@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
 import { useMutation } from 'react-apollo-hooks';
-import Modal from '../../styles/Modal';
+import SearchModal from '../../styles/Modal';
 import SearchResultList from './SearchResultList';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH } from '../../config';
@@ -77,7 +77,6 @@ function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
         rn,
       },
     });
-    console.log(`방금 검색한 addressId : ${testRes.data.createAddress.id}`);
     setAddressId(testRes.data.createAddress.id);
 
     if (localStorage.getItem('addressId')) {
@@ -180,13 +179,13 @@ function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
       </SearchContainer>
 
       {searchResults ? (
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <SearchModal isOpen={isOpen} setIsOpen={setIsOpen}>
           <SearchResultList
             setLocationXY={setLocationXY}
             searchResults={searchResults}
             handleChecked={handleChecked}
           />
-        </Modal>
+        </SearchModal>
       ) : (
         <div>{console.log('검색결과가 비어있습니다')}</div>
       )}
