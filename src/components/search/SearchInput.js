@@ -163,7 +163,7 @@ function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
       <SearchContainer>
         <ThemeProvider theme={theme}>
           <TextField
-            label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(천호동)'
+            label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(소공동)'
             className={inputClasses.margin}
             value={searchValue}
             onChange={(e) => setValue(e.target.value)}
