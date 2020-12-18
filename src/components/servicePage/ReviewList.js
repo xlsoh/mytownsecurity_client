@@ -15,7 +15,6 @@ const ReviewList = ({ userInfo, addressId, reviewData }) => {
 
   return (
     <ReviewListBlock>
-      {console.log(reviews)}
       {reviews.length !== 0 &&
         reviews.map((reviews) => (
           <ReviewListEntry
