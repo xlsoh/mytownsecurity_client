@@ -18,8 +18,8 @@ const MapWrapper = styled.div`
   position: relative;
   width: 920px;
   height: 720px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
-  z-index: 1;
+  border: solid;
+  border-color: #32e0c4;
 `;
 
 function Map({ address, policeStations, favorites, reviews }) {
@@ -42,12 +42,12 @@ function Map({ address, policeStations, favorites, reviews }) {
         var zoomControl = new kakao.maps.ZoomControl();
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-        kakao.maps.event.addListener(map, 'zoom_changed', function () {
-          var level = map.getLevel();
-          var message = '현재 지도 레벨: ' + level;
-          var levelDiv = document.getElementById('level');
-          levelDiv.innerHTML = message;
-        });
+        // kakao.maps.event.addListener(map, 'zoom_changed', function () {
+        //   var level = map.getLevel();
+        //   var message = '현재 지도 레벨: ' + level;
+        //   var levelDiv = document.getElementById('level');
+        //   levelDiv.innerHTML = message;
+        // });
 
         // 사용자 찜, 리뷰 마커
         if (favorites) {
@@ -282,7 +282,6 @@ function Map({ address, policeStations, favorites, reviews }) {
 
   return (
     <div>
-      <p id='level'></p>
       <MapWrapper>
         <div id='map' style={mapstyle}></div>
       </MapWrapper>
