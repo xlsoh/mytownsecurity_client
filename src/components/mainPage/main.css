@@ -3,17 +3,20 @@
   font-size: 40px;
   margin-top: 150px;
   margin-bottom: 20px;
+  margin-left: 80px;
   color: rgb(55, 55, 55);
 }
 
 /* MyTownSecurity */
 .main_second {
   font-size: 50px;
-  margin-bottom: 5px;
+  margin-left: 115px;
+  margin-bottom: 8px;
 }
 
 /* 주소를 검색하고 여러분의 의견을 공유해주세요 */
 .main_third {
   font-size: 30px;
+  margin-left: 10px;
   color: rgb(55, 55, 55);
 }

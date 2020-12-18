@@ -28,13 +28,13 @@ export const useStylesHeader = makeStyles({
 });
 
 //로고버튼
-export const HomeButton = styled.button`
-  background-image: url(https://ifh.cc/g/uCRQxb.png);
-  border: none;
+export const HomeButton = styled.img.attrs({
+  src: 'https://ifh.cc/g/RisaJs.png',
+})`
+  margin-left: 10px;
+  margin-top: 10px;
   width: 250px;
-  height: 80px;
-  margin-left: 20px;
-  cursor: pointer;
+  height: 70px;
 `;
 
 export const Container = styled.div`

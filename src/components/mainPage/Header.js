@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory, Link } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
-import styled from 'styled-components';
+
 import swal from '@sweetalert/with-react';
 
 import Modal from '../../styles/Modal';
@@ -32,14 +32,9 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
       {isToken ? (
         <>
           <Container>
-            {/* <button
-              
-              type='button'
-              onClick={() => history.push(`/`)}
-            >
-              <img src='https://ifh.cc/g/uCRQxb.png' />
-            </button> */}
-            <HomeButton onClick={() => history.push(`/main`)} />
+            <Link to={`/main`}>
+              <HomeButton />
+            </Link>
 
             <Button
               className={[headersBtn.header, headersBtn.login].join(' ')}
@@ -71,7 +66,10 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
       ) : (
         <>
           <Container>
-            <HomeButton onClick={() => history.push(`/main`)} />
+            <Link to={`/main`}>
+              <HomeButton />
+            </Link>
+
             <Button
               className={[headersBtn.header, headersBtn.login].join(' ')}
               text='Log in'
