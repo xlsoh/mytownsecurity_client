@@ -2,20 +2,21 @@ import React from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import ServHeader from './ServHeader';
+import ServHeader from '../mainPage/Header';
 import AddFavorite from './AddFavorite';
 import CrimeRate from './CrimeRate';
 import Review from './Review';
 import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
 import styled from 'styled-components';
+import { MainCenter } from '../mainPage/MainCss';
 
-const ServiceBodyPositioner = styled.div`
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
-  height: 950px;
-`;
+// const ServiceBodyPositioner = styled.div`
+//   display: table;
+//   margin-left: auto;
+//   margin-right: auto;
+//   height: 950px;
+// `;
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
@@ -53,7 +54,6 @@ function Service({
   if (loading) {
     return <div>...loading</div>;
   }
-
   return (
     <>
       <ServHeader
@@ -62,20 +62,20 @@ function Service({
         setUserInfo={setUserInfo}
         userInfo={userInfo}
       />
-      <SearchInput addressId={addressId} setAddressId={setAddressId} />
-      <ServiceBodyPositioner>
-        <AddFavorite
-          isToken={isToken}
-          userInfo={userInfo}
-          address={data.getSearchedLocation.address}
-        />
-        <CrimeRate crime={data.getSearchedLocation.crime} />
-        <MapIntro
-          isToken={isToken}
-          address={data.getSearchedLocation.address}
-          userInfo={userInfo}
-        />
-      </ServiceBodyPositioner>
+      <MainCenter>
+        <SearchInput addressId={addressId} setAddressId={setAddressId} />
+      </MainCenter>
+      <AddFavorite
+        isToken={isToken}
+        userInfo={userInfo}
+        address={data.getSearchedLocation.address}
+      />
+      <MapIntro
+        isToken={isToken}
+        address={data.getSearchedLocation.address}
+        userInfo={userInfo}
+      />
+      <CrimeRate crime={data.getSearchedLocation.crime} />
       <Review userInfo={userInfo} addressId={addressId} />
     </>
   );

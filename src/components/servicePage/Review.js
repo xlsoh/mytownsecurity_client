@@ -5,7 +5,6 @@ import { ReviewProvider } from './ReviewContext';
 import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
-
 const ReviewTemplate = styled.div`
   width: 512px;
   height: 768px;
@@ -18,7 +17,6 @@ const ReviewTemplate = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const GET_REVIEWS = gql`
   query getReviews($addressId: ID!) {
     getReviews(addressId: $addressId) {
@@ -33,7 +31,6 @@ const GET_REVIEWS = gql`
     }
   }
 `;
-
 function Review({ userInfo, addressId }) {
   // 서버 통신에 맞춰 수정 필요!
   if (addressId) {
@@ -46,14 +43,12 @@ function Review({ userInfo, addressId }) {
       return <div>...loading</div>;
     }
     if (error) return `Error! ${error.message}`;
-
     const assortedReview = [];
     for (let i = 0; i < data.getReviews.length; i++) {
       for (let j = 0; j < data.getReviews[i].review.length; j++) {
         assortedReview.push(data.getReviews[i].review[j]);
       }
     }
-
     return (
       <>
         {assortedReview && (
@@ -84,5 +79,4 @@ function Review({ userInfo, addressId }) {
     );
   }
 }
-
 export default Review;

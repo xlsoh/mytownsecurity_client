@@ -4,6 +4,8 @@ import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
+
 import ReviewRating from './ReviewRating';
 
 const Button = styled.button`
@@ -63,14 +65,28 @@ function MyReviewListEntry({
     e.preventDefault();
     try {
       if (newTextInput.value == '') {
-        alert('내용을 입력해 주세요.');
+        swal('내용을 입력해주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       } else if (newTextInput.value == text) {
-        alert('변경사항이 없습니다. 다시 입력해 주세요.');
+        swal('변경사항이 없습니다. 다시 입력해 주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       } else {
         const { data: editMyReview } = await editMyReviewMutation();
         if (editMyReview) {
-          alert('리뷰가 수정되었습니다.');
-          window.location.reload();
+          swal({
+            button: false,
+            icon: 'success',
+            title: '리뷰가 수정되었습니다.',
+          });
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 1000);
         }
       }
     } catch (error) {
@@ -115,7 +131,14 @@ function MyReviewListEntry({
         <Button
           onClick={() => {
             deleteMyReviewMutation();
-            //window.location.reload();
+            swal({
+              button: false,
+              icon: 'success',
+              title: '리뷰가 삭제되었습니다.',
+            });
+            setTimeout(() => {
+              window.location.reload(true);
+            }, 1000);
           }}
         >
           삭제

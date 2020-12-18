@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
 import AddFavoritePage from '../modal/favorite/AddFavoritePage';
 import Modal from '../../styles/Modal';
 
@@ -45,7 +46,11 @@ function AddFavorite({ isToken, address, userInfo }) {
           <Container>
             <Button
               onClick={() => {
-                alert('로그인 후 이용해 주세요.');
+                swal('로그인 후 이용해 주세요.', {
+                  button: false,
+                  timer: 1000,
+                  icon: 'warning',
+                });
               }}
             >
               ❤

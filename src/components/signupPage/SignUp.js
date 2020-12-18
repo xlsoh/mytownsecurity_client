@@ -3,8 +3,11 @@ import { useHistory, withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
+import swal from '@sweetalert/with-react';
 
 import useInput from '../../hooks/useInput';
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../styles/globalBtnCss';
 
 const Background = styled.div`
   width: 100%;
@@ -15,19 +18,17 @@ const Background = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+
 const Wrapper = styled.section`
   padding: 5em;
-  border: 3px solid #4cd59e;
+  border: 3px solid #0d7377;
   border-radius: 40px;
   display: grid;
 `;
-const SignupButton = styled.button`
-  display: relative;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
+const SiginupSpan = styled.span`
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
 `;
 const SignupInput = styled.input`
   border: solid 1px #dadada;
@@ -55,6 +56,7 @@ const TOKENLOGIN = gql`
 `;
 
 function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
+  const loginClass = useStylesBtn();
   const history = useHistory();
   const idInput = useInput('');
   const passInput = useInput('');
@@ -75,9 +77,17 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
       passInput.value == '' ||
       passConfirmInput.value == ''
     ) {
-      alert('이메일과 비밀번호를 입력해주세요.');
+      swal('이메일과 비밀번호를 입력해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else if (passInput.value !== passConfirmInput.value) {
-      alert('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.');
+      swal('비밀번호가 일치하지 않습니다. 다시 입력해 주세요.', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
     } else {
       try {
         const {
@@ -86,7 +96,12 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
           },
         } = await signUpMutation();
         if (token !== '' || token !== undefined) {
-          alert('안전궁금해의 회원이 되신걸 환영합니다!');
+          swal({
+            icon: 'success',
+            button: false,
+            timer: 1300,
+            title: '안전궁금해의 회원이 되신걸 환영합니다!',
+          });
           const getUser = {
             id: user.id,
             email: user.email,
@@ -94,10 +109,14 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
           tokenLoginMutation({ variables: { token: token, state: getUser } });
           setIsToken(true);
           setUserInfo(getUser);
-          history.push('/');
+          history.push('/main');
         }
       } catch (error) {
-        alert(error);
+        swal('아이디와 비밀번호를 다시 입력해주세요.', {
+          button: false,
+          timer: 1000,
+          icon: 'info',
+        });
       }
     }
   };
@@ -107,7 +126,7 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
       {!isToken && (
         <Background>
           <Wrapper>
-            <a>회원가입</a>
+            <SiginupSpan>회원가입</SiginupSpan>
             <br />
             <a>Email</a>
             <form onSubmit={onSubmit}>
@@ -134,7 +153,9 @@ function SignUp({ isToken, setIsToken, setUserInfo, setUserContent }) {
               />
               <br />
               <br />
-              <SignupButton>회원가입</SignupButton>
+              <Button className={loginClass.signUpBtn} type='submit'>
+                Sign Up!
+              </Button>
             </form>
           </Wrapper>
         </Background>
