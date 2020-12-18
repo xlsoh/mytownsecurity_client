@@ -40,7 +40,6 @@ const SIGNIN = gql`
     }
   }
 `;
-
 const TOKENLOGIN = gql`
   mutation logUserIn($token: String!, $state: Object!) {
     logUserIn(token: $token, state: $state) @client
@@ -106,7 +105,34 @@ function LoginPage({ setIsToken, setUserInfo }) {
 
   return (
     <>
-      {loading && <>{}</>}
+      {loading && (
+        <>
+          <Wrapper>
+            <Container>
+              <div>
+                <form onSubmit={onSubmit}>
+                  <LoginInput
+                    placeholder={'  이메일을 입력 해주세요.'}
+                    {...emailInput}
+                  ></LoginInput>
+                  <LoginInput
+                    placeholder={'  비밀번호를 입력 해주세요.'}
+                    {...passInput}
+                    type={'password'}
+                  ></LoginInput>
+                  <Button type='submit' className={loginClass.modalBtn}>
+                    로그인
+                  </Button>
+                </form>
+              </div>
+              <div>
+                안전궁금해의 회원이 아니신가요?
+                <Link to={`/user/signup`}>지금 가입하세요</Link>!
+              </div>
+            </Container>
+          </Wrapper>
+        </>
+      )}
       {!loading && (
         <>
           {' '}
@@ -115,11 +141,11 @@ function LoginPage({ setIsToken, setUserInfo }) {
               <div>
                 <form onSubmit={onSubmit}>
                   <LoginInput
-                    placeholder={'  Enter your Email'}
+                    placeholder={'  이메일을 입력 해주세요.'}
                     {...emailInput}
                   ></LoginInput>
                   <LoginInput
-                    placeholder={'  Enter your Password'}
+                    placeholder={'  비밀번호를 입력 해주세요.'}
                     {...passInput}
                     type={'password'}
                   ></LoginInput>

@@ -88,7 +88,7 @@ function MyPage({ isToken, userInfo }) {
     <>
       {isToken && (
         <>
-          {loading && '로딩중입니다...'}
+          {loading && <></>}
           {!loading && (
             <>
               <MyHeader isToken={isToken} />

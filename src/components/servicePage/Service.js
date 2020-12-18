@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import { Route, Redirect, withRouter } from 'react-router-dom';
@@ -9,6 +9,7 @@ import Review from './Review';
 import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
 import { MainCenter } from '../mainPage/MainCss';
+import '../../styles/Loading.css';
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
@@ -42,9 +43,10 @@ function Service({
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
     variables: { addressId },
   });
+  useEffect(() => {});
 
   if (loading) {
-    return <div>...loading</div>;
+    return <></>;
   }
   return (
     <>
