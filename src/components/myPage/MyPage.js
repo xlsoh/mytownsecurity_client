@@ -3,48 +3,15 @@ import { withRouter } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
 import styled from 'styled-components';
-
 import MyHeader from './MyHeader';
 import MyInfo from './MyInfo';
 import MyFavoriteList from './MyFavoriteList';
 import MyReviewList from './MyReviewList';
-
-const MyInfoContainer = styled.div`
-  display: grid;
-  place-items: center;
-  margin-top: 80px;
-`;
+import { MyPageTitle, MyInfoContainer, FRContainer } from './myPageCss';
 
 const FavoritesReviewsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-`;
-
-const FavoritesReviewsWrapper = styled.div`
-  display: grid;
-  place-items: center;
-`;
-
-const Title = styled.div`
-  font-size: 45px;
-  font-weight: 700;
-  font-family: Gill Sans;
-`;
-
-const FavoriteTitle = styled.div`
-  font-size: 45px;
-  font-weight: 700;
-  font-family: Gill Sans;
-  margin-bottom: 20px;
-  margin-left: 170px;
-`;
-
-const ReviewTitle = styled.div`
-  font-size: 45px;
-  font-weight: 700;
-  font-family: Gill Sans;
-  margin-bottom: 20px;
-  margin-right: 150px;
+  justify-content: space-around;
 `;
 
 const GET_MYINFO = gql`
@@ -92,27 +59,22 @@ function MyPage({ isToken, userInfo }) {
           {!loading && (
             <>
               <MyHeader isToken={isToken} />
-              <br /> <br />
               <MyInfoContainer>
-                <Title>나의 정보</Title>
-                <br />
-                <br />
+                <MyPageTitle>나의 정보</MyPageTitle>
                 <MyInfo userInfo={userInfo} />
               </MyInfoContainer>
-              <br /> <br /> <br />
-              <br />
               <FavoritesReviewsContainer>
-                <FavoritesReviewsWrapper>
-                  <FavoriteTitle>찜한 동네</FavoriteTitle>
+                <FRContainer>
+                  <MyPageTitle>찜한 동네</MyPageTitle>
                   <MyFavoriteList
                     data={data.getMyInfo.favorite}
                     id={userInfo.id}
                   />
-                </FavoritesReviewsWrapper>
-                <FavoritesReviewsWrapper>
-                  <ReviewTitle>작성한 리뷰</ReviewTitle>
+                </FRContainer>
+                <FRContainer>
+                  <MyPageTitle>작성한 리뷰</MyPageTitle>
                   <MyReviewList data={data.getMyInfo.review} id={userInfo.id} />
-                </FavoritesReviewsWrapper>
+                </FRContainer>
               </FavoritesReviewsContainer>
             </>
           )}
