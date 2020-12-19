@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, useHistory } from 'react-router-dom';
+import { Link, withRouter, useHistory } from 'react-router-dom';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
@@ -25,13 +25,18 @@ const HeaderContainer = styled.div`
   padding: 0px 0px;
 `;
 
-const HomeButton = styled.button`
-  background-image: url(https://ifh.cc/g/uCRQxb.png);
-  border: none;
+const HmoeButtonWrapper = styled.div`
+  margin-left: 10px;
+  margin-top: 10px;
   width: 250px;
-  height: 80px;
-  margin-left: 20px;
-  cursor: pointer;
+  height: 70px;
+`;
+
+const HomeButton = styled.img.attrs({
+  src: 'https://ifh.cc/g/RisaJs.png',
+})`
+  width: 100%;
+  height: 100%;
 `;
 
 const TOKENLOGOUT = gql`
@@ -54,29 +59,33 @@ function MyHeader({ isToken }) {
   return (
     <>
       {isToken && (
-        <FixedHeader>
-          <HeaderContainer>
-            <HomeButton onClick={() => history.push(`/main`)}></HomeButton>
-            <Button
-              className={[headersBtn.header, headersBtn.login].join(' ')}
-              variant='outlined'
-              text='Log out'
-              onClick={() => {
-                swal({
-                  button: false,
-                  icon: 'success',
+        // <FixedHeader>
+        <HeaderContainer>
+          <HmoeButtonWrapper>
+            <Link to={`/main`}>
+              <HomeButton />
+            </Link>
+          </HmoeButtonWrapper>
+          <Button
+            className={[headersBtn.header, headersBtn.login].join(' ')}
+            variant='outlined'
+            text='Log out'
+            onClick={() => {
+              swal({
+                button: false,
+                icon: 'success',
+              });
+              setTimeout(() => {
+                tokenLogoutMutation({
+                  variables: { token, state, addressId },
                 });
-                setTimeout(() => {
-                  tokenLogoutMutation({
-                    variables: { token, state, addressId },
-                  });
-                }, 1300);
-              }}
-            >
-              로그아웃
-            </Button>
-          </HeaderContainer>
-        </FixedHeader>
+              }, 1300);
+            }}
+          >
+            로그아웃
+          </Button>
+        </HeaderContainer>
+        // </FixedHeader>
       )}
       {!isToken && null}
     </>

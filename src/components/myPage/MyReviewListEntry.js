@@ -5,54 +5,19 @@ import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
 import swal from '@sweetalert/with-react';
-
 import ReviewRating from './ReviewRating';
-
-const MyReviewListContainer = styled.div`
-  margin-top: 10px;
-  margin-bottom: 5px;
-  margin-left: 50px;
-`;
-const ButtonWrapper = styled.div`
-  display: frid;
-  justify-content: end;
-  margin-right: 30ox;
-`;
-
-const EditDeleteButton = styled.button`
-  border: solid 1px #dadada;
-  margin-right: 15px;
-  margin-bottom: 8px;
-  padding: 5px;
-  transition: all 0.5s;
-  cursor: pointer;
-  &:hover {
-    background-color: #32e0c4;
-  }
-`;
-
-const SubTitle = styled.span`
-  font-size: 25px;
-`;
-
-const Description = styled.span`
-  opacity: 0.6;
-  font-size: 20px;
-  font-weight: 400;
-`;
-
-const Input = styled.input`
-  border: solid 1px #fff;
-  width: 550px;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  padding: 10px;
-`;
-
-const RatingWrapper = styled.div`
-  display: flex;
-  justify-content: start;
-`;
+import {
+  FRWrapper,
+  FRTextWrapper,
+  FRTextWrap,
+  FRSubTitle,
+  FRDesc,
+  RatingWrapper,
+  EditDeleteBtttonWrapper,
+  EditDeleteBtttonWrap,
+  EditDeleteButton,
+  EditInput,
+} from './myPageCss';
 
 const EDIT_MYREVIEW = gql`
   mutation editMyReview($reviewId: ID!, $rating: Int!, $text: String!) {
@@ -130,53 +95,58 @@ function MyReviewListEntry({
   }, [newRating]);
 
   return (
-    <>
-      <MyReviewListContainer>
-        <SubTitle>주소: </SubTitle>
-        <Description>{addressDetail}</Description>
-        <br />
-        <br />
-        {!viewForm2 && (
+    <FRWrapper>
+      <FRTextWrapper>
+        <FRTextWrap>
+          <FRSubTitle>주소: </FRSubTitle>
+          <FRDesc>{addressDetail}</FRDesc>
+        </FRTextWrap>
+        <FRTextWrap>
+          <FRSubTitle>리뷰: </FRSubTitle>
+          <FRDesc>{text}</FRDesc>
+        </FRTextWrap>
+        <RatingWrapper>
+          <FRSubTitle>평점: </FRSubTitle>
+          <form onSubmit={onSubmit}>
+            <ReviewRating rating={rating} setNewRating={setNewRating} />
+          </form>
+        </RatingWrapper>
+        <FRSubTitle>등록한 날짜: </FRSubTitle>
+        <FRDesc>{updatedAtView}</FRDesc>
+      </FRTextWrapper>
+      {!viewForm2 && (
+        <EditDeleteBtttonWrapper>
+          <EditDeleteBtttonWrap>
+            <EditDeleteButton onClick={() => setViewForm2(true)}>
+              수정
+            </EditDeleteButton>
+          </EditDeleteBtttonWrap>
+          <EditDeleteBtttonWrap>
+            <EditDeleteButton
+              onClick={() => {
+                deleteMyReviewMutation();
+                window.location.reload();
+              }}
+            >
+              삭제
+            </EditDeleteButton>
+          </EditDeleteBtttonWrap>
+        </EditDeleteBtttonWrapper>
+      )}
+      <form onSubmit={onSubmit}>
+        {viewForm2 && (
           <>
-            <SubTitle>리뷰: </SubTitle>
-            <Description>{text}</Description>
-            <br />
-            <br />
-            <RatingWrapper>
-              <SubTitle>평점: </SubTitle>
-              <form onSubmit={onSubmit}>
-                <ReviewRating rating={rating} setNewRating={setNewRating} />
-              </form>
-            </RatingWrapper>
-            <br />
-            <SubTitle>등록한 날짜: </SubTitle>
-            <Description>{updatedAtView}</Description>
-            <br />
-            <ButtonWrapper>
-              <EditDeleteButton onClick={() => setViewForm2(true)}>
-                수정
-              </EditDeleteButton>
-              <EditDeleteButton
-                onClick={() => {
-                  deleteMyReviewMutation();
-                  window.location.reload();
-                }}
-              >
-                삭제
-              </EditDeleteButton>
-            </ButtonWrapper>
+            <EditInput type='text' {...newTextInput} />
+            <EditDeleteBtttonWrapper>
+              <EditDeleteBtttonWrap>
+                <EditDeleteButton>수정</EditDeleteButton>
+              </EditDeleteBtttonWrap>
+            </EditDeleteBtttonWrapper>
           </>
         )}
-        <form onSubmit={onSubmit}>
-          {viewForm2 && (
-            <>
-              <Input type='text' {...newTextInput} />
-              <EditDeleteButton>수정</EditDeleteButton>
-            </>
-          )}
-        </form>
-      </MyReviewListContainer>
-    </>
+      </form>
+      <hr />
+    </FRWrapper>
   );
 }
 

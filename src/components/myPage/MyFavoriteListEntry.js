@@ -4,49 +4,18 @@ import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
 import swal from '@sweetalert/with-react';
-
 import useInput from '../../hooks/useInput';
-
-const MyFavoriteListContainer = styled.div`
-  margin-top: 10px;
-  margin-bottom: 15px;
-  margin-left: 50px;
-`;
-
-const ButtonWrapper = styled.div`
-  display: frid;
-  justify-content: end;
-  margin-right: 30ox;
-`;
-
-const EditDeleteButton = styled.button`
-  border: solid 1px #dadada;
-  margin-right: 15px;
-  padding: 5px;
-  transition: all 0.5s;
-  cursor: pointer;
-  &:hover {
-    background-color: #32e0c4;
-  }
-`;
-
-const SubTitle = styled.span`
-  font-size: 25px;
-`;
-
-const Description = styled.span`
-  opacity: 0.6;
-  font-size: 20px;
-  font-weight: 400;
-`;
-
-const Input = styled.input`
-  border: solid 1px #fff;
-  margin-bottom: 15px;
-  width: 550px;
-  margin-right: 15px;
-  padding: 10px;
-`;
+import {
+  FRWrapper,
+  FRTextWrapper,
+  FRTextWrap,
+  FRSubTitle,
+  FRDesc,
+  EditDeleteBtttonWrapper,
+  EditDeleteBtttonWrap,
+  EditDeleteButton,
+  EditInput,
+} from './myPageCss';
 
 const EDIT_MYFAVORITE = gql`
   mutation editMyFavorite($favoriteId: ID!, $aliasInput: String!) {
@@ -116,49 +85,56 @@ function MyFavoriteListEntry({
     }
   };
   return (
-    <>
-      <MyFavoriteListContainer>
-        <SubTitle>주소: </SubTitle>
-        <Description>{addressDetail}</Description>
-        <br /> <br />
-        {!viewForm && (
+    <FRWrapper>
+      <FRTextWrapper>
+        <FRTextWrap>
+          <FRSubTitle>주소: </FRSubTitle>
+          <FRDesc>{addressDetail}</FRDesc>
+        </FRTextWrap>
+        <FRTextWrap>
+          <FRSubTitle>별칭: </FRSubTitle>
+          <FRDesc>{aliasInput}</FRDesc>
+        </FRTextWrap>
+        <FRSubTitle>등록한 날짜: </FRSubTitle>
+        <FRDesc>{updatedAtView}</FRDesc>
+      </FRTextWrapper>
+      {!viewForm && (
+        <EditDeleteBtttonWrapper>
+          <EditDeleteBtttonWrap>
+            <EditDeleteButton
+              onClick={() => {
+                setViewForm(true);
+              }}
+            >
+              수정
+            </EditDeleteButton>
+          </EditDeleteBtttonWrap>
+          <EditDeleteBtttonWrap>
+            <EditDeleteButton
+              onClick={() => {
+                deleteMyFavoriteMutation();
+                window.location.reload();
+              }}
+            >
+              삭제
+            </EditDeleteButton>
+          </EditDeleteBtttonWrap>
+        </EditDeleteBtttonWrapper>
+      )}
+      <form onSubmit={onSubmit}>
+        {viewForm && (
           <>
-            <SubTitle>별칭: </SubTitle>
-            <Description>{aliasInput}</Description>
-            <br />
-            <br />
-            <SubTitle>등록한 날짜: </SubTitle>
-            <Description>{updatedAtView}</Description>
-            <br />
-            <ButtonWrapper>
-              <EditDeleteButton
-                onClick={() => {
-                  setViewForm(true);
-                }}
-              >
-                수정
-              </EditDeleteButton>
-              <EditDeleteButton
-                onClick={() => {
-                  deleteMyFavoriteMutation();
-                  window.location.reload();
-                }}
-              >
-                삭제
-              </EditDeleteButton>
-            </ButtonWrapper>
+            <EditInput type='aliasInput' {...newPlaceAliasInput} />
+            <EditDeleteBtttonWrapper>
+              <EditDeleteBtttonWrap>
+                <EditDeleteButton>수정</EditDeleteButton>
+              </EditDeleteBtttonWrap>
+            </EditDeleteBtttonWrapper>
           </>
         )}
-        <form onSubmit={onSubmit}>
-          {viewForm && (
-            <>
-              <Input type='aliasInput' {...newPlaceAliasInput} />
-              <EditDeleteButton>수정</EditDeleteButton>
-            </>
-          )}
-        </form>
-      </MyFavoriteListContainer>
-    </>
+      </form>
+      <hr />
+    </FRWrapper>
   );
 }
 
