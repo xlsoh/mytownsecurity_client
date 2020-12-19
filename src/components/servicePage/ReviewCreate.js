@@ -5,6 +5,15 @@ import ReviewRating from './ReviewRating';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import swal from '@sweetalert/with-react';
+import { useStylesBtn } from '../../styles/globalBtnCss';
+import {
+  useReviewInputStyles,
+  ReviewTextField,
+  reviewTheme,
+} from './ReviewCss';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { useTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const InsertFormPositioner = styled.div`
   width: 100%;
@@ -17,8 +26,8 @@ const InsertForm = styled.form`
   padding-top: 32px;
   padding-right: 32px;
   padding-bottom: 32px;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   border-top: 1px solid #e9ecef;
 `;
 
@@ -32,21 +41,20 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  position: relative;
-  left: 200px;
-`;
+// const Button = styled.button`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-top: 15px;
+//   margin-bottom: 15px;
+//   cursor: pointer;
+//   position: relative;
+//   left: 200px;
+// `;
 
 const StarAndButton = styled.div`
-  display: flex;
+  display: block;
   flex-direction: row;
-  margin: auto 0;
   justify-content: start;
 `;
 
@@ -73,7 +81,11 @@ function ReviewCreate({ userInfo, addressId }) {
   const [rating, setRating] = useState(0);
   const dispatch = useReviewDispatch();
   const nextId = useReviewNextId();
-
+  const { palette } = useTheme();
+  const classes = useReviewInputStyles({
+    primary: palette.dark,
+  });
+  const writeStyle = useStylesBtn();
   const [addReview] = useMutation(ADD_REVIEW, {
     variables: {
       userId: userInfo.id,
@@ -119,31 +131,37 @@ function ReviewCreate({ userInfo, addressId }) {
       {userInfo.id && (
         <InsertFormPositioner>
           <InsertForm>
-            <Input
-              autoFocus
-              onChange={onChange}
-              value={value}
-              placeholder='리뷰와 별점을 입력하신 후, Enter 를 누르세요'
-            />
             <StarAndButton>
               <ReviewRating rating={rating} setRating={setRating} />
-              <Button onClick={onSubmit}>enter</Button>
+              <Button className={writeStyle.WriteBtn} onClick={onSubmit}>
+                작성
+              </Button>
             </StarAndButton>
+            <ReviewTextField>
+              <ThemeProvider theme={reviewTheme}>
+                <TextField
+                  id='outlined-multiline-static'
+                  label='리뷰와 별점을 입력하세요'
+                  multiline
+                  rows={2}
+                  value={value}
+                  variant='outlined'
+                  onChange={onChange}
+                  className={classes.root}
+                  fullWidth={true}
+                />
+              </ThemeProvider>
+            </ReviewTextField>
           </InsertForm>
         </InsertFormPositioner>
       )}
       {!userInfo.id && (
         <InsertFormPositioner>
           <InsertForm>
-            <Input
-              autoFocus
-              onChange={onChange}
-              value={value}
-              placeholder='리뷰와 별점을 입력하신 후, Enter 를 누르세요'
-            />
             <StarAndButton>
               <ReviewRating rating={rating} setRating={setRating} />
               <Button
+                className={writeStyle.WriteBtn}
                 onClick={() => {
                   swal('로그인 후 이용해 주세요.', {
                     button: false,
@@ -151,9 +169,22 @@ function ReviewCreate({ userInfo, addressId }) {
                   });
                 }}
               >
-                enter
+                작성
               </Button>
             </StarAndButton>
+            <ThemeProvider theme={reviewTheme}>
+              <TextField
+                id='outlined-multiline-static'
+                label='리뷰와 별점을 입력하세요'
+                multiline
+                rows={2}
+                value={value}
+                variant='outlined'
+                onChange={onChange}
+                className={classes.root}
+                fullWidth='true'
+              />
+            </ThemeProvider>
           </InsertForm>
         </InsertFormPositioner>
       )}

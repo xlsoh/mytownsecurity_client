@@ -10,11 +10,11 @@ const Remove = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #dee2e6;
+  color: #0d7377;
   font-size: 24px;
   cursor: pointer;
   &:hover {
-    color: #ff6b6b;
+    color: #0d7377;
   }
   display: none;
 `;
@@ -24,6 +24,8 @@ const ReviewItemBlock = styled.div`
   align-items: center;
   padding-top: 12px;
   padding-bottom: 12px;
+  border-bottom: solid 1px;
+  border-color: #0d7377;
   &:hover {
     ${Remove} {
       display: initial;
