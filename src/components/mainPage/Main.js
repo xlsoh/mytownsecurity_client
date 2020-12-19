@@ -6,7 +6,7 @@ import SearchInput from '../search/SearchInput';
 import MainDetail from './MainDetail';
 import { MainCenter } from './MainCss.js';
 import '../../styles/font.css';
-
+//import Loading from '../Lodaing';
 function Main({
   setAddressId,
   isToken,
@@ -32,6 +32,7 @@ function Main({
         />
       </MainCenter>
       <MainDetail />
+      {/* <Loading></Loading> */}
     </>
   );
 }

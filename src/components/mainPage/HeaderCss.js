@@ -43,5 +43,6 @@ export const Container = styled.div`
   width: 100%;
   height: 80px;
   background: white;
+  opacity: 0.8;
   z-index: 8;
 `;
