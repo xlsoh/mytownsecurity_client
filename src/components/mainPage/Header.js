@@ -8,7 +8,12 @@ import swal from '@sweetalert/with-react';
 import Modal from '../../styles/Modal';
 import LoginPage from '../modal/user/LoginPage';
 import Button from '@material-ui/core/Button';
-import { HomeButton, useStylesHeader, Container } from './HeaderCss.js';
+import {
+  HomeButton,
+  HmoeButtonWrapper,
+  useStylesHeader,
+  Container,
+} from './HeaderCss.js';
 
 const TOKENLOGOUT = gql`
   mutation logUserOut($token: String!, $state: Object!, $addressId: Int!) {

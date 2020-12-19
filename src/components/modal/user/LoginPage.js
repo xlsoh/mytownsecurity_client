@@ -127,7 +127,10 @@ function LoginPage({ setIsToken, setUserInfo }) {
               </div>
               <div>
                 안전궁금해의 회원이 아니신가요?
-                <Link to={`/user/signup`}>지금 가입하세요</Link>!
+                <Link to={`/user/signup`}>
+                  <u>지금 가입하세요</u>
+                </Link>
+                !
               </div>
             </Container>
           </Wrapper>
@@ -156,7 +159,10 @@ function LoginPage({ setIsToken, setUserInfo }) {
               </div>
               <div>
                 안전궁금해의 회원이 아니신가요?
-                <Link to={`/user/signup`}>지금 가입하세요</Link>!
+                <Link to={`/user/signup`}>
+                  <u>지금 가입하세요</u>
+                </Link>
+                !
               </div>
             </Container>
           </Wrapper>

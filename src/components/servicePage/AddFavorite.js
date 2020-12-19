@@ -44,7 +44,7 @@ function AddFavorite({ isToken, address, userInfo }) {
               variant='contained'
               color='secondary'
               className={favBtn.FavriteBtn}
-              startIcon={<StarsRoundedIcon />}
+              startIcon={<FavoriteRoundedIcon />}
               onClick={() => {
                 swal('로그인 후 이용해 주세요.', {
                   button: false,

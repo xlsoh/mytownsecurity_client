@@ -5,7 +5,8 @@ import { useMutation } from 'react-apollo-hooks';
 import useInput from '../../../hooks/useInput';
 import styled from 'styled-components';
 import swal from '@sweetalert/with-react';
-
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../../styles/globalBtnCss';
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -28,14 +29,14 @@ const Input = styled.input`
   padding: 10px;
   margin-left: 10px;
 `;
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  cursor: pointer;
-`;
+// const Button = styled.button`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-top: 15px;
+//   margin-bottom: 15px;
+//   cursor: pointer;
+// `;
 
 const EDITPASSWORD = gql`
   mutation editPassword(
@@ -69,6 +70,7 @@ function EditInfoPage({ userInfo }) {
       nextPassword: passInput.value,
     },
   });
+  const passwordCheckBtn = useStylesBtn();
   const [tokenLogoutMutation] = useMutation(TOKENLOGOUT, {
     variables: { token, state },
   });
@@ -143,7 +145,7 @@ function EditInfoPage({ userInfo }) {
                 {...passConfirmInput}
               />
             </div>
-            <Button>비밀번호 변경</Button>
+            <Button className={passwordCheckBtn.modalBtn}>비밀번호 변경</Button>
           </form>
         </Wrapper>
       </Container>
