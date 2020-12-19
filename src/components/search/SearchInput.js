@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
 import { useMutation } from 'react-apollo-hooks';
-import SearchModal from '../../styles/Modal';
+import SearchModal from '../../styles/SearchModal';
 import SearchResultList from './SearchResultList';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH } from '../../config';
@@ -11,7 +11,8 @@ import swal from '@sweetalert/with-react';
 import Button from '@material-ui/core/Button';
 import { ThemeProvider } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { useStylesInput, theme, SearchContainer } from './SearchCss.js';
+import { useStylesInput, SearchContainer } from './SearchCss.js';
+import { theme } from '../../styles/globalTheme';
 import { useStylesBtn } from '../../styles/globalBtnCss.js';
 
 const CREATE_ADDRESS = gql`
@@ -86,9 +87,8 @@ function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
       localStorage.setItem('addressId', testRes.data.createAddress.id);
     }
     console.log(window.location.pathname);
-    if (window.location.pathname === '/main') {
-      history.push(`/address/${testRes.data.createAddress.id}`);
-    }
+
+    history.push(`/address/${testRes.data.createAddress.id}`);
 
     return;
   };

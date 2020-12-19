@@ -122,7 +122,7 @@ function EditInfoPage({ userInfo }) {
             <div>
               <a>현재 비밀번호</a>
               <Input
-                type='prevPassword'
+                type='password'
                 placeholder='비밀번호를 입력해 주세요.'
                 {...prevPassInput}
               />
@@ -138,7 +138,7 @@ function EditInfoPage({ userInfo }) {
             <div>
               <a>새 비밀번호 확인</a>
               <Input
-                type='confirmpassword'
+                type='password'
                 placeholder='새 비밀번호를 확인해 주세요.'
                 {...passConfirmInput}
               />
