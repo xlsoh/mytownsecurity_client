@@ -9,6 +9,7 @@ export const useStylesHeader = makeStyles({
     height: 36,
     width: 80,
     padding: '0 10px',
+    color: '#0d7377',
     margin: '25px 30px 10px 0px',
     '&:hover': {
       backgroundColor: '#32e0c4',
@@ -42,5 +43,5 @@ export const Container = styled.div`
   width: 100%;
   height: 80px;
   background: white;
-  z-index: 4;
+  z-index: 8;
 `;
