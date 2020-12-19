@@ -10,7 +10,7 @@ import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
 import styled from 'styled-components';
 import { MainCenter } from '../mainPage/MainCss';
-import '../../styles/Loading.css';
+//import '../../styles/Loading.css';
 
 const MiddleTemplate = styled.div`
   display: flex;
@@ -80,6 +80,7 @@ function Service({
           setSearchedAddress={setSearchedAddress}
         />
       </MainCenter>
+
       <MiddleTemplate>
         <MapIntro
           isToken={isToken}
@@ -96,6 +97,7 @@ function Service({
         </RightTemplate>
       </MiddleTemplate>
       <Review userInfo={userInfo} addressId={addressId} />
+      {window.scrollTo(0, 0)}
     </>
   );
 }

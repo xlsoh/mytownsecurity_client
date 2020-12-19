@@ -6,7 +6,7 @@ import { withRouter, useHistory } from 'react-router-dom';
 import MainHeader from './Header';
 import SearchInput from '../search/SearchInput';
 import MainDetail from './MainDetail';
-import { SerchedWtapper } from './MainCss.js';
+import { MainCenter } from './MainCss.js';
 import '../../styles/font.css';
 
 function Main({
@@ -26,13 +26,13 @@ function Main({
         isToken={isToken}
         setIsToken={setIsToken}
       />
-      <SerchedWtapper>
+      <MainCenter>
         <SearchInput
           setAddressId={setAddressId}
           setSearchedAddress={setSearchedAddress}
           searchedAddress={searchedAddress}
         />
-      </SerchedWtapper>
+      </MainCenter>
       <MainDetail />
     </>
   );
