@@ -34,6 +34,7 @@ export const SerchedWtapper = styled.div`
 export const MainIMG = styled.img.attrs({
   src: 'https://ifh.cc/g/SQ1SfH.jpg',
 })`
+  margin-top: 80px;
   width: 100%;
   height: 100%;
 `;
