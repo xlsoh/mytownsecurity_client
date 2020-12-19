@@ -164,9 +164,13 @@ function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
           <TextField
             label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(소공동)'
             className={inputClasses.margin}
+            style={{ width: '450px', height: '25px' }}
             value={searchValue}
             onChange={(e) => setValue(e.target.value)}
-            style={{ width: '450px', height: '25px' }}
+            onClick={(e) => (e.target.value = '')}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') handleSearch(e.target.value);
+            }}
           />
         </ThemeProvider>
         <Button
