@@ -7,7 +7,6 @@ import SearchResultList from './SearchResultList';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH } from '../../config';
 import swal from '@sweetalert/with-react';
-
 import Button from '@material-ui/core/Button';
 import { ThemeProvider } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -55,7 +54,14 @@ function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
   };
   //선택버튼
   const handleChecked = async (addrObj) => {
-    console.log(addrObj);
+    if (!addrObj) {
+      swal('주소를 선택해주세요!', {
+        button: false,
+        timer: 1000,
+        icon: 'info',
+      });
+      return;
+    }
     const { roadAddr, sggNm, siNm, rn } = addrObj;
     if (siNm !== '서울특별시') {
       swal('죄송합니다. 현재는 서울 지역만 서비스하는 중입니다', {

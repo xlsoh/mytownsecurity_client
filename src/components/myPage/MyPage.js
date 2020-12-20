@@ -50,6 +50,9 @@ function MyPage({ isToken, userInfo }) {
       userId: userInfo.id,
     },
   });
+  // useEffect(() => {
+  //   window.location.reload();
+  // });
 
   return (
     <>

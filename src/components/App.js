@@ -1,16 +1,9 @@
-import {
-  Switch,
-  Route,
-  Redirect,
-  withRouter,
-  useHistory,
-} from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
 import SignUp from './signupPage/SignUp';
-import ScrollToTop from './servicePage/ScrollToTop';
 function App() {
   const [isToken, setIsToken] = useState(false);
   const [userInfo, setUserInfo] = useState({});
@@ -19,25 +12,21 @@ function App() {
   const loggedInToken = localStorage.getItem('token');
   const loggedInUserInfo = JSON.parse(localStorage.getItem('state'));
   const loggedAddressId = localStorage.getItem('addressId');
-
   const loggedIn = {
     id: { ...loggedInUserInfo }.id,
     email: { ...loggedInUserInfo }.email,
   };
-
   useEffect(() => {
     if (loggedInToken && isToken !== true) {
       setIsToken(true);
       setUserInfo(loggedIn);
     }
   }, [isToken, userInfo]);
-
   useEffect(() => {
     if (!addressId) {
       setAddressId(loggedAddressId);
     }
   }, [addressId]);
-
   return (
     <div>
       <Switch>
@@ -102,5 +91,4 @@ function App() {
     </div>
   );
 }
-
 export default withRouter(App);

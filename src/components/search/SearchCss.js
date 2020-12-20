@@ -13,6 +13,7 @@ export const SearchContainer = styled.div`
   padding-bottom: 10px;
   width: 580px;
   z-index: 1;
+  text-align: center;
 `;
 
 export const SearchListContainer = styled.div`

@@ -87,7 +87,7 @@ function AddFavoritePage({ userInfo, address }) {
         }
       }
     } catch (error) {
-      swal(error, {
+      swal('이미 찜 된 주소입니다.', {
         button: false,
         timer: 1000,
         icon: 'info',

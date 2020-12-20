@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
 import MainHeader from './Header';
 import SearchInput from '../search/SearchInput';
 import MainDetail from './MainDetail';
-import { MainCenter } from './MainCss.js';
 import '../../styles/font.css';
+import { SerchedWrapper } from './MainCss.js';
 //import Loading from '../Lodaing';
 function Main({
   setAddressId,
@@ -24,13 +22,13 @@ function Main({
         isToken={isToken}
         setIsToken={setIsToken}
       />
-      <MainCenter>
+      <SerchedWrapper>
         <SearchInput
           setAddressId={setAddressId}
           setSearchedAddress={setSearchedAddress}
           searchedAddress={searchedAddress}
         />
-      </MainCenter>
+      </SerchedWrapper>
       <MainDetail />
       {/* <Loading></Loading> */}
     </>

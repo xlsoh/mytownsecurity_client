@@ -12,7 +12,6 @@ import styled from 'styled-components';
 import { MainCenter } from '../mainPage/MainCss';
 import { MiddleTemplate, RightTemplate } from './ServiceCss';
 
-
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
     getSearchedLocation(addressId: $addressId) {

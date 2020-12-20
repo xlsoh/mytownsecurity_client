@@ -85,10 +85,10 @@ function MainHeader({ isToken, setIsToken, userInfo, setUserInfo }) {
             >
               로그인
             </Button>
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-              <LoginPage setIsToken={setIsToken} setUserInfo={setUserInfo} />
-            </Modal>
           </Container>
+          <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+            <LoginPage setIsToken={setIsToken} setUserInfo={setUserInfo} />
+          </Modal>
         </>
       )}
     </>
