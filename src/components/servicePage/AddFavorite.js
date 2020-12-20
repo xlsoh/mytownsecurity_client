@@ -1,50 +1,50 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 import swal from '@sweetalert/with-react';
 import AddFavoritePage from '../modal/favorite/AddFavoritePage';
 import Modal from '../../styles/Modal';
+import { FavContainer } from './ServiceCss';
 
-const Container = styled.div`
-  position: relative;
-  left: 30px;
-  top: 80px;
-  z-index: 2;
-`;
-const Button = styled.button`
-  min-width: 50px;
-  padding: 10px 20px;
-  border-radius: 4px;
-  border: none;
-  background: #ffffff;
-  color: red;
-  font-size: 75px;
-  cursor: pointer;
-`;
+import Button from '@material-ui/core/Button';
+import { useStylesBtn } from '../../styles/globalBtnCss';
+import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 
 function AddFavorite({ isToken, address, userInfo }) {
   const [isOpen, setIsOpen] = useState(false);
   const [viewForm, setViewForm] = useState(false);
   const openModal = () => {
+    console.log('test');
     setIsOpen(true);
   };
-
+  const favBtn = useStylesBtn();
   return (
     <>
       {isToken && (
         <>
-          <Container>
-            <Button onClick={openModal}>❤</Button>
-            <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-              <AddFavoritePage userInfo={userInfo} address={address} />
-            </Modal>
-          </Container>
+          <FavContainer>
+            <Button
+              variant='contained'
+              color='secondary'
+              className={favBtn.FavriteBtn}
+              startIcon={<FavoriteRoundedIcon />}
+              onClick={openModal}
+            >
+              찜하기
+            </Button>
+          </FavContainer>
+          <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+            <AddFavoritePage userInfo={userInfo} address={address} />
+          </Modal>
         </>
       )}
       {!isToken && (
         <>
-          <Container>
+          <FavContainer>
             <Button
+              variant='contained'
+              color='secondary'
+              className={favBtn.FavriteBtn}
+              startIcon={<FavoriteRoundedIcon />}
               onClick={() => {
                 swal('로그인 후 이용해 주세요.', {
                   button: false,
@@ -53,9 +53,9 @@ function AddFavorite({ isToken, address, userInfo }) {
                 });
               }}
             >
-              ❤
+              찜하기
             </Button>
-          </Container>
+          </FavContainer>
         </>
       )}
     </>

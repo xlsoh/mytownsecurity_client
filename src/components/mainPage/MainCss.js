@@ -14,10 +14,11 @@ export const ImgWrapper = styled.div`
   width: 100%;
   height: 600px;
   overflow: hidden;
+  z-index: -2;
 `;
 
 export const ContentWrapper = styled.div`
-  z-index: 3;
+  z-index: -1;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -33,6 +34,7 @@ export const SerchedWtapper = styled.div`
 export const MainIMG = styled.img.attrs({
   src: 'https://ifh.cc/g/SQ1SfH.jpg',
 })`
+  margin-top: 80px;
   width: 100%;
   height: 100%;
 `;

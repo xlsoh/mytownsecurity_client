@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { withRouter, useHistory } from 'react-router-dom';
 import { useMutation } from 'react-apollo-hooks';
-import SearchModal from '../../styles/Modal';
+import SearchModal from '../../styles/SearchModal';
 import SearchResultList from './SearchResultList';
 import { gql } from 'apollo-boost';
 import { API_KEY_SEARCH } from '../../config';
@@ -11,7 +11,8 @@ import swal from '@sweetalert/with-react';
 import Button from '@material-ui/core/Button';
 import { ThemeProvider } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { useStylesInput, theme, SearchContainer } from './SearchCss.js';
+import { useStylesInput, SearchContainer } from './SearchCss.js';
+import { theme } from '../../styles/globalTheme';
 import { useStylesBtn } from '../../styles/globalBtnCss.js';
 
 const CREATE_ADDRESS = gql`
@@ -27,7 +28,7 @@ const CREATE_ADDRESS = gql`
     }
   }
 `;
-function SearchInput({ setAddressId }) {
+function SearchInput({ setAddressId, setSearchedAddress, searchedAddress }) {
   const [searchValue, setValue] = useState('');
   const [addressInput, setAddressInput] = useState('');
   const [searchResults, setResults] = useState('');
@@ -41,6 +42,13 @@ function SearchInput({ setAddressId }) {
   useEffect(() => {
     fetchData().then((res) => setResults(res.data.results.juso));
   }, [addressInput]);
+
+  useEffect(() => {
+    if (searchedAddress) {
+      setValue(searchedAddress);
+    }
+  }, [searchedAddress]);
+
   const handleSearch = (input) => {
     setIsOpen(true);
     setAddressInput(input);
@@ -59,7 +67,8 @@ function SearchInput({ setAddressId }) {
       return;
     }
     setValue(roadAddr);
-
+    setSearchedAddress(roadAddr);
+    setIsOpen(false);
     const testRes = await createAddress({
       variables: {
         detail: roadAddr,
@@ -77,9 +86,11 @@ function SearchInput({ setAddressId }) {
     } else {
       localStorage.setItem('addressId', testRes.data.createAddress.id);
     }
+    console.log(window.location.pathname);
 
-    //서버 연동 확인되면 사용!
     history.push(`/address/${testRes.data.createAddress.id}`);
+
+    return;
   };
   // 주소 검색 API
   const fetchData = async () => {
@@ -151,11 +162,15 @@ function SearchInput({ setAddressId }) {
       <SearchContainer>
         <ThemeProvider theme={theme}>
           <TextField
-            label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(천호동)'
+            label=' ex) 도로명(반포대로 58), 건물명(독립기념관), 지번(소공동)'
             className={inputClasses.margin}
+            style={{ width: '450px', height: '25px' }}
             value={searchValue}
             onChange={(e) => setValue(e.target.value)}
-            style={{ width: '450px', height: '25px' }}
+            onClick={(e) => (e.target.value = '')}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') handleSearch(e.target.value);
+            }}
           />
         </ThemeProvider>
         <Button

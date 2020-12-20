@@ -1,48 +1,68 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import {
+  Container,
+  CrimeWrapper,
+  CrimeDiv,
+  CrimP,
+  CrimeNum,
+} from './ServiceCss';
 
-const Container = styled.div`
-  position: relative;
-  top: 200px;
-  left: 30px;
-  z-index: 2;
-`;
-const CrimeWrapper = styled.div`
-  width: 100px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
-  color: #000;
-  display: grid;
-  grid-template-columns: 1fr;
-  position: relative;
-  z-index: 2;
-  border-radius: 5px;
-  background: #fff;
-  padding: 5px;
-  margin: 5px;
-  float: left;
-`;
-
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 function CrimeRate({ crime }) {
   return (
     <>
       <Container>
         <CrimeWrapper>
-          <p>살인</p>
-          {/*수정필요*/ crime.murder}건
-          <br />
-          <br />
-          <p>강도</p>
-          {/*수정필요*/ crime.robbery}건
-          <br /> <br />
-          <p>강간강제추행</p>
-          {/*수정필요*/ crime.rape}건
-          <br /> <br />
-          <p>절도</p>
-          {/*수정필요*/ crime.theft}건
-          <br /> <br />
-          <p>폭력</p>
-          {/*수정필요*/ crime.violence}건
+          <CrimeDiv>
+            <WarningRoundedIcon
+              fontSize='small'
+              style={{ float: 'left', marginLeft: 10, marginRight: -10 }}
+            />
+            <CrimP>살인</CrimP>
+            <br />
+            <CrimeNum>{crime.murder}</CrimeNum>&nbsp;건
+          </CrimeDiv>
+          <CrimeDiv>
+            <WarningRoundedIcon
+              fontSize='small'
+              style={{ float: 'left', marginLeft: 10, marginRight: -10 }}
+            />
+            <CrimP>강도</CrimP>
+            <br />
+            <CrimeNum>{crime.robbery}</CrimeNum>&nbsp;건
+          </CrimeDiv>
+          <CrimeDiv>
+            <WarningRoundedIcon
+              fontSize='small'
+              style={{ float: 'left', marginLeft: 10, marginRight: -10 }}
+            />
+            <CrimP>
+              강간 <br />
+              강제추행
+            </CrimP>
+            <br />
+            <CrimeNum>{crime.rape}</CrimeNum>&nbsp;건
+          </CrimeDiv>
+          <CrimeDiv>
+            <WarningRoundedIcon
+              fontSize='small'
+              style={{ float: 'left', marginLeft: 10, marginRight: -10 }}
+            />
+            <CrimP>절도</CrimP>
+            <br />
+            <CrimeNum>{crime.theft}</CrimeNum>&nbsp;건
+          </CrimeDiv>
+          <CrimeDiv>
+            <WarningRoundedIcon
+              fontSize='small'
+              style={{ float: 'left', marginLeft: 10, marginRight: -10 }}
+            />
+            <CrimP>폭력</CrimP>
+            <br />
+            <CrimeNum>{crime.violence}</CrimeNum>&nbsp;건
+          </CrimeDiv>
         </CrimeWrapper>
       </Container>
     </>

@@ -9,6 +9,7 @@ export const useStylesHeader = makeStyles({
     height: 36,
     width: 80,
     padding: '0 10px',
+    color: '#0d7377',
     margin: '25px 30px 10px 0px',
     '&:hover': {
       backgroundColor: '#32e0c4',
@@ -28,13 +29,13 @@ export const useStylesHeader = makeStyles({
 });
 
 //로고버튼
-export const HomeButton = styled.button`
-  background-image: url(https://ifh.cc/g/uCRQxb.png);
-  border: none;
+export const HomeButton = styled.img.attrs({
+  src: 'https://ifh.cc/g/RisaJs.png',
+})`
+  margin-left: 10px;
+  margin-top: 10px;
   width: 250px;
-  height: 80px;
-  margin-left: 20px;
-  cursor: pointer;
+  height: 70px;
 `;
 
 export const Container = styled.div`
@@ -42,5 +43,6 @@ export const Container = styled.div`
   width: 100%;
   height: 80px;
   background: white;
-  z-index: 4;
+  opacity: 0.8;
+  z-index: 8;
 `;

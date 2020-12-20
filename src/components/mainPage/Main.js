@@ -4,10 +4,18 @@ import { withRouter, useHistory } from 'react-router-dom';
 import MainHeader from './Header';
 import SearchInput from '../search/SearchInput';
 import MainDetail from './MainDetail';
-import { SerchedWtapper } from './MainCss.js';
+import { MainCenter } from './MainCss.js';
 import '../../styles/font.css';
-
-function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
+//import Loading from '../Lodaing';
+function Main({
+  setAddressId,
+  isToken,
+  setIsToken,
+  userInfo,
+  setUserInfo,
+  setSearchedAddress,
+  searchedAddress,
+}) {
   return (
     <>
       <MainHeader
@@ -16,10 +24,15 @@ function Main({ setAddressId, isToken, setIsToken, userInfo, setUserInfo }) {
         isToken={isToken}
         setIsToken={setIsToken}
       />
-      <SerchedWtapper>
-        <SearchInput setAddressId={setAddressId} />
-      </SerchedWtapper>
+      <MainCenter>
+        <SearchInput
+          setAddressId={setAddressId}
+          setSearchedAddress={setSearchedAddress}
+          searchedAddress={searchedAddress}
+        />
+      </MainCenter>
       <MainDetail />
+      {/* <Loading></Loading> */}
     </>
   );
 }

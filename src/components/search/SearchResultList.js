@@ -77,15 +77,17 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
           <ListItem key={idx}>
             <input
               type='radio'
-              checked={checkedAddress === elem.roadAddr}
+              checked={checkedAddress === elem.jibunAddr}
               value={elem.roadAddr}
               onChange={(e) => {
-                setCheckdAddress(e.target.value);
+                setCheckdAddress(elem.jibunAddr);
                 setAddrObj(elem);
               }}
             />
-            &nbsp; {elem.roadAddr}
-            <div>&emsp; [지번] {elem.jibunAddr}</div>
+            &nbsp; <span style={{ fontSize: 16 }}>{elem.roadAddr}</span>
+            <div style={{ color: '#4e6968', fontSize: 13, marginBottom: 10 }}>
+              &emsp; [지번] {elem.jibunAddr}
+            </div>
           </ListItem>
         ))}
       </List>
@@ -96,8 +98,8 @@ function SearchResultList({ searchResults, handleChecked, setLocationXY }) {
           size='small'
           page={page}
           variant='outlined'
-          shape='rounded'
           onChange={handlePage}
+          style={{ margin: '0 auto' }}
         />
         <Button
           className={selectBtn.modalBtn}
