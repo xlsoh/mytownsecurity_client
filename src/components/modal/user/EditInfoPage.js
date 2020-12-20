@@ -145,7 +145,9 @@ function EditInfoPage({ userInfo }) {
                 {...passConfirmInput}
               />
             </div>
-            <Button className={passwordCheckBtn.modalBtn}>비밀번호 변경</Button>
+            <Button type='submit' className={passwordCheckBtn.modalBtn}>
+              비밀번호 변경
+            </Button>
           </form>
         </Wrapper>
       </Container>

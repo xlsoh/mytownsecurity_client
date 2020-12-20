@@ -14,18 +14,17 @@ export const ImgWrapper = styled.div`
   width: 100%;
   height: 600px;
   overflow: hidden;
-  z-index: -2;
 `;
 
 export const ContentWrapper = styled.div`
-  z-index: -1;
+  z-index: 3;
   position: absolute;
   display: flex;
   flex-direction: column;
   align-item: center;
 `;
 
-export const SerchedWtapper = styled.div`
+export const SerchedWrapper = styled.div`
   display: grid;
   place-items: center;
   margin-bottom: 100px;
@@ -34,7 +33,6 @@ export const SerchedWtapper = styled.div`
 export const MainIMG = styled.img.attrs({
   src: 'https://ifh.cc/g/SQ1SfH.jpg',
 })`
-  margin-top: 80px;
   width: 100%;
   height: 100%;
 `;
@@ -46,10 +44,17 @@ export const MainTitle = styled.h1`
 `;
 
 export const MainTextDetail = styled.h3`
-  font-size: 18px;
+  font-size: 23px;
   font-family: 'Noto Sans KR', sans-serif;
   text-align: center;
   margin-top: 40px;
+  opacity: 0.5;
+`;
+
+export const MainTextDesc = styled.p`
+  font-size: 15px;
+  font-family: 'Noto Sans KR', sans-serif;
+  text-align: center;
   opacity: 0.5;
 `;
 
@@ -65,7 +70,7 @@ export const DescContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 150px;
+  margin-top: 300px;
   margin-bottom: 100px;
   height: 500px;
 `;
@@ -74,31 +79,10 @@ export const DescVideoWrapper = styled.div`
   width: 800px;
   height: 600px;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 20px;
 `;
 
-export const DescIMG1 = styled.img.attrs({
-  src: 'https://ifh.cc/g/aeeix9.png',
-})`
-  width: 100%;
-  height: 100%;
-`;
-
-export const DescIMG2 = styled.img.attrs({
-  src: 'https://ifh.cc/g/tNenA3.png',
-})`
-  width: 100%;
-  height: 100%;
-`;
-
-export const DescIMG3 = styled.img.attrs({
-  src: 'https://ifh.cc/g/mkyLP0.png',
-})`
-  width: 100%;
-  height: 100%;
-`;
-
-export const DescVideo4 = styled.video`
+export const DescVideo = styled.video`
   width: 100%;
   height: 100%;
   -o-object-fit: fill;
@@ -119,6 +103,14 @@ export const DescDetail = styled.p`
   margin-top: 35px;
   opacity: 0.7;
   font-size: 25px;
+  font-weight: bold;
+  font-family: 'Noto Sans KR', sans-serif;
+`;
+
+export const DescDetail1 = styled.p`
+  margin-top: 35px;
+  opacity: 0.7;
+  font-size: 22px;
   font-weight: bold;
   font-family: 'Noto Sans KR', sans-serif;
 `;

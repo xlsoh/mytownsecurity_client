@@ -2,16 +2,9 @@ import React from 'react';
 import ReviewList from './ReviewList';
 import ReviewCreate from './ReviewCreate';
 import { ReviewProvider } from './ReviewContext';
-import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useQuery } from 'react-apollo-hooks';
-
-import {
-  ReviewMiddleTemplate,
-  ReviewRightTemplate,
-  ReviewTemplate,
-} from './ReviewCss';
-
+import { ReviewMiddleTemplate, ReviewTemplate } from './ReviewCss';
 const GET_REVIEWS = gql`
   query getReviews($addressId: ID!) {
     getReviews(addressId: $addressId) {
@@ -44,47 +37,26 @@ function Review({ userInfo, addressId }) {
         assortedReview.push(data.getReviews[i].review[j]);
       }
     }
-
     //리뷰 평균값 구하기
     let sumRate = 0;
     for (let i = 0; i < assortedReview.length; i++) {
       sumRate += assortedReview[i].rating;
     }
     let averageRate = sumRate / assortedReview.length;
-    //
-
     return (
       <>
-        {assortedReview.length !== 0 && (
-          <ReviewMiddleTemplate>
-            <ReviewProvider addressData={assortedReview}>
-              <ReviewTemplate>
-                <ReviewCreate userInfo={userInfo} addressId={addressId} />
-                <ReviewList
-                  userInfo={userInfo}
-                  addressId={addressId}
-                  reviewData={assortedReview}
-                />
-              </ReviewTemplate>
-            </ReviewProvider>
-            {/* <ReviewRightTemplate></ReviewRightTemplate> */}
-          </ReviewMiddleTemplate>
-        )}
-        {assortedReview.length === 0 && (
-          <ReviewMiddleTemplate>
-            <ReviewProvider addressData={assortedReview}>
-              <ReviewTemplate>
-                <ReviewCreate userInfo={userInfo} addressId={addressId} />
-                <p
-                  style={{ fontSize: '20px', textAlign: 'Center', margin: 30 }}
-                >
-                  등록된 리뷰가 없습니다.
-                </p>
-              </ReviewTemplate>
-            </ReviewProvider>
-            {/* <ReviewRightTemplate></ReviewRightTemplate> */}
-          </ReviewMiddleTemplate>
-        )}
+        <ReviewMiddleTemplate>
+          <ReviewProvider addressData={assortedReview}>
+            <ReviewTemplate>
+              <ReviewCreate userInfo={userInfo} addressId={addressId} />
+              <ReviewList
+                userInfo={userInfo}
+                addressId={addressId}
+                reviewData={assortedReview}
+              />
+            </ReviewTemplate>
+          </ReviewProvider>
+        </ReviewMiddleTemplate>
       </>
     );
   }
