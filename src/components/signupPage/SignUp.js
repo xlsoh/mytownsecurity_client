@@ -26,7 +26,7 @@ const Wrapper = styled.section`
   display: grid;
 `;
 const SiginupSpan = styled.span`
-  font-size: large;
+  font-size: 30px;
   font-weight: bold;
   text-align: center;
 `;

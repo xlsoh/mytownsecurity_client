@@ -1,26 +1,12 @@
 /*global kakao*/
 import { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 import '../../styles/Map.css';
 import { cctvs } from '../../data/cctv';
 import '../../styles/Map.css';
+import { mapstyle, MapWrapper } from './ServiceCss';
 //import CctvVideo from './CctvVideo';
 const { kakao } = window;
-
-const mapstyle = {
-  width: '900px',
-  height: '700px',
-};
-
-const MapWrapper = styled.div`
-  display: table;
-  position: relative;
-  width: 920px;
-  height: 720px;
-  border: solid;
-  border-color: #32e0c4;
-`;
 
 function Map({ address, policeStations, favorites, reviews }) {
   useEffect(() => {

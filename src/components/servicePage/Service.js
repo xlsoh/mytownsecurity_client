@@ -10,20 +10,7 @@ import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
 import styled from 'styled-components';
 import { MainCenter } from '../mainPage/MainCss';
-import '../../styles/Loading.css';
-
-const MiddleTemplate = styled.div`
-  display: flex;
-  margin: 0 auto;
-  flex-direction: row;
-  justify-content: center;
-`;
-
-const RightTemplate = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-`;
+import { MiddleTemplate, RightTemplate } from './ServiceCss';
 
 const GET_SEARCHEDLOCATION = gql`
   query getSearchedLocation($addressId: ID!) {
@@ -53,6 +40,8 @@ function Service({
   userInfo,
   setUserInfo,
   setAddressId,
+  searchedAddress,
+  setSearchedAddress,
 }) {
   const { data, loading, error } = useQuery(GET_SEARCHEDLOCATION, {
     variables: { addressId },
@@ -71,8 +60,14 @@ function Service({
         userInfo={userInfo}
       />
       <MainCenter>
-        <SearchInput addressId={addressId} setAddressId={setAddressId} />
+        <SearchInput
+          addressId={addressId}
+          setAddressId={setAddressId}
+          searchedAddress={searchedAddress}
+          setSearchedAddress={setSearchedAddress}
+        />
       </MainCenter>
+
       <MiddleTemplate>
         <MapIntro
           isToken={isToken}
@@ -89,6 +84,7 @@ function Service({
         </RightTemplate>
       </MiddleTemplate>
       <Review userInfo={userInfo} addressId={addressId} />
+      {window.scrollTo(0, 0)}
     </>
   );
 }

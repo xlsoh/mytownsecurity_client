@@ -10,11 +10,12 @@ import Main from './mainPage/Main';
 import Service from './servicePage/Service';
 import MyPage from './myPage/MyPage';
 import SignUp from './signupPage/SignUp';
-
+import ScrollToTop from './servicePage/ScrollToTop';
 function App() {
   const [isToken, setIsToken] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [addressId, setAddressId] = useState(0);
+  const [searchedAddress, setSearchedAddress] = useState('');
   const loggedInToken = localStorage.getItem('token');
   const loggedInUserInfo = JSON.parse(localStorage.getItem('state'));
   const loggedAddressId = localStorage.getItem('addressId');
@@ -50,6 +51,8 @@ function App() {
               userInfo={userInfo}
               setUserInfo={setUserInfo}
               setAddressId={setAddressId}
+              setSearchedAddress={setSearchedAddress}
+              searchedAddress={searchedAddress}
             />
           )}
         />
@@ -64,6 +67,8 @@ function App() {
               setUserInfo={setUserInfo}
               addressId={addressId}
               setAddressId={setAddressId}
+              searchedAddress={searchedAddress}
+              setSearchedAddress={setSearchedAddress}
             />
           )}
         />
@@ -92,8 +97,8 @@ function App() {
             return <Redirect to={location.pathname} />;
           }}
         />
-        {/* <Route path={`/`} render={() => <Redirect to={`/main`} />} /> */}
       </Switch>
+      {/* </ScrollToTop> */}
     </div>
   );
 }

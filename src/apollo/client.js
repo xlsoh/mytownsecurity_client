@@ -1,5 +1,5 @@
 import ApolloClient from 'apollo-boost';
-
+import { SERVER_URI } from '../config';
 const defaults = {
   check: Boolean(localStorage.getItem('token')) || false,
 };
@@ -29,6 +29,7 @@ const resolvers = {
 export default new ApolloClient({
   //uri: 'https://52.78.116.104:443',
   //uri: 'https://www.mytownsecurity.com',
+  //uri: SERVER_URI,
   uri: 'http://localhost:4000',
   clientState: {
     defaults,

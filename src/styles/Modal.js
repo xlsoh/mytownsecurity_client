@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
@@ -96,8 +97,8 @@ const Modal_styles = {
   position: 'fixed',
   top: '50%',
   left: '50%',
-  width: 500,
-  height: 300,
+  width: 550,
+  height: 350,
   transform: 'translate(-50%, -50%)',
   background: '#fff',
   padding: '50px',
@@ -115,7 +116,7 @@ const Overlay_styled = {
   background: 'rgba(0, 0, 0, 0.7)',
   content: 'center',
   align: 'center',
-  zIndex: 1000,
+  zIndex: 900,
 };
 
 // const ModalButton = {
@@ -132,16 +133,13 @@ const Overlay_styled = {
 
 const ModalButton = {
   cursor: 'pointer',
-  background: '#fff',
   position: 'absolute',
   top: '20px',
   right: '20px',
-  width: '32px',
-  height: '32px',
+  width: '35px',
+  height: '35x',
   padding: 0,
   zIndex: 10,
-  fontSize: '30px',
-  fontWeight: 'bold',
 };
 
 function Modal({ isOpen, setIsOpen, children }) {
@@ -172,14 +170,12 @@ function Modal({ isOpen, setIsOpen, children }) {
         <>
           <div style={Overlay_styled} ref={modalRef} onClick={closeModal} />
           <div style={Modal_styles}>
-            <div
+            <HighlightOffIcon
               style={ModalButton}
               onClick={() => {
                 setIsOpen(false);
               }}
-            >
-              Ⅹ
-            </div>
+            />
             {children}
           </div>
         </>
