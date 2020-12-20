@@ -72,6 +72,7 @@ export const DescVideoWrapper = styled.div`
   width: 800px;
   height: 600px;
   overflow: hidden;
+  border-radius: 30px;
 `;
 
 export const DescIMG1 = styled.img.attrs({
@@ -98,8 +99,8 @@ export const DescIMG3 = styled.img.attrs({
 export const DescVideo4 = styled.video`
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
+  -o-object-fit: fill;
+  object-fit: fill;
 `;
 
 export const DescContentWrapepr = styled.div`

@@ -10,7 +10,6 @@ import SearchInput from '../search/SearchInput';
 import MapIntro from './MapIntro';
 import styled from 'styled-components';
 import { MainCenter } from '../mainPage/MainCss';
-import '../../styles/Loading.css';
 
 const MiddleTemplate = styled.div`
   display: flex;

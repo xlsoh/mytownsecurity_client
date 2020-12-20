@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const MyPageTitle = styled.h1`
   font-size: 45px;
   font-weight: 700;
+  margin-top: 100px;
   margin-bottom: 20px;
   text-align: center;
 `;
@@ -10,7 +11,6 @@ export const MyPageTitle = styled.h1`
 export const MyInfoContainer = styled.div`
   display: grid;
   place-items: center;
-  margin-bottom: 70px;
 `;
 
 export const MyInfoWrap = styled.div`

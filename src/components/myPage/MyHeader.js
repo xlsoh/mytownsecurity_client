@@ -59,33 +59,33 @@ function MyHeader({ isToken }) {
   return (
     <>
       {isToken && (
-        // <FixedHeader>
-        <HeaderContainer>
-          <HmoeButtonWrapper>
-            <Link to={`/main`}>
-              <HomeButton />
-            </Link>
-          </HmoeButtonWrapper>
-          <Button
-            className={[headersBtn.header, headersBtn.login].join(' ')}
-            variant='outlined'
-            text='Log out'
-            onClick={() => {
-              swal({
-                button: false,
-                icon: 'success',
-              });
-              setTimeout(() => {
-                tokenLogoutMutation({
-                  variables: { token, state, addressId },
+        <FixedHeader>
+          <HeaderContainer>
+            <HmoeButtonWrapper>
+              <Link to={`/main`}>
+                <HomeButton />
+              </Link>
+            </HmoeButtonWrapper>
+            <Button
+              className={[headersBtn.header, headersBtn.login].join(' ')}
+              variant='outlined'
+              text='Log out'
+              onClick={() => {
+                swal({
+                  button: false,
+                  icon: 'success',
                 });
-              }, 1300);
-            }}
-          >
-            로그아웃
-          </Button>
-        </HeaderContainer>
-        // </FixedHeader>
+                setTimeout(() => {
+                  tokenLogoutMutation({
+                    variables: { token, state, addressId },
+                  });
+                }, 1300);
+              }}
+            >
+              로그아웃
+            </Button>
+          </HeaderContainer>
+        </FixedHeader>
       )}
       {!isToken && null}
     </>
