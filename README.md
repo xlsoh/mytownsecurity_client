@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/PROJECT-MYTOWNSECURITY-green?style=for-the-badge) 
+![](https://img.shields.io/badge/PROJECT-MYTOWNSECURITY-blue?style=for-the-badge) 
 # MYTOWNSECURITY
 ![](https://ifh.cc/g/cbPIy5.png)
 
