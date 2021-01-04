@@ -1,6 +1,6 @@
-![](https://img.shields.io/badge/PROJECT-MYTOWNSECURITY-blue?style=for-the-badge) 
+![](https://img.shields.io/badge/PROJECT-MYTOWNSECURITY-green?style=for-the-badge) 
 # MYTOWNSECURITY
-![](https://postfiles.pstatic.net/MjAyMDExMjBfMTIw/MDAxNjA1ODA0MDE4ODE1.Nq6E0k3ccbeCl-oOjZHEzc_DlqSwAFdINKdEghCKOPcg.-6LvwNZVu3MqTXZ_Hz1enodfL6E2ta9sWw4JKrjZDwIg.PNG.rosic2012/ico_janid2.png?type=w966)
+![](https://ifh.cc/g/cbPIy5.png)
 
 우리 동네 안전 궁금해?
 응! 나 완전 안전 궁금해!
