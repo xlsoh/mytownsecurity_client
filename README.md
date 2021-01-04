@@ -10,7 +10,7 @@ Mytownsecurity에서 우리 동네 치안 정보와 실 거주자의
 
 지금 당장 우리 동네 치안 정보를 검색해 보세요!
 
-# 🕵🏼어떤 기술이 사용되었나요? 
+# 🕵 어떤 기술이 사용되었나요? 
 ## FRONT
 ![](https://img.shields.io/badge/FRONT-JAVASCRIPT-yellow?style=for-the-badge&logo=javascript) 
 
@@ -24,7 +24,7 @@ Mytownsecurity에서 우리 동네 치안 정보와 실 거주자의
 ![](https://img.shields.io/badge/BACK-GraphQL-black?style=for-the-badge&logo=GraphQL) 
 
 
-# 🗣️우리를 소개합니다.
+# 🗣️ 우리를 소개합니다.
 <table>
   <tr>
     <td style="cursor:pointer;" onClick = "location.href='http://ihouse.so.vc'">강승택</td>
