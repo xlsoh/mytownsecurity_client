@@ -45,4 +45,4 @@ Mytownsecurity에서 우리 동네 치안 정보와 실 거주자의
 </table>
 
 # For project details
-### [checkout WIKI](https://github.com/codestates/mytownsecurity-client/wiki)
+### [checkout WIKI](https://github.com/codestates/mytownsecurity_client/wiki)
